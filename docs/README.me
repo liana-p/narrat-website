@@ -1,3 +1,35 @@
-# Hello
+# 🚀 Narrat
 
-Hello
+![example workflow](https://github.com/nialna/narrat/actions/workflows/main.yml/badge.svg)
+
+A narrative game engine for text-based games. Inspired by renpy syntax, but built to be customisable, extendable and web-focused.
+
+You can [try a little demo](https://blog.lianapigeot.com/narrat-demo/). It contains a built version of the [narrat game template](https://github.com/nialna/narrat-template).
+
+Game dialogue info is written in files with a similar syntax to Renpy (.rpy files). Those files get loaded by the game engine which plays through them. This allows us to use [renpy syntax highlighting](https://marketplace.visualstudio.com/items?itemName=LuqueDaniel.languague-renpy) in vs code easily. It is **not renpy** though, just inspired from it. Eventually narrat might have its own language and file extension support.
+
+### See [Usage](#usage) for how to set up and use it
+
+## Features
+
+* Flexible dialog writing with branching and conditions
+* Multiple script files support with labels and jumps to organise script writing
+* Skill checks (Feature still early, needs a UI for viewing skills and creating characters)
+* Multiple speaking characters support with icons and poses
+* Custom variables in scripts to create flags or other data the game needs to track
+* [NEW!] Seamless saving and reloading
+* [NEW!] UI with button that can be used for example to create world maps with clickable locations (the buttons can be controlled in scripts)
+* [NEW!] Sound and music support
+* [NEW!] Delays between script lines
+* [NEW!] Electron build to turn the game into a pc/mac/linux app (template to be updated with example soon)
+
+## Usage
+
+See [Getting Started](/getting-started/)
+
+## Potential Next Features
+
+* More UI customisation to change layout, colors, fonts etc
+* Better documentation
+* Testing and CI support for narrat scripts to easily detect scripting mistakes 
+* Improvements to the template to make it more production ready
