@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "narrat": "./narrat.js"
+  }
+}

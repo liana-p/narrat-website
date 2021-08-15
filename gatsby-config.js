@@ -1,10 +1,12 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
-    title: "Narrat Website",
+    siteUrl: "https://get-narrat.com",
+    title: "Narrat",
+    description: `A narrative game engine built for the web and desktop`,
   },
   plugins: [
     "gatsby-plugin-theme-ui",
+    `gatsby-plugin-graphql-codegen`,
     "gatsby-plugin-image",
     {
       resolve: "gatsby-plugin-google-analytics",

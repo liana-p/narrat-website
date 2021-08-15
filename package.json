@@ -15,10 +15,13 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.14.5",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
+    "@types/react-helmet": "^6.1.2",
     "gatsby": "^3.11.1",
     "gatsby-plugin-google-analytics": "^3.11.0",
+    "gatsby-plugin-graphql-codegen": "^3.0.0",
     "gatsby-plugin-image": "^1.11.0",
     "gatsby-plugin-manifest": "^3.11.0",
     "gatsby-plugin-mdx": "^2.11.0",
