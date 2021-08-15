@@ -11,18 +11,23 @@ interface IndexProps {
 }
 const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
   return (
-    <Layout
-      location={location}
-      title={data.site.siteMetadata.title}
-      beforeContainer={<NarratHero />}
-    >
-      <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
-        <h1>Interactive Demo</h1>
+    <Layout location={location} title={data.site.siteMetadata.title}>
+      <NarratHero />
+      <h1>Interactive Demo</h1>
+      <Flex
+        sx={{
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100vw",
+          height: "100vh",
+          boxSizing: "border-box",
+        }}
+      >
         <iframe
           src="/demo/"
           title="Narrat demo"
           width="100%"
-          height="400px"
+          height="100%"
         ></iframe>
       </Flex>
     </Layout>

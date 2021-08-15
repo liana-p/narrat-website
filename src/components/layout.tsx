@@ -30,6 +30,7 @@ const Layout: React.FC<LayoutProps> = ({
         variant: "layout.root",
       }}
     >
+      <Seo title={title} />
       <header
         sx={{
           width: "100%",
@@ -45,7 +46,8 @@ const Layout: React.FC<LayoutProps> = ({
           variant: "layout.main",
         }}
       >
-        {beforeContainer}
+        {children}
+        {/* {beforeContainer}
         <Container
           px={20}
           // bg="muted"
@@ -55,9 +57,8 @@ const Layout: React.FC<LayoutProps> = ({
             variant: "layout.container",
           }}
         >
-          <Seo title={title} />
           {children}
-        </Container>
+        </Container> */}
       </main>
       <footer
         sx={{
