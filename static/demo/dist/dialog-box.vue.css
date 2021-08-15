@@ -1,0 +1,55 @@
+.dialog-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dialog-text {
+  font-size: 14px;
+}
+
+.dialog-box {
+  /* border-radius: 10px; */
+  /* border: 1px solid #a8a8a8; */
+  color: white;
+  /* background-color: #2e2e2e; */
+  padding: 10px;
+  padding-left: 2em;
+  margin-bottom: 10px;
+}
+
+.dialog-choice {
+  color: orange;
+}
+
+.dialog-choice:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.buttons-container {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.interact-button {
+  height: 50px;
+  background-color: #72080f;
+  color: white;
+  border: 1px solid black;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  flex-grow: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.interact-button:not(:last-child) {
+  margin-right: 10px;
+}

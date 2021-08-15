@@ -8,13 +8,9 @@ main:
             jump dontAskForHelp
 
 askForHelp:
-    play sound "alarm"
-    wait 2000
-    play sound "alarm"
-    wait 2000
-    play sound "alarm"
-    clear_dialog
     talk helper idle "Hello! I heard you're trying to play the narrat demo!"
+    talk helper idle "You can view the source script for this demo in the <a href=\"https:\/\/github.com\/nialna\/narrat-demo\" target=\"_blank\">demo repo</a>"
+    talk helper idle "There is also a <a href=\"https:\/\/github.com\/nialna\/narrat-template\" target=\"_blank\">game template</a> ready to use."
     talk helper idle "As you've probably noticed, you can make choices in this."
     talk helper idle "There are lots of things you can do to make an interactive story in Narrat really. Choices are one of the most useful ones."
     talk helper idle "I'm going to send you to my other friend who has some questions for you."
@@ -38,7 +34,7 @@ askAboutChoices:
 
 
 dontAskForHelp:
-    clear_dialog
+    // clear_dialog
     talk inner idle "Maybe we should get help though? I don't really know what else to do"
     jump main
 
@@ -55,8 +51,6 @@ makeChoices:
 doNothing:
     choice:
         talk music_cat idle "How about we get some music in here?"
-        "Yeah! Play some epic music":
-            play music metal
         "Play some relaxing music":
             play music calm
         "I hate music":
@@ -67,7 +61,7 @@ otherFeatures:
     talk helper idle "There are lots of other features, like skill checks and conditions."
     $if this.skillCheck("someSkillCheck", "testSkill", 40): // You can use skillchecks in conditions
         "For example this line only appears if you passed a skill check"
-    "This engine is still very early and not fully documented yet, but you can use at the example demo and how it is made."
+    "This engine is still very early and not fully documented yet, but you can look at the example demo and how it is made."
     "There is also a screen feature on the left where you can display background images with interactive buttons."
     jump showMap
 
@@ -75,6 +69,7 @@ showMap:
     set_screen map
     set_button parkButton true
     talk helper idle "This is an example map. There are buttons you can click on. It is possible to dynanically enable and disable buttons in your script"
+    talk helper idle "You can view the source script for this demo in the <a href=\"https:\/\/github.com\/nialna\/narrat-demo\">demo repo</a>"
 
 shopButton:
     "You visit the shop and buy some water and a snack"
