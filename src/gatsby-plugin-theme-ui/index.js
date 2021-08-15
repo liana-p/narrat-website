@@ -232,7 +232,9 @@ const theme = {
     hero: {
       width: "100%",
     },
-    logo: {},
+    logo: {
+      width: "40px",
+    },
   },
   boxes: {
     verticalSeparated: {

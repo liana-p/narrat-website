@@ -1,11 +1,10 @@
 /** @jsxImportSource theme-ui */
 import { StaticImage } from "gatsby-plugin-image";
 
-const Logo: React.FC<any> = (props) => (
+const Logo: React.FC<any> = () => (
   <StaticImage
-    {...props}
     alt="Narrat logo"
-    src="../images/icon.png"
+    src="../images/logo.png"
     sx={{ variant: "images.logo" }}
   />
 );

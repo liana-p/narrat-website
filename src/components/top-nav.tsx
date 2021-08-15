@@ -7,6 +7,7 @@ import Logo from "./logo";
 import MenuLink from "./menu-link";
 import RouteLink from "./route-link";
 import RouteNavLink from "./route-nav-link";
+import { FaGithub } from "react-icons/fa";
 
 export interface TopNavProps {
   location: Location;
@@ -53,7 +54,7 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
             sx={{ variant: "links.nav" }}
             target="_blank"
           >
-            GitHub
+            <FaGithub sx={{ mr: "s" }}></FaGithub>GitHub
           </NavLink>
         </Box>
       </Flex>
