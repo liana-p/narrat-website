@@ -9,9 +9,14 @@ module.exports = {
     `gatsby-plugin-graphql-codegen`,
     "gatsby-plugin-image",
     {
-      resolve: "gatsby-plugin-google-analytics",
+      resolve: `gatsby-plugin-gtag`,
       options: {
-        trackingId: "G-1LLT0JWVV5",
+        // your google analytics tracking id
+        trackingId: `G-1LLT0JWVV5`,
+        // Puts tracking script in the head instead of the body
+        head: true,
+        // enable ip anonymization
+        anonymize: true,
       },
     },
     "gatsby-plugin-react-helmet",

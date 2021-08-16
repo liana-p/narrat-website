@@ -22,6 +22,7 @@
     "gatsby": "^3.11.1",
     "gatsby-plugin-google-analytics": "^3.11.0",
     "gatsby-plugin-graphql-codegen": "^3.0.0",
+    "gatsby-plugin-gtag": "^1.0.13",
     "gatsby-plugin-image": "^1.11.0",
     "gatsby-plugin-manifest": "^3.11.0",
     "gatsby-plugin-mdx": "^2.11.0",

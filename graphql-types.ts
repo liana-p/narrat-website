@@ -3708,13 +3708,3 @@ export type StaticImageSortInput = {
   fields?: Maybe<Array<Maybe<StaticImageFieldsEnum>>>;
   order?: Maybe<Array<Maybe<SortOrderEnum>>>;
 };
-
-export type SiteMetaDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SiteMetaDataQuery = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'title' | 'siteUrl' | 'description'>> }> };
-
-export type IndexQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type IndexQuery = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };

@@ -4,6 +4,7 @@ import * as React from "react";
 import { Container } from "theme-ui";
 import TopNav from "./top-nav";
 import Seo from "./seo";
+import { Helmet } from "react-helmet";
 
 export interface LayoutProps {
   location: Location;
