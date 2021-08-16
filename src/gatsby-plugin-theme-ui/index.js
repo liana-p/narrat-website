@@ -55,8 +55,7 @@ const theme = {
     },
     subtitle: {
       fontSize: ["xl", "xl"],
-      fontWeight: "display",
-      letterSpacing: "-0.03em",
+      fontWeight: "bold",
       mt: "xs",
     },
   },
