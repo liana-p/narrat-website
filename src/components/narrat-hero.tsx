@@ -22,14 +22,16 @@ const NarratHero: React.FC<NarratHeroProps> = ({}) => {
         </Heading>
         <Grid gap={20} columns={[1, 2]} sx={{ mt: "m" }}>
           <ButtonLink
-            link="https://docs.get-narrat.com"
+            link="https://docs.get-narrat.com/getting-started"
             title="Get Started"
             sx={{ width: "100%" }}
+            target="_blank"
           />
           <ButtonLink
             link="https://docs.get-narrat.com"
             title="Docs"
             sx={{ width: "100%" }}
+            target="_blank"
           />
         </Grid>
       </Flex>

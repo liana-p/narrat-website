@@ -14,6 +14,7 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
     <Layout location={location} title={data.site.siteMetadata.title}>
       <NarratHero />
       <h1>Interactive Demo</h1>
+      <p>(reload the page in a bigger window if too small)</p>
       <Flex
         sx={{
           flexDirection: "column",

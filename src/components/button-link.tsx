@@ -9,7 +9,7 @@ export interface ButtonLinkProps {
 }
 const ButtonLink: React.FC<ButtonLinkProps> = ({ title, link, ...props }) => {
   return (
-    <Link href={link} sx={{ variant: "links.button" }}>
+    <Link href={link} sx={{ variant: "links.button" }} {...props}>
       <Button {...props} sx={{ variant: "buttons.link" }}>
         {title}
       </Button>
