@@ -4,7 +4,9 @@ Used in the [demo](https://get-narrat.com/demo/)
 
 Look at the example code to see syntax.
 
-```
+
+
+```text
 main:
     "You open the narrat demo and wonder how this thing even works"
     choice:
@@ -95,3 +97,4 @@ parkButton:
     talk inner idle "That was a nice walk! Now I feel like going to the shop to buy water"
     set_button shopButton true
 ```
+

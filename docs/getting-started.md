@@ -1,6 +1,8 @@
+# README
+
 ## Getting Started
 
-Make sure you have [node.js](https://nodejs.org/en/) installed (Made using `15.5.0`, LTS probably also works, not tested). You can use [nvm](https://github.com/nvm-sh/nvm) to simplify node installation (not on Windows).
+Make sure you have [node.js](https://nodejs.org/en/) installed \(Made using `15.5.0`, LTS probably also works, not tested\). You can use [nvm](https://github.com/nvm-sh/nvm) to simplify node installation \(not on Windows\).
 
 Narrat is a JavaScript library you can add to a web project.
 
@@ -14,15 +16,14 @@ Otherwise, use your preferred way of setting up a JS web project, and add `narra
 
 For narrat to run, it needs two pieces of data:
 
-- The `config` file which contains the path of your script files and other info
-- The `characters` file which contains the list of characters in the game
+* The `config` file which contains the path of your script files and other info
+* The `characters` file which contains the list of characters in the game
 
-Copy the example `characters.json` and `config.json` from the `public/data` folders somewhere in your app, and have an `#app` div in your page's html including your javascript (you can copy `public/index.html`)
-.
+Copy the example `characters.json` and `config.json` from the `public/data` folders somewhere in your app, and have an `#app` div in your page's html including your javascript \(you can copy `public/index.html`\) .
 
 Then in your javascript code to launch narrat, use:
 
-```
+```text
 import { startApp } from 'narrat';
 // Call `startApp` to run the game, passing the path to your config file and characters file.
 startApp({
@@ -43,17 +44,17 @@ This is also where the scripts used in your game are listed. By default it only 
 
 The `characters.json` file contains the config for all characters that can speak in the game. They should all at least have a name value.
 
-You can change the color their name appears as by changing the `color` value in the `style` property of the character (you can use any CSS valid color).
+You can change the color their name appears as by changing the `color` value in the `style` property of the character \(you can use any CSS valid color\).
 
 If you want to customise even more, you can put a CSS properties object in the following properties:
 
-- `stylesboxCss`: Will apply CSS to the container of a dialogue line for this character
-- `style.nameCss`: Will apply CSS to the text with the title of the character
-- `style.textCss`: Will apply CSS to the actual dialogue text for the character.
+* `stylesboxCss`: Will apply CSS to the container of a dialogue line for this character
+* `style.nameCss`: Will apply CSS to the text with the title of the character
+* `style.textCss`: Will apply CSS to the actual dialogue text for the character.
 
 Example:
 
-```
+```text
     "player": {
       "style": {
         "color": "orange",
@@ -70,7 +71,7 @@ Example:
 
 ## Writing code
 
-Narrat script is split into labels, which are the first level of indentation you see in the code (labels `main:` and `testLabel:` in the example below). Those labels are standalone pieces of script which can be played at anytime. `main` is the label that gets launched when the game starts.
+Narrat script is split into labels, which are the first level of indentation you see in the code \(labels `main:` and `testLabel:` in the example below\). Those labels are standalone pieces of script which can be played at anytime. `main` is the label that gets launched when the game starts.
 
 The syntax is based on indentation: An indent level is 4 spaces, and entering a new indentation level means entering a new block in the code.
 
@@ -84,7 +85,7 @@ To add new scripts to your game, add their path to the list in your `config.json
 
 Look at the example code to see syntax.
 
-```
+```text
 main:
     "You open the narrat demo and wonder how this thing even works"
     choice:
@@ -175,3 +176,4 @@ parkButton:
     talk inner idle "That was a nice walk! Now I feel like going to the shop to buy water"
     set_button shopButton true
 ```
+
