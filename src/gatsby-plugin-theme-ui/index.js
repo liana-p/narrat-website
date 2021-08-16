@@ -50,7 +50,6 @@ const theme = {
       variant: "textStyles.heading",
       fontSize: ["xxl", "xxxl"],
       fontWeight: "display",
-      letterSpacing: "-0.03em",
       mt: "xs",
     },
     subtitle: {
