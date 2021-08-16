@@ -3,7 +3,7 @@ import Layout from "../components/layout";
 import { graphql } from "gatsby";
 import { IndexQuery } from "../../graphql-types";
 import NarratHero from "../components/narrat-hero";
-import { Flex } from "theme-ui";
+import { Container, Flex, Link } from "theme-ui";
 
 interface IndexProps {
   data: IndexQuery;
@@ -13,8 +13,21 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
   return (
     <Layout location={location} title={data.site.siteMetadata.title}>
       <NarratHero />
-      <h1>Interactive Demo</h1>
-      <p>(reload the page in a bigger window if too small)</p>
+      <Flex
+        sx={{
+          alignItems: "center",
+          flexDirection: "column",
+          width: "100%",
+        }}
+      >
+        <h1>Interactive Demo</h1>
+        <p>
+          <Link href="http://get-narrat.com/demo/" target="_blank">
+            (Open in a new tab)
+          </Link>
+        </p>
+        <p>reload the page in a bigger window if too small)</p>
+      </Flex>
       <Flex
         sx={{
           flexDirection: "column",
@@ -22,6 +35,7 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
           width: "100vw",
           height: "100vh",
           boxSizing: "border-box",
+          px: "20px",
         }}
       >
         <iframe
