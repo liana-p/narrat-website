@@ -30,3 +30,7 @@ npm run package
 
 Please look at the [electron documentation](https://www.electronjs.org/docs/latest/) if you want to customise how your app is built, window sizes and other things \(hint: Most of it takes place in the `electron-something.js` files at the root of the repo\)
 
+{% hint style="info" %}
+This will create an application for your OS in the `out/` folder
+{% endhint %}
+

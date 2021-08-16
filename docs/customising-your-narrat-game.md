@@ -4,11 +4,11 @@
 
 ## Customising your game
 
-#### Writing dialogue
+### Dialogue scripts
 
 If you look in the `public/data` folder, there is an `example.rpy` file. This is where the actual game dialogue is written. The example dialogue there shows how to use a few basic features, so you can easily start writing your own dialogue.
 
-#### config.json
+### config.json
 
 The config file contains basic info about your game. In it you can add images, screens, buttons, musics...
 
@@ -16,7 +16,7 @@ This is also where the scripts used in your game are listed. By default it only 
 
 You can [learn more about json files if needed](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON)
 
-#### characters.json
+### characters.json
 
 The `characters.json` file contains the config for all characters that can speak in the game. They should all at least have a name value, and an `idle` sprite. The sprite is used for displaying character portraits during dialogue, and the value should be a file path relative to the `imagesPath` value defined in the config part of this file
 
@@ -45,7 +45,7 @@ Example:
     },
 ```
 
-## Writing code
+## Writing dialogue scripts
 
 Narrat script files are `.rpy` files using a syntax similar to Renpy. We advise using [Visual Studio Code](https://code.visualstudio.com) to edit scripts but you can use whichever one you want. It is important to note that narrat scripts are not renpy or python files but a different custom language.
 
