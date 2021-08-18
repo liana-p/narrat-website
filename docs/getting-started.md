@@ -42,5 +42,7 @@ See the Building and exporting your game page
 
 {% page-ref page="building-and-exporting-your-game.md" %}
 
+## Functions Documentation
+
 
 

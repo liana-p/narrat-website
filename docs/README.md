@@ -28,6 +28,10 @@ You can also look at an example narrat dialogue script for reference
 
 {% page-ref page="example-narrat-script.md" %}
 
+And the API documentation for the available functions
+
+{% page-ref page="functions-documentation/functions-api-documentation.md" %}
+
 ## Features
 
 * Flexible dialog writing with branching and conditions
