@@ -7,3 +7,9 @@
 * [Customising your Narrat game](customising-your-narrat-game.md)
 * [Building and exporting your game](building-and-exporting-your-game.md)
 
+## Functions Documentation
+
+* [Set Function](functions-documentation/set-function.md)
+* [Choice Function](functions-documentation/choice-function.md)
+* [Jump Function](functions-documentation/api-jump.md)
+
