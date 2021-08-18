@@ -16,3 +16,7 @@
 * [Choice Function](functions-documentation/choice-function.md)
 * [Jump Function](functions-documentation/api-jump.md)
 
+---
+
+* [Functions API Documentation](functions-api-documentation.md)
+
