@@ -20,14 +20,14 @@ askAboutChoices:
     choice:
         talk cat idle "Hi it's me, another generic cat! Do you like making choices in games?"
         "Yes":
-            set likeChoices true
+            set DATA.likeChoices true
             "Cat will remember this."
         "No":
-            set likeChoices false
+            set DATA.likeChoices false
             "Cat will remember this."
     choice:
         talk helper idle "Now I think we should do an activity, what do you like doing?"
-        "let's make choices cause I like making choices!" $if this.data.likeChoices: // A choice can have a condition so it only appears in the list if the condition is met
+        "let's make choices cause I like making choices!" $if this.DATA.likeChoices: // A choice can have a condition so it only appears in the list if the condition is met
             jump makeChoices
         "let's do nothing!":
             jump doNothing
@@ -59,7 +59,7 @@ doNothing:
 
 otherFeatures:
     talk helper idle "There are lots of other features, like skill checks and conditions."
-    $if this.skillCheck("someSkillCheck", "testSkill", 40): // You can use skillchecks in conditions
+    $if this.roll("someSkillCheck", "testSkill", 40): // You can use skillchecks in conditions
         "For example this line only appears if you passed a skill check"
     "This engine is still very early and not fully documented yet, but you can look at the example demo and how it is made."
     "There is also a screen feature on the left where you can display background images with interactive buttons."

@@ -1,8 +1,5 @@
 {
   "imports": {
-    "es6-promise/auto": "./es6-promise/auto.js",
-    "howler": "./howler.js",
-    "vue": "./vue.js",
-    "vuex": "./vuex.js"
+    "narrat": "./narrat.js"
   }
 }
