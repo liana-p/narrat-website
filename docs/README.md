@@ -34,6 +34,8 @@ And the API documentation for the available functions
 
 ## Features
 
+{% page-ref page="features/saving-and-reloading.md" %}
+
 * Flexible dialog writing with branching and conditions
 * Multiple script files support with labels and jumps to organise script writing
 * Multiple speaking characters support with icons and poses
