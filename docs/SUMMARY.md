@@ -1,11 +1,6 @@
 # Table of contents
 
 * [Narrat](README.md)
-* [Example narrat script](example-narrat-script.md)
-* [Getting Started](getting-started.md)
-* [Installing Narrat in a web app](installing-narrat-in-a-web-app.md)
-* [Customising your Narrat game](customising-your-narrat-game.md)
-* [Building and exporting your game](building-and-exporting-your-game.md)
 
 ## Functions Documentation
 
@@ -20,4 +15,15 @@
 ## Features
 
 * [Saving and Reloading](features/saving-and-reloading.md)
+
+## Guides
+
+* [Getting Started](guides/getting-started.md)
+* [Installing Narrat in a web app](guides/installing-narrat-in-a-web-app.md)
+* [Customising your Narrat game](guides/customising-your-narrat-game.md)
+* [Building and exporting your game](guides/building-and-exporting-your-game.md)
+
+## Examples
+
+* [Example narrat script](examples/example-narrat-script.md)
 

@@ -6,7 +6,7 @@ Make sure you have [node.js](https://nodejs.org/en/) installed \(This was made u
 
 One simple way to set it up is to use the [Narrat Template App](https://github.com/nialna/narrat-template). You can press the "Use this template" button to create your own repo based on it. If you don't want to use GitHub, you can just download it as a zip file and start editing it to make your game.
 
-![](.gitbook/assets/image%20%282%29.png)
+![](../.gitbook/assets/image%20%282%29.png)
 
 If you'd rather use your own preferred way of setting up a JS web project, and add `narrat` as a library, follow this guide:
 

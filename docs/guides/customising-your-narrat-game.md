@@ -61,5 +61,5 @@ To add new scripts to your game, add their path to the list in your `config.json
 
 Look at the example code to see syntax.
 
-{% page-ref page="example-narrat-script.md" %}
+{% page-ref page="../examples/example-narrat-script.md" %}
 
