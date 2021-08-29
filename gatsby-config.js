@@ -3,6 +3,7 @@ module.exports = {
     siteUrl: "https://get-narrat.com",
     title: "Narrat",
     description: `A narrative game engine built for the web and desktop`,
+    siteImage: 'https://get-narrat.com/narrat-banner.jpg',
   },
   plugins: [
     "gatsby-plugin-theme-ui",
@@ -27,7 +28,29 @@ module.exports = {
         icon: "src/images/icon.png",
       },
     },
-    "gatsby-plugin-mdx",
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        extensions: [".md", ".mdx"],
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 630,
+            },
+          },
+          {
+            resolve: `gatsby-remark-responsive-iframe`,
+            options: {
+              wrapperStyle: `margin-bottom: 1.0725rem`,
+            },
+          },
+          `gatsby-remark-prismjs`,
+          `gatsby-remark-copy-linked-files`,
+          `gatsby-remark-smartypants`,
+        ],
+      },
+    },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
@@ -41,10 +64,18 @@ module.exports = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "pages",
+        name: "content",
+        path: `${__dirname}/content/`,
+      },
+      __key: "content",
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "tsx-pages",
         path: "./src/pages/",
       },
-      __key: "pages",
+      __key: "tsx-pages",
     },
   ],
 };

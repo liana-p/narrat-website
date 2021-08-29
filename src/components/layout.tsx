@@ -5,21 +5,29 @@ import { Container } from "theme-ui";
 import TopNav from "./top-nav";
 import Seo from "./seo";
 import { Helmet } from "react-helmet";
+import { useSiteMetadata } from "../hooks/use-site-metadata";
 
 export interface LayoutProps {
-  location: Location;
-  title: string;
-  beforeContainer?: React.ReactElement;
+  location: Location
+  pageTitle?: string
+  description?: string
+  canonicalUrl: string
+  imageUrl?: string
+  contentType?: 'article' | 'website'
 }
 const Layout: React.FC<LayoutProps> = ({
   location,
-  title,
+  pageTitle,
   children,
-  beforeContainer,
+  description,
+  canonicalUrl,
+  imageUrl,
+  contentType,
 }) => {
+  const metadata = useSiteMetadata();
   const rootPath = `${__PATH_PREFIX__}/`;
   const isRootPath = location.pathname === rootPath;
-  let header = <TopNav location={location} title={title} />;
+  let header = <TopNav location={location} title={metadata.title} />;
 
   return (
     <div
@@ -31,7 +39,8 @@ const Layout: React.FC<LayoutProps> = ({
         variant: "layout.root",
       }}
     >
-      <Seo title={title} />
+      <Seo title={pageTitle} description={description} canonicalUrl={canonicalUrl}
+        imageUrl={imageUrl} contentType={contentType}/>
       <header
         sx={{
           width: "100%",

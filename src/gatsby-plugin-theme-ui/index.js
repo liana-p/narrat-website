@@ -193,6 +193,7 @@ const theme = {
       fontWeight: "bold",
       px: "m",
       py: 2,
+      textDecoration: "none",
       fontSize: "l",
     },
     unstyled: {

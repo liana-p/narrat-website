@@ -1,59 +1,53 @@
 import * as React from "react";
+import { graphql } from "gatsby"
 import Layout from "../components/layout";
-import { graphql } from "gatsby";
-import { IndexQuery } from "../../graphql-types";
+import { IndexPageQuery } from "../../graphql-types";
 import NarratHero from "../components/narrat-hero";
 import { Container, Flex, Link } from "theme-ui";
+import { useSiteMetadata } from "../hooks/use-site-metadata";
+import { MDXProvider } from "@mdx-js/react";
+import { MDXRenderer } from "gatsby-plugin-mdx";
 
+const shortcodes = {  }
 interface IndexProps {
-  data: IndexQuery;
+  data: IndexPageQuery
   location: Location;
 }
 const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
+  const metadata = useSiteMetadata();
+  const canonicalUrl = metadata.siteUrl;
   return (
-    <Layout location={location} title={data.site.siteMetadata.title}>
+    <Layout location={location} pageTitle={metadata.title}
+    canonicalUrl={canonicalUrl}>
       <NarratHero />
-      <Flex
+      <Container
+        px={20}
+        // bg="muted"
         sx={{
-          alignItems: "center",
-          flexDirection: "column",
-          width: "100%",
+          maxWidth: [768, 768, 768, 900],
+          mx: "auto",
+          variant: "layout.container",
         }}
       >
-        <h1>Interactive Demo</h1>
-        <p>
-          <Link href="http://get-narrat.com/demo/" target="_blank">
-            (Open in a new tab)
-          </Link>
-        </p>
-        <p>reload the page in a bigger window if too small)</p>
-      </Flex>
-      <Flex
-        sx={{
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100vw",
-          height: "100vh",
-          boxSizing: "border-box",
-          px: "20px",
-        }}
-      >
-        <iframe
-          src="/demo/"
-          title="Narrat demo"
-          width="100%"
-          height="100%"
-        ></iframe>
-      </Flex>
+        <MDXProvider components={shortcodes}>
+          <MDXRenderer>{data.mdx.body}</MDXRenderer>
+        </MDXProvider>
+      </Container>
     </Layout>
   );
 };
 
 export const pageQuery = graphql`
-  query Index {
-    site {
-      siteMetadata {
+  query IndexPage {
+    mdx(fields: {slug: {eq: "narrat"}}) {
+      excerpt(pruneLength: 160)
+      body
+      fields {
+        slug
+      }
+      frontmatter {
         title
+        description
       }
     }
   }

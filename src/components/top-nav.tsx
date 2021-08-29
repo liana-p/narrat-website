@@ -44,15 +44,20 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
             href="https://docs.get-narrat.com"
             sx={{ variant: "links.nav", ml: "xl" }}
             target="_blank"
+            rel="noopener"
           >
             Docs
           </NavLink>
+          <RouteNavLink to="/narrat-faq" title="FAQ">
+            FAQ
+          </RouteNavLink>
         </Flex>
         <Box sx={{ display: "flex", placeItems: "center" }}>
           <NavLink
             href="https://github.com/nialna/narrat"
             sx={{ variant: "links.nav" }}
             target="_blank"
+            rel="noopener"
           >
             <FaGithub sx={{ mr: "s" }}></FaGithub>GitHub
           </NavLink>

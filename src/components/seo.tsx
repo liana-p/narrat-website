@@ -16,13 +16,18 @@ export interface SeoProps {
   description?: string;
   lang?: string;
   meta?: any;
-  title: string;
+  imageUrl?: string
+  canonicalUrl: string
+  title?: string
+  contentType?: 'article' | 'website'
 }
-const Seo: React.FC<SeoProps> = ({ description, lang, meta, title }) => {
+const Seo: React.FC<SeoProps> = ({ description, lang, meta, title, imageUrl, canonicalUrl, contentType }) => {
   const metadata = useSiteMetadata();
 
   const metaDescription = description || metadata?.description;
   const defaultTitle = metadata?.title;
+  contentType = contentType || 'website'
+  imageUrl = imageUrl || metadata.siteImage;
 
   return (
     <Helmet
@@ -45,8 +50,20 @@ const Seo: React.FC<SeoProps> = ({ description, lang, meta, title }) => {
           content: metaDescription,
         },
         {
+          property: 'og:site_name',
+          content: metadata.title
+        },
+        {
+          property: 'og:image',
+          content: imageUrl,
+        },
+        {
           property: `og:type`,
           content: `website`,
+        },
+        {
+          property: 'og:url',
+          content: canonicalUrl,
         },
         {
           name: `twitter:card`,

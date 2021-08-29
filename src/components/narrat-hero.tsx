@@ -20,17 +20,26 @@ const NarratHero: React.FC<NarratHeroProps> = ({}) => {
         <Heading as="h2" sx={{ variant: "textStyles.subtitle", mt: "s" }}>
           {metadata.description}
         </Heading>
-        <Grid gap={20} columns={[1, 2]} sx={{ mt: "m" }}>
+        <Grid gap={20} columns={[1, 3]} sx={{ mt: "m" }}>
           <ButtonLink
             link="https://docs.get-narrat.com/getting-started"
             title="Get Started"
             sx={{ width: "100%" }}
+            rel="noopener"
             target="_blank"
           />
           <ButtonLink
             link="https://docs.get-narrat.com"
             title="Docs"
             sx={{ width: "100%" }}
+            rel="noopener"
+            target="_blank"
+          />
+          <ButtonLink
+            link="https://get-narrat.com/demo/"
+            title="Demo"
+            sx={{ width: "100%" }}
+            rel="noopener"
             target="_blank"
           />
         </Grid>
