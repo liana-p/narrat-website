@@ -6,17 +6,11 @@ description: >-
 
 # Narrat
 
-## 🚀 Narrat
-
-![example workflow](https://github.com/nialna/narrat/actions/workflows/main.yml/badge.svg)
-
-[Narrat](https://get-narrat.com) is a narrative game engine for text-based games. Inspired by renpy syntax. Built to be customisable, extendable and web-focused.
+## Narrat Documentation
 
 ![](.gitbook/assets/narrat-banner.jpg)
 
 You can [try a little demo](http://get-narrat.com/demo/). It contains a built version of the [narrat game demo](https://github.com/nialna/narrat-demo)
-
-#### 
 
 ## Getting Started
 
