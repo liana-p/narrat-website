@@ -1,5 +1,5 @@
 {
-  "gameTitle": "Lovely Lady RPG",
+  "gameTitle": "Narrat Demo",
   "images": {
     "narrat": "img/backgrounds/narrat.png",
     "map": "img/backgrounds/map.png",
@@ -13,7 +13,12 @@
     },
     "dialogBottomPadding": 70,
     "minTextWidth": 475,
-    "mobileDialogHeightPercentage": 60
+    "mobileDialogHeightPercentage": 60,
+    "verticalLayoutThreshold": 1000,
+    "portraits": {
+      "width": 100,
+      "height": 100
+    }
   },
   "screens": {
     "default": {

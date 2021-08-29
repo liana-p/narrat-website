@@ -8724,7 +8724,7 @@ function pad (num, maxLength) {
   return repeat('0', maxLength - num.toString().length) + num
 }
 
-// Version: 0.5.3 - August 27, 2021 00:39:28
+// Version: 0.5.4 - August 28, 2021 18:09:53
 
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
@@ -8967,25 +8967,65 @@ styleInject(css_248z$1);
 
 script.render = render;
 
+function parserError(commit, ctx, line, text) {
+    const errorText = `[Parser Error] in <span class="error-filename">${ctx.fileName}:${line + 1}</span> - <b>${text}</b>`;
+    error(commit, errorText);
+}
+function error(commit, text) {
+    commit('createError', `❌ ${text}`);
+    console.error(text);
+}
+
+let config$1$1;
+function setConfig(conf) {
+    config$1$1 = conf;
+}
+function getConfig() {
+    return config$1$1;
+}
+
 var script$1 = defineComponent({
     props: {
         pictureUrl: String,
     },
+    computed: {
+        boxStyle() {
+            const layout = getConfig().layout;
+            let right = 0;
+            let bottom = 0;
+            if (this.$store.state.rendering.layoutMode === 'vertical') {
+                right = '50%';
+                bottom = `${layout.mobileDialogHeightPercentage - 5}%`;
+            }
+            else {
+                right = `${layout.minTextWidth - 10}px`;
+                bottom = '20%';
+            }
+            return {
+                right,
+                bottom,
+                width: `${layout.portraits.width}px`,
+                height: `${layout.portraits.height}px`,
+            };
+        },
+    },
 });
 
-const _hoisted_1$1 = { class: "dialog-picture override" };
-const _hoisted_2$1 = ["src"];
+const _hoisted_1$1 = ["src"];
 
 function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createElementBlock("div", _hoisted_1$1, [
+  return (openBlock(), createElementBlock("div", {
+    class: "dialog-picture override",
+    style: normalizeStyle(_ctx.boxStyle)
+  }, [
     createBaseVNode("img", {
       src: _ctx.pictureUrl,
       class: "picture override"
-    }, null, 8, _hoisted_2$1)
-  ]))
+    }, null, 8, _hoisted_1$1)
+  ], 4))
 }
 
-var css_248z$2 = ".dialog-picture {\n  position: absolute;\n  width: 80px;\n  height: 80px;\n  top: 60%;\n  left: -60px;\n  border: 2px solid white;\n  border-radius: 10px;\n  background-color: grey;\n}\n\n.dialog-picture img {\n  width: 100%;\n  height: 100%;\n}\n";
+var css_248z$2 = ".dialog-picture {\n  position: absolute;\n  width: 80px;\n  height: 80px;\n  border: 2px solid white;\n  border-radius: 10px;\n  background-color: grey;\n  z-index: 9999999;\n}\n\n.dialog-picture img {\n  width: 100%;\n  height: 100%;\n}\n";
 styleInject(css_248z$2);
 
 script$1.render = render$1;
@@ -9013,7 +9053,7 @@ function toHHMMSS(time) {
 var script$2 = defineComponent({});
 
 const _hoisted_1$2 = { class: "modal-mask" };
-const _hoisted_2$2 = { class: "modal-wrapper" };
+const _hoisted_2$1 = { class: "modal-wrapper" };
 const _hoisted_3$1 = { class: "modal-container bg-gray-800" };
 const _hoisted_4$1 = { class: "modal-header" };
 const _hoisted_5$1 = /*#__PURE__*/createTextVNode(" default header ");
@@ -9026,7 +9066,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock(Transition, { name: "modal" }, {
     default: withCtx(() => [
       createBaseVNode("div", _hoisted_1$2, [
-        createBaseVNode("div", _hoisted_2$2, [
+        createBaseVNode("div", _hoisted_2$1, [
           createBaseVNode("div", _hoisted_3$1, [
             createBaseVNode("div", _hoisted_4$1, [
               renderSlot(_ctx.$slots, "header", {}, () => [
@@ -9157,7 +9197,7 @@ var script$3 = defineComponent({
 });
 
 const _hoisted_1$3 = { class: "debug-menu" };
-const _hoisted_2$3 = /*#__PURE__*/createBaseVNode("h3", null, "Error(s)", -1);
+const _hoisted_2$2 = /*#__PURE__*/createBaseVNode("h3", null, "Error(s)", -1);
 const _hoisted_3$2 = /*#__PURE__*/createTextVNode(" There are errors in your dialogue scripts. Open the developer console for more details. ");
 const _hoisted_4$2 = ["innerHTML"];
 const _hoisted_5$2 = /*#__PURE__*/createBaseVNode("h3", null, "Debug Menu!", -1);
@@ -9198,7 +9238,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
           onClose: _ctx.closeErrors
         }, {
           header: withCtx(() => [
-            _hoisted_2$3
+            _hoisted_2$2
           ]),
           body: withCtx(() => [
             _hoisted_3$2,
@@ -12558,11 +12598,11 @@ var script$4 = defineComponent({
 });
 
 const _hoisted_1$4 = { class: "volume-controls" };
-const _hoisted_2$4 = /*#__PURE__*/createBaseVNode("label", { for: "volume" }, "Volume", -1);
+const _hoisted_2$3 = /*#__PURE__*/createBaseVNode("label", { for: "volume" }, "Volume", -1);
 
 function render$4(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createElementBlock("div", _hoisted_1$4, [
-    _hoisted_2$4,
+    _hoisted_2$3,
     createBaseVNode("input", {
       class: "volume-slider",
       type: "range",
@@ -12600,7 +12640,7 @@ var script$5 = defineComponent({
 });
 
 const _hoisted_1$5 = { class: "loading-bar" };
-const _hoisted_2$5 = { class: "loading-text" };
+const _hoisted_2$4 = { class: "loading-text" };
 
 function render$5(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createElementBlock("div", _hoisted_1$5, [
@@ -12608,7 +12648,7 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
       class: "inner-loading-bar",
       style: normalizeStyle(_ctx.loadingStyle())
     }, null, 4),
-    createBaseVNode("div", _hoisted_2$5, [
+    createBaseVNode("div", _hoisted_2$4, [
       createBaseVNode("span", null, "Loading " + toDisplayString(Math.floor(_ctx.percentage * 100)) + "% - " + toDisplayString(_ctx.step), 1)
     ])
   ]))
@@ -12716,31 +12756,11 @@ function processText(store, text) {
     });
 }
 
-function parserError(commit, ctx, line, text) {
-    const errorText = `[Parser Error] in <span class="error-filename">${ctx.fileName}:${line + 1}</span> - <b>${text}</b>`;
-    error(commit, errorText);
-}
-function error(commit, text) {
-    commit('createError', `❌ ${text}`);
-    console.error(text);
-}
-
-let config$1$1;
-function setConfig(conf) {
-    config$1$1 = conf;
-}
-function getConfig() {
-    return config$1$1;
-}
-
 const SAVE_FILE = 'gameSave';
-const MOBILE_THRESHOLD = 1000;
 
 function aspectRatioFit(screenWidth, screenHeight, gameWidth, gameHeight) {
     const widthRatio = screenWidth / gameWidth;
     const heightRatio = screenHeight / gameHeight;
-    console.log(`Width ratio: `, screenWidth, gameWidth, widthRatio);
-    console.log(`Height ratio: `, screenHeight, gameHeight, heightRatio);
     const bestRatio = Math.min(widthRatio, heightRatio);
     return bestRatio;
 }
@@ -12990,7 +13010,7 @@ var script$7 = defineComponent({
         },
         backgroundStyle() {
             let height;
-            if (this.screenWidth < MOBILE_THRESHOLD) {
+            if (this.layoutMode === 'vertical') {
                 height = `${100 - getConfig().layout.mobileDialogHeightPercentage}%`;
             }
             return {
@@ -13023,11 +13043,13 @@ var script$7 = defineComponent({
                 left: this.$store.state.rendering.leftOffset,
             };
         },
+        layoutMode() {
+            return this.$store.state.rendering.layoutMode;
+        },
         dialogWidth() {
-            let width = getConfig().layout.minTextWidth;
+            const width = getConfig().layout.minTextWidth;
             // Media query package isn't typed very well, casting as any for now...
             const mq = this.mq;
-            console.log(`mq: `, mq);
             // switch (mq.current) {
             //   case 's':
             //     width = 400;
@@ -13043,24 +13065,22 @@ var script$7 = defineComponent({
         },
         dialogStyle() {
             let transform;
-            let height = '100%';
-            if (this.screenWidth >= MOBILE_THRESHOLD) ;
+            const height = '100%';
+            if (this.layoutMode === 'horizontal') ;
             return {
                 // position: 'absolute',
                 backgroundColor: 'green',
-                width: this.screenWidth >= MOBILE_THRESHOLD
-                    ? `${this.dialogWidth}px`
-                    : '100%',
+                width: this.layoutMode === 'horizontal' ? `${this.dialogWidth}px` : '100%',
                 height,
-                left: `${this.screenWidth - this.dialogWidth}px`,
-                top: 0,
+                // right: 0,
+                // top: 0,
                 transform,
                 transformOrigin: 'right',
             };
         },
         gameWidth() {
             const config = getConfig();
-            if (this.screenWidth < MOBILE_THRESHOLD) {
+            if (this.layoutMode === 'vertical') {
                 return window.innerWidth;
             }
             else {
@@ -13069,7 +13089,7 @@ var script$7 = defineComponent({
         },
         gameHeight() {
             const config = getConfig();
-            if (this.screenWidth < MOBILE_THRESHOLD) {
+            if (this.layoutMode === 'vertical') {
                 return window.innerHeight;
             }
             else {
@@ -13078,8 +13098,10 @@ var script$7 = defineComponent({
         },
         appStyle() {
             const config = getConfig();
-            console.log('app style', this.screenWidth, this.screenHeight, config);
-            if (this.screenWidth && this.screenHeight && config) {
+            if (this.screenWidth &&
+                this.screenHeight &&
+                config &&
+                this.layoutMode === 'horizontal') {
                 const ratio = aspectRatioFit(this.screenWidth, this.screenHeight, this.gameWidth, this.gameHeight);
                 return {
                     transform: `scale(${ratio}, ${ratio})`,
@@ -13091,7 +13113,7 @@ var script$7 = defineComponent({
         },
         gameStyle() {
             let direction = 'row';
-            if (this.screenWidth < MOBILE_THRESHOLD) {
+            if (this.layoutMode === 'vertical') {
                 direction = 'column';
             }
             return {
@@ -13105,7 +13127,7 @@ var script$7 = defineComponent({
             return widthRatio;
         },
         dialogContainerStyle() {
-            if (this.screenWidth < MOBILE_THRESHOLD) {
+            if (this.layoutMode === 'vertical') {
                 return {};
             }
             else {
@@ -13148,7 +13170,7 @@ var script$7 = defineComponent({
             this.$store.commit('updateScreenSize', {
                 width: window.innerWidth,
                 height: window.innerHeight,
-                textWidth: this.screenWidth >= MOBILE_THRESHOLD
+                textWidth: this.layoutMode === 'horizontal'
                     ? getConfig().layout.minTextWidth * this.screenRatio
                     : 0,
             });
@@ -13180,7 +13202,7 @@ var script$7 = defineComponent({
 });
 
 const _hoisted_1$6 = ["width", "height"];
-const _hoisted_2$6 = {
+const _hoisted_2$5 = {
   key: 1,
   class: "flex flex-col"
 };
@@ -13205,6 +13227,17 @@ function render$7(_ctx, _cache, $props, $setup, $data, $options) {
           class: "game",
           style: normalizeStyle(_ctx.gameStyle)
         }, [
+          createVNode(Transition, { name: "fade" }, {
+            default: withCtx(() => [
+              (_ctx.picture)
+                ? (openBlock(), createBlock(_component_DialogPicture, {
+                    key: 0,
+                    pictureUrl: _ctx.picture
+                  }, null, 8, ["pictureUrl"]))
+                : createCommentVNode("", true)
+            ]),
+            _: 1
+          }),
           (_ctx.dialogPlaying)
             ? (openBlock(), createElementBlock("div", {
                 key: 0,
@@ -13224,17 +13257,6 @@ function render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 class: "dialog override",
                 style: normalizeStyle(_ctx.dialogStyle)
               }, [
-                createVNode(Transition, { name: "fade" }, {
-                  default: withCtx(() => [
-                    (_ctx.picture)
-                      ? (openBlock(), createBlock(_component_DialogPicture, {
-                          key: 0,
-                          pictureUrl: _ctx.picture
-                        }, null, 8, ["pictureUrl"]))
-                      : createCommentVNode("", true)
-                  ]),
-                  _: 1
-                }),
                 createBaseVNode("div", {
                   class: "dialog-container override",
                   style: normalizeStyle(_ctx.dialogContainerStyle)
@@ -13260,7 +13282,7 @@ function render$7(_ctx, _cache, $props, $setup, $data, $options) {
             : createCommentVNode("", true)
         ], 4))
       : (_ctx.gameLoaded)
-        ? (openBlock(), createElementBlock("div", _hoisted_2$6, [
+        ? (openBlock(), createElementBlock("div", _hoisted_2$5, [
             createBaseVNode("button", {
               class: "button menu-button start-button override",
               onClick: _cache[0] || (_cache[0] = (...args) => (_ctx.startGame && _ctx.startGame(...args)))
@@ -13286,7 +13308,7 @@ function render$7(_ctx, _cache, $props, $setup, $data, $options) {
   ], 4))
 }
 
-var css_248z$8 = "#app {\n  background-color: black;\n  position: absolute;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  color: white;\n  box-sizing: border-box;\n  overflow: hidden;\n  transform-origin: center center;\n}\n\n.game {\n  background-color: black;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n  overflow: hidden;\n}\n\n.interact-button {\n  height: 50px;\n  background-color: #72080f;\n  border: 1px solid black;\n  font-weight: bold;\n  font-size: 20px;\n  text-align: center;\n  flex-grow: 2;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-sizing: border-box;\n}\n\n.interact-button:not(:last-child) {\n  margin-right: 10px;\n}\n\n.dialog-container {\n  flex-shrink: 2;\n  /* padding: 20px; */\n  height: 100%;\n  width: 100%;\n  background-color: #171717;\n  overflow-y: auto;\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  align-items: center;\n}\n\n.dialog {\n  overflow-y: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  align-items: center;\n}\n\n.background {\n  margin: 0;\n}\n\n#background-canvas {\n  height: 100%;\n}\n";
+var css_248z$8 = "#app {\n  background-color: black;\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  color: white;\n  box-sizing: border-box;\n  overflow: hidden;\n  transform-origin: center center;\n}\n\n.game {\n  background-color: black;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n  overflow: hidden;\n}\n\n.interact-button {\n  height: 50px;\n  background-color: #72080f;\n  border: 1px solid black;\n  font-weight: bold;\n  font-size: 20px;\n  text-align: center;\n  flex-grow: 2;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-sizing: border-box;\n}\n\n.interact-button:not(:last-child) {\n  margin-right: 10px;\n}\n\n.dialog-container {\n  flex-shrink: 2;\n  /* padding: 20px; */\n  height: 100%;\n  width: 100%;\n  background-color: #171717;\n  overflow-y: auto;\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  align-items: center;\n}\n\n.dialog {\n  overflow-y: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  align-items: center;\n  position: relative;\n}\n\n.background {\n  margin: 0;\n}\n\n#background-canvas {\n  width: 100%;\n  height: 100%;\n}\n";
 styleInject(css_248z$8);
 
 script$7.render = render$7;
@@ -14048,6 +14070,7 @@ function setupStore(options) {
                 renderRatio: 1,
                 topOffset: 0,
                 leftOffset: 0,
+                layoutMode: 'horizontal',
             },
             audio: {},
             errors: [],
@@ -14239,14 +14262,17 @@ function setupStore(options) {
                 state.buttons[payload.button].enabled = payload.enabled;
             },
             updateScreenSize(state, { width, height, textWidth, }) {
-                console.log(`update screen size `, width, height, textWidth);
                 state.rendering.screenHeight = height;
                 state.rendering.screenWidth = width;
-                const screenWidth = width - textWidth;
-                console.log(`screenWidth: ${screenWidth}`);
                 state.rendering.renderRatio = 1;
                 state.rendering.topOffset = 0;
                 state.rendering.leftOffset = 0;
+                if (width < getConfig().layout.verticalLayoutThreshold) {
+                    state.rendering.layoutMode = 'vertical';
+                }
+                else {
+                    state.rendering.layoutMode = 'horizontal';
+                }
             },
             setMusic(state, music) {
                 state.audio.currentMusic = music;
@@ -14289,7 +14315,7 @@ async function startApp(config, options) {
         mousePos.x = e.clientX;
         mousePos.y = e.clientY;
     });
-    console.log('%c Narrat game engine – 0.5.3 - August 27, 2021 00:39:28', 'background: #222; color: #bada55');
+    console.log('%c Narrat game engine – 0.5.4 - August 28, 2021 18:09:53', 'background: #222; color: #bada55');
     const storeSetup = setupStore(options);
     store$1 = storeSetup.store;
     app = createApp(script$7, {
@@ -14370,6 +14396,9 @@ function gameLoop() {
     window.requestAnimationFrame(gameLoop);
 }
 function mouseclick(e) {
+    if (!canvas) {
+        return;
+    }
     mousePos.x = e.clientX;
     mousePos.y = e.clientY;
     const scaledMousePos = screenToCanvas(mousePos.x, mousePos.y, canvas);
