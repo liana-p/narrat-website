@@ -11,10 +11,12 @@
 * [Set Function](functions-documentation/set-function.md)
 * [Choice Function](functions-documentation/choice-function.md)
 * [Jump Function](functions-documentation/api-jump.md)
+* [Play Function](functions-documentation/play-function.md)
 
 ## Features
 
 * [Saving and Reloading](features/saving-and-reloading.md)
+* [Playing Audio](features/audio.md)
 
 ## Guides
 
