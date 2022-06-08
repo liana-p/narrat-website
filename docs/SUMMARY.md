@@ -34,6 +34,7 @@
 ## Guides
 
 * [Getting Started](guides/getting-started.md)
+* [Config files](guides/config-files.md)
 * [Useful Links](guides/useful-links.md)
 * [Theming the game and UI](guides/theming-the-game-and-ui.md)
 * [Installing Narrat in a web app](guides/installing-narrat-in-a-web-app.md)
@@ -42,4 +43,5 @@
 
 ## Examples
 
+* [Example Config](examples/example-config.md)
 * [Example narrat script](examples/example-narrat-script.md)

@@ -26,6 +26,10 @@ You can also look at an example narrat dialogue script for reference
 [example-narrat-script.md](examples/example-narrat-script.md)
 {% endcontent-ref %}
 
+{% content-ref url="examples/example-config.md" %}
+[example-config.md](examples/example-config.md)
+{% endcontent-ref %}
+
 {% hint style="info" %}
 The sidebar on the left of this documentation has various sections worth looking at
 
