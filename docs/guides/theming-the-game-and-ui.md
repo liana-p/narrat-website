@@ -148,7 +148,7 @@ The easiest way to find a CSS class name or id to override for theming a game is
 
 The devtools have a list of all the elements on the page in the elements tab (bottom left in the screenshot). This tool shows a tree view of all the DOM elements that constitute a web page (the narrat UI is made of DOM elements)Available CSS classes to override
 
-![](<../.gitbook/assets/image (31).png>)
+![](<../.gitbook/assets/image (31) (1).png>)
 
 Clicking on the arrow icon in the top left of the devtools opens a "picker" tool that allows clicking anywhere on the page to select an element in the elements view of the devtools. This makes it very easy to browse and find elements on a page.
 
@@ -276,7 +276,7 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 .modal-footer: There's a footer space that is currently unused in modals
 
-![](<../.gitbook/assets/image (7).png>)
+![](<../.gitbook/assets/image (7) (1).png>)
 
 </details>
 

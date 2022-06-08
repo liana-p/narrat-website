@@ -4,17 +4,25 @@
 
 ## Functions Documentation
 
-* [Functions API Documentation](functions-documentation/functions-api-documentation.md)
-* [If function](functions-documentation/if-function.md)
-* [Talk function](functions-documentation/talk-function.md)
-* [Add Function](functions-documentation/add-function.md)
-* [Set Function](functions-documentation/set-function.md)
-* [Choice Function](functions-documentation/choice-function.md)
-* [Play Function](functions-documentation/play-function.md)
-* [Jump Function](functions-documentation/api-jump.md)
+* [Jump](functions-documentation/api-jump.md)
+* [Choice](functions-documentation/choice-function.md)
+* [Set](functions-documentation/set-function.md)
+* [Add](functions-documentation/add-function.md)
+* [Talk](functions-documentation/talk-function.md)
+* [If](functions-documentation/if-function.md)
+* [Set Screen](functions-documentation/set-screen.md)
+* [Set Button](functions-documentation/set-button.md)
+* [Clear Dialog](functions-documentation/clear-dialog.md)
+* [Play](functions-documentation/play-function.md)
+* [Stop](functions-documentation/stop.md)
+* [Pause](functions-documentation/pause.md)
+* [Wait](functions-documentation/wait.md)
+* [Add Level](functions-documentation/add-level.md)
+* [Add XP](functions-documentation/add-xp.md)
 
 ## Features
 
+* [Screens](features/screens.md)
 * [Skills System](features/skills-system.md)
 * [Saving and Reloading](features/saving-and-reloading.md)
 * [Playing Audio](features/audio.md)
