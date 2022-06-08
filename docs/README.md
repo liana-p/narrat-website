@@ -1,7 +1,7 @@
 ---
 description: >-
-  Narrat is a narrative game engine for text-based games. Inspired by renpy
-  syntax. Built to be customisable, extendable and web-focused.
+  Narrat is a narrative game engine for text-based games with many features to
+  make games more interactive than your average visual novel
 ---
 
 # Narrat
@@ -26,28 +26,29 @@ You can also look at an example narrat dialogue script for reference
 [example-narrat-script.md](examples/example-narrat-script.md)
 {% endcontent-ref %}
 
-And the API documentation for the available functions
+{% hint style="info" %}
+The sidebar on the left of this documentation has various sections worth looking at
 
-{% content-ref url="broken-reference" %}
-[Broken link](broken-reference)
-{% endcontent-ref %}
+* **Guides**: General guides on how to do things with the engine
+* **Features**: Introduction to specific features and how to use them
+* **Functions Documentation:** API Documentation for every command available to game scripts
+{% endhint %}
 
 ## Features
 
-{% content-ref url="features/saving-and-reloading.md" %}
-[saving-and-reloading.md](features/saving-and-reloading.md)
-{% endcontent-ref %}
-
+* Easy syntax for writing games inspired by Ren'pu
 * Flexible dialog writing with branching and conditions
 * Multiple script files support with labels and jumps to organise script writing
 * Multiple speaking characters support with icons and poses
 * Custom variables in scripts to create flags or other data the game needs to track
-* \[NEW!] Seamless saving and reloading
-* \[NEW!] UI with button that can be used for example to create world maps with clickable locations (the buttons can be controlled in scripts)
-* \[NEW!] Sound and music support
-* \[NEW!] Delays between script lines
-* \[NEW!] Electron build to turn the game into a pc/mac/linux app (template to be updated with example soon)
-* Skill checks (Feature still early, needs a UI for viewing skills and creating characters)
+* Skill systems with levels skill checks
+* Interactive screens alongside dialogue
+* Customisable HUD for currencies or other stats
+* Save/Load
+* Audio
+* Fully customisable and themable UI
+* Exports to web (desktop/mobile) or PC
+* ...And much more!
 
 ## How it works
 
