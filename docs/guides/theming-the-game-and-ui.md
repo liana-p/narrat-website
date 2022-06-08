@@ -148,7 +148,7 @@ The easiest way to find a CSS class name or id to override for theming a game is
 
 The devtools have a list of all the elements on the page in the elements tab (bottom left in the screenshot). This tool shows a tree view of all the DOM elements that constitute a web page (the narrat UI is made of DOM elements)Available CSS classes to override
 
-![](<../.gitbook/assets/image (27).png>)
+![](<../.gitbook/assets/image (28).png>)
 
 Clicking on the arrow icon in the top left of the devtools opens a "picker" tool that allows clicking anywhere on the page to select an element in the elements view of the devtools. This makes it very easy to browse and find elements on a page.
 
@@ -156,7 +156,7 @@ Finding the css class or id for an element is then just a matter of looking at w
 
 ![](<../.gitbook/assets/image (15).png>)
 
-![](<../.gitbook/assets/image (26).png>)
+![](<../.gitbook/assets/image (27).png>)
 
 Hovering elements in the elements tab also highlights them on the page.
 
@@ -194,13 +194,17 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 #### Buttons
 
+<details>
+
+<summary>Buttons CSS</summary>
+
 `.button`: Generic base class applied to all buttons
 
-![](<../.gitbook/assets/image (30).png>)
+![](<../.gitbook/assets/image (31).png>)
 
 `.interact-button`: The "Continue" button during dialogue
 
-![](<../.gitbook/assets/image (21).png>)
+![](<../.gitbook/assets/image (22).png>)
 
 `.dialog-choice`: The selectable choices in the dialogue
 
@@ -214,21 +218,23 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 `.continue-button`
 
-![](<../.gitbook/assets/image (25).png>)
+![](<../.gitbook/assets/image (26).png>)
 
-
+</details>
 
 #### UI Elements
 
+<details>
+
+<summary>Other UI Elements</summary>
+
 .dialog-container: Contains all the dialog
 
-![](<../.gitbook/assets/image (23).png>)
+![](<../.gitbook/assets/image (24).png>)
 
 .dialog: The entire right-side box of the screen that is scrollable with all the dialog in it
 
 ![](<../.gitbook/assets/image (17).png>)
-
-
 
 .menu-container
 
@@ -236,13 +242,13 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 \#menu-button (note that it's an id and not a class)
 
-![](<../.gitbook/assets/image (29).png>)
+![](<../.gitbook/assets/image (30).png>)
 
 \#skills-menu-button
 
-![](<../.gitbook/assets/image (22).png>)
+![](<../.gitbook/assets/image (23).png>)
 
-#### Modals
+</details>
 
 <details>
 
@@ -250,7 +256,7 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 .modal-mask: The half-opaque overlay on the page when a modal is open
 
-![](<../.gitbook/assets/image (24).png>)
+![](<../.gitbook/assets/image (25).png>)
 
 .modal-container: The container class for all modals
 
@@ -286,7 +292,7 @@ Each modal in the game has its own CSS class applied to the `modal-container` to
 
 .skills-modal
 
-![](<../.gitbook/assets/image (31).png>)
+![](<../.gitbook/assets/image (32).png>)
 
 
 
@@ -313,7 +319,7 @@ One thing worth knowing is the `.skills-container` class in the skills screen us
 
 .skill-display: The individual tile for a skill
 
-![](<../.gitbook/assets/image (28).png>)
+![](<../.gitbook/assets/image (29).png>)
 
 .skill-title
 
@@ -321,11 +327,21 @@ One thing worth knowing is the `.skills-container` class in the skills screen us
 
 .skill-xp-container and .skill-xp-bar: skill-xp-container is the background of the xp progress bar, whereas skill-xp-bar is the inner bar that gets filled depending on the amount of xp
 
+.skill-xp-text is also the text of the xp
+
 ![](<../.gitbook/assets/image (18).png>)
+
+.skill-level
+
+![](<../.gitbook/assets/image (21).png>)
+
+
+
+
 
 </details>
 
-#### Text
+
 
 
 
