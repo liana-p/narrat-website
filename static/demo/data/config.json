@@ -54,11 +54,22 @@
     }
   },
   "skills": {
-    "testSkill": {
-      "name": "Test Skill",
-      "description": "A test skill.",
+    "agility": {
+      "name": "Agility",
+      "description": "How good you are at moving around.",
+      "startingLevel": 0,
+      "icon": "img/skills/agility.jpg",
+      "hidden": true
+    },
+    "logic": {
+      "name": "Logic",
+      "description": "How good you are at solving problems",
+      "icon": "img/skills/logic.jpg",
       "startingLevel": 0
     }
+  },
+  "skillOptions": {
+    "xpPerLevel": 10
   },
   "skillChecks": {
     "rollRange": 100,
@@ -74,12 +85,30 @@
       [90, "Near Impossible"]
     ]
   },
-  "scripts": ["data/example.rpy"],
-  "sound": {},
-  "music": {
+  "scripts": ["data/demo.rpy"],
+  "audio": {
     "calm": {
       "loop": true,
       "path": "music/calm.mp3"
+    }
+  },
+  "audioOptions": {
+    "volume": 0.5,
+    "musicFadeInTime": 0.5,
+    "musicFadeInDelay": 0.5,
+    "musicFadeOutTime": 0.5
+  },
+  "notifications": {
+    "timeOnScreen": 1.5,
+    "alsoPrintInDialogue": true
+  },
+  "hudStats": {
+    "energy": {
+      "icon": "img/ui/energy.png",
+      "name": "Energy",
+      "startingValue": 10,
+      "minValue": 0,
+      "maxValue": 10
     }
   }
 }
