@@ -160,3 +160,11 @@ The first settings are the same as previously. The others:
 
 Then, there is a `success`  branch and a `failure` branch inside the roll. The engine will go to one of those depending on the result.
 
+### Gaining levels and XP
+
+To make the player gain xp or levels, there are two commands: `add_level`  and `add_xp`. Example:
+
+```renpy
+add_level agility 1
+add_xp agility 3
+```
