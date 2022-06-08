@@ -19,9 +19,13 @@
 * [Wait](functions-documentation/wait.md)
 * [Add Level](functions-documentation/add-level.md)
 * [Add XP](functions-documentation/add-xp.md)
+* [Notify](functions-documentation/notify.md)
+* [Set Stat](functions-documentation/set-stat.md)
+* [Add Stat](functions-documentation/add-stat.md)
 
 ## Features
 
+* [HUD Stats](features/hud-stats.md)
 * [Screens](features/screens.md)
 * [Skills System](features/skills-system.md)
 * [Saving and Reloading](features/saving-and-reloading.md)

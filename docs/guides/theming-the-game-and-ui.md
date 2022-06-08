@@ -329,7 +329,7 @@ One thing worth knowing is the `.skills-container` class in the skills screen us
 
 .skill-xp-text is also the text of the xp
 
-![](<../.gitbook/assets/image (21).png>)
+![](<../.gitbook/assets/image (21) (1).png>)
 
 .skill-level
 
