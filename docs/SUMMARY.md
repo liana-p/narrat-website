@@ -15,6 +15,7 @@
 
 ## Features
 
+* [Skills System](features/skills-system.md)
 * [Saving and Reloading](features/saving-and-reloading.md)
 * [Playing Audio](features/audio.md)
 
