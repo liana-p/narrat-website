@@ -1,5 +1,7 @@
 ---
 description: Narrat games can have an inventory of player items
+cover: ../.gitbook/assets/image (4).png
+coverY: 0
 ---
 
 # Inventory

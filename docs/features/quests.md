@@ -1,5 +1,7 @@
 ---
 description: Narrat games can have quests with dynamic objectives and a quest log UI
+cover: ../.gitbook/assets/image (27).png
+coverY: 0
 ---
 
 # Quests
