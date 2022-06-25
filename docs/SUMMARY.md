@@ -36,6 +36,7 @@
 
 ## Guides
 
+* [Using items](guides/using-items.md)
 * [Getting Started](guides/getting-started.md)
 * [Config files](guides/config-files.md)
 * [Useful Links](guides/useful-links.md)
