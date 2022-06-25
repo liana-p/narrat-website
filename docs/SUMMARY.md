@@ -32,6 +32,7 @@
 * [Skills System](features/skills-system.md)
 * [Saving and Reloading](features/saving-and-reloading.md)
 * [Playing Audio](features/audio.md)
+* [Functions](features/functions.md)
 
 ## Guides
 
@@ -40,7 +41,7 @@
 * [Useful Links](guides/useful-links.md)
 * [Theming the game and UI](guides/theming-the-game-and-ui.md)
 * [Installing Narrat in a web app](guides/installing-narrat-in-a-web-app.md)
-* [Customising your Narrat game](guides/customising-your-narrat-game.md)
+* [Editing a narrat game](guides/customising-your-narrat-game.md)
 * [Building and exporting your game](guides/building-and-exporting-your-game.md)
 
 ## Examples

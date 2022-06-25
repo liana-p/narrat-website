@@ -1,48 +1,66 @@
+---
+description: >-
+  This guide explains how to get started using the narrat game engine in a
+  minute
+---
+
 # Getting Started
 
 ## Getting Started
 
-Make sure you have [node.js](https://nodejs.org/en/) installed (This was made using `15.5.0`, LTS probably also works, not tested).
+{% hint style="info" %}
+Getting started with narrat is very quick. There is a ready-to-use template that can get you running your game in a minute
+{% endhint %}
 
-One simple way to set it up is to use the [Narrat Template App](https://github.com/nialna/narrat-template). You can press the "Use this template" button to create your own repo based on it. If you don't want to use GitHub, you can just download it as a zip file and start editing it to make your game.
+### Prerequisites
+
+* Have [node.js ](https://nodejs.org/en/)installed (LTS version is fine)
+* Have a text editor ready to go. We recommend [Visual Studio Code](https://code.visualstudio.com/)
+* Know how to [open a terminal in a folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
+
+### Creating the game
+
+Use the [Narrat Template App](https://github.com/nialna/narrat-template). Users of git can press the "Use this template" button to generate a repo based on it. Otherwise, simply download it as a zip somewhere
+
+{% hint style="info" %}
+If not using git, simply download the template as a zip fileby pressing the code button next to the green "Use this template" button
+{% endhint %}
 
 ![](<../.gitbook/assets/image (2).png>)
 
-If you'd rather use your own preferred way of setting up a JS web project, and add `narrat` as a library, follow this guide:
-
-{% content-ref url="installing-narrat-in-a-web-app.md" %}
-[installing-narrat-in-a-web-app.md](installing-narrat-in-a-web-app.md)
-{% endcontent-ref %}
+For more advanced manual installation instruction into an existing web project, see the [Installing Narrat in a web app](installing-narrat-in-a-web-app.md) guide
 
 ## Running the game
 
-Now that you have a local folder with a copy of the template ready, [open a terminal there](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
+With the narrat template cloned or downloaded, [open a terminal inside the folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
 
-Install all the dependencies and tools:
+There is a first command to install the dependencies (libraries) on first use.
 
 ```bash
 npm install
 ```
 
-Once everything is installed, you can start the game:
+Once everything is installed, this command runs the game:
 
 ```bash
 npm start
 ```
 
-This should open a browser tab with the game running. Otherwise you can access it at [http://localhost:8080](http://localhost:8080)
+This should open a browser tab with the game running after a minute. The game can be accessed at https://localhost:8080
 
-## Customising your game
+The game is ready to edit!
 
-See the Customising your Narrat game page
+{% hint style="info" %}
+Those `npm` commands come from node.js. If the commands aren't recognised, you probably didn't install node.js correctly. [More about npm install](https://www.stackchief.com/tutorials/npm%20install%20|%20how%20it%20works)
+{% endhint %}
+
+## Editing the game
 
 {% content-ref url="customising-your-narrat-game.md" %}
 [customising-your-narrat-game.md](customising-your-narrat-game.md)
 {% endcontent-ref %}
 
-## Building and exporting your game
-
-See the Building and exporting your game page
+## Building and exporting the game
 
 {% content-ref url="building-and-exporting-your-game.md" %}
 [building-and-exporting-your-game.md](building-and-exporting-your-game.md)
