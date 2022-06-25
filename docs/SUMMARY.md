@@ -25,6 +25,8 @@
 
 ## Features
 
+* [Quests](features/quests.md)
+* [Inventory](features/inventory.md)
 * [HUD Stats](features/hud-stats.md)
 * [Screens](features/screens.md)
 * [Skills System](features/skills-system.md)

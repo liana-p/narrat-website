@@ -230,7 +230,7 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 .dialog-container: Contains all the dialog
 
-![](<../.gitbook/assets/image (27).png>)
+![](<../.gitbook/assets/image (27) (1).png>)
 
 .dialog: The entire right-side box of the screen that is scrollable with all the dialog in it
 
@@ -238,7 +238,7 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 .menu-container
 
-![](<../.gitbook/assets/image (4).png>)
+![](<../.gitbook/assets/image (4) (1).png>)
 
 \#menu-button (note that it's an id and not a class)
 
