@@ -1,6 +1,7 @@
 # Table of contents
 
-* [Narrat](README.md)
+* [Narrat 2.0](README.md)
+* [Narrat](<README (1).md>)
 
 ## Functions Documentation
 
