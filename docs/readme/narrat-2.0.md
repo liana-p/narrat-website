@@ -28,7 +28,7 @@ To install narrat to, run `npm install narrat@next`. The `next` tag is where the
 
 ### Expressions
 
-Expressions are now a first party feature. An expression is any operation between parenthesis. Any command in the game can be used as an expression, if it returns a value. For example `(++ 2 3)` is an expression that would get evaluated to `5`.
+Expressions are now a first party feature. An expression is any operation between parenthesis. Any command in the game can be used as an expression, if it returns a value. For example `(+ 2 3)` is an expression that would get evaluated to `5`.
 
 ### Syntax for using commands
 
