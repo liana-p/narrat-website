@@ -1,10 +1,12 @@
 const theme = {
   colors: {
     text: "#fff",
-    background: "#060606",
-    primary: "#3cf",
+    background: "#1f0808",
+    primary: "#e64545",
     secondary: "#e0f",
+    accent: "#e64545",
     muted: "#191919",
+    offWhite: "#909090",
     highlight: "#29112c",
     gray: "#999",
     purple: "#c0f",
@@ -30,6 +32,7 @@ const theme = {
     xl: "2.0rem",
     xxl: "2.4rem",
     xxxl: "3.0rem",
+    xxxxl: "4.0rem",
   },
   fontWeights: {
     body: 400,
@@ -51,6 +54,9 @@ const theme = {
       fontSize: ["xxl", "xxxl"],
       fontWeight: "display",
       mt: "xs",
+    },
+    accent: {
+      color: "accent",
     },
     subtitle: {
       fontSize: ["xl", "xl"],
@@ -93,7 +99,7 @@ const theme = {
       fontSize: "s",
     },
     a: {
-      color: "primary",
+      color: "accent",
       "&:hover": {
         color: "secondary",
       },
@@ -171,10 +177,11 @@ const theme = {
   },
   buttons: {
     link: {
-      p: "m",
+      py: "xs",
+      px: "m",
       cursor: "pointer",
-      fontWeight: "bold",
-      fontSize: "l",
+      backgroundColor: "accent",
+      fontSize: "m",
     },
   },
   links: {
@@ -206,6 +213,14 @@ const theme = {
     articleHeading: {
       color: "link",
       fontSize: 26,
+    },
+    dateHeading: {
+      color: "offWhite",
+      fontSize: "m",
+    },
+    feature: {
+      fontSize: "xxxxl",
+      color: "accent",
     },
   },
   grids: {
@@ -243,6 +258,11 @@ const theme = {
       borderBottomStyle: "solid",
       borderTopWidth: "2px",
       borderBottomWidth: "2px",
+    },
+    flexVertical: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
     },
   },
 };

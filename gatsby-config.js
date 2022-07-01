@@ -2,8 +2,8 @@ module.exports = {
   siteMetadata: {
     siteUrl: "https://get-narrat.com",
     title: "Narrat",
-    description: `A narrative game engine built for the web and desktop`,
-    siteImage: 'https://get-narrat.com/narrat-banner.jpg',
+    description: `Narrat is a game engine for making interactive narrative RPGs packed with features.`,
+    siteImage: "https://get-narrat.com/narrat-banner.jpg",
   },
   plugins: [
     "gatsby-plugin-theme-ui",
@@ -57,9 +57,16 @@ module.exports = {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "images",
-        path: "./src/images/",
+        path: `${__dirname}/src/images`,
       },
       __key: "images",
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content/posts`,
+        name: `posts`,
+      },
     },
     {
       resolve: "gatsby-source-filesystem",

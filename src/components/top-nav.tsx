@@ -7,7 +7,7 @@ import Logo from "./logo";
 import MenuLink from "./menu-link";
 import RouteLink from "./route-link";
 import RouteNavLink from "./route-nav-link";
-import { FaGithub } from "react-icons/fa";
+import { FaDiscord, FaGithub } from "react-icons/fa";
 
 export interface TopNavProps {
   location: Location;
@@ -21,7 +21,6 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
       sx={{
         py: "s",
         px: "l",
-        bg: "muted",
       }}
     >
       <Flex sx={{ justifyContent: "space-between" }}>
@@ -51,8 +50,19 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
           <RouteNavLink to="/narrat-faq" title="FAQ">
             FAQ
           </RouteNavLink>
+          <RouteNavLink to="/news" title="News">
+            News
+          </RouteNavLink>
         </Flex>
         <Box sx={{ display: "flex", placeItems: "center" }}>
+          <NavLink
+            href="https://discord.gg/Xgz7EQ2Xgh"
+            sx={{ variant: "links.nav" }}
+            target="_blank"
+            rel="noopener"
+          >
+            <FaDiscord sx={{ mr: "s" }}></FaDiscord>Join the Discord
+          </NavLink>
           <NavLink
             href="https://github.com/nialna/narrat"
             sx={{ variant: "links.nav" }}

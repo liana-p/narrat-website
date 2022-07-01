@@ -1,36 +1,33 @@
 /** @jsxImportSource theme-ui */
 
-import * as React from "react"
-import { graphql } from "gatsby"
+import * as React from "react";
+import { graphql } from "gatsby";
 
-import Layout from "../components/layout"
+import Layout from "../components/layout";
 // import { PageBySlugQuery } from "../../graphql-types"
-import { MDXRenderer } from "gatsby-plugin-mdx"
-import { PageBySlugQuery } from "../../graphql-types"
-import { Box, Container, Heading } from "theme-ui"
-import { useSiteMetadata } from "../hooks/use-site-metadata"
-import { getCanonicalUrl } from "../helpers/url-helpers"
-import { MDXProvider } from "@mdx-js/react"
+import { MDXRenderer } from "gatsby-plugin-mdx";
+import { PageBySlugQuery } from "../../graphql-types";
+import { Box, Container, Heading } from "theme-ui";
+import { useSiteMetadata } from "../hooks/use-site-metadata";
+import { getCanonicalUrl } from "../helpers/url-helpers";
+import { MDXProvider } from "@mdx-js/react";
+import { shortcodes } from "../helpers/componentShortcodes";
 
-const shortcodes = {  }
 interface PageProps {
-  data: PageBySlugQuery
-  location: Location
+  data: PageBySlugQuery;
+  location: Location;
 }
 const PageTemplate: React.FC<PageProps> = ({ data, location }) => {
   const metadata = useSiteMetadata();
-  const post = data.mdx
-  const canonicalUrl = getCanonicalUrl(
-    metadata.siteUrl,
-    post.fields.slug
-  );
-  const title = post.frontmatter.title
+  const post = data.mdx!;
+  const canonicalUrl = getCanonicalUrl(metadata.siteUrl!, post.fields!.slug!);
+  const title = post.frontmatter!.title;
   return (
     <Layout
       location={location}
       pageTitle={title}
       canonicalUrl={canonicalUrl}
-      description={post.frontmatter.description || post.excerpt}
+      description={post!.frontmatter!.description || post!.excerpt}
     >
       <Container
         px={20}
@@ -61,10 +58,10 @@ const PageTemplate: React.FC<PageProps> = ({ data, location }) => {
         </MDXProvider>
       </Container>
     </Layout>
-  )
-}
+  );
+};
 
-export default PageTemplate
+export default PageTemplate;
 
 export const pageQuery = graphql`
   query PageBySlug($id: String!) {
@@ -81,4 +78,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
