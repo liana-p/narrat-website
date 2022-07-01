@@ -3,7 +3,7 @@ module.exports = {
     siteUrl: "https://get-narrat.com",
     title: "Narrat",
     description: `Narrat is a game engine for making interactive narrative RPGs packed with features.`,
-    siteImage: "https://get-narrat.com/narrat-banner.jpg",
+    siteImage: "https://get-narrat.com/games/llrpg/llrpg-1.jpg",
   },
   plugins: [
     "gatsby-plugin-theme-ui",
