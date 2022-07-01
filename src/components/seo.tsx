@@ -16,17 +16,25 @@ export interface SeoProps {
   description?: string;
   lang?: string;
   meta?: any;
-  imageUrl?: string
-  canonicalUrl: string
-  title?: string
-  contentType?: 'article' | 'website'
+  imageUrl?: string;
+  canonicalUrl: string;
+  title?: string;
+  contentType?: "article" | "website";
 }
-const Seo: React.FC<SeoProps> = ({ description, lang, meta, title, imageUrl, canonicalUrl, contentType }) => {
+const Seo: React.FC<SeoProps> = ({
+  description,
+  lang,
+  meta,
+  title,
+  imageUrl,
+  canonicalUrl,
+  contentType,
+}) => {
   const metadata = useSiteMetadata();
 
   const metaDescription = description || metadata?.description;
   const defaultTitle = metadata?.title;
-  contentType = contentType || 'website'
+  contentType = contentType || "website";
   imageUrl = imageUrl || metadata.siteImage;
 
   return (
@@ -50,11 +58,11 @@ const Seo: React.FC<SeoProps> = ({ description, lang, meta, title, imageUrl, can
           content: metaDescription,
         },
         {
-          property: 'og:site_name',
-          content: metadata.title
+          property: "og:site_name",
+          content: metadata.title,
         },
         {
-          property: 'og:image',
+          property: "og:image",
           content: imageUrl,
         },
         {
@@ -62,16 +70,28 @@ const Seo: React.FC<SeoProps> = ({ description, lang, meta, title, imageUrl, can
           content: `website`,
         },
         {
-          property: 'og:url',
+          property: "og:url",
           content: canonicalUrl,
         },
         {
           name: `twitter:card`,
-          content: "summary",
+          content: "summary_large_image",
         },
         {
           name: `twitter:title`,
           content: title,
+        },
+        {
+          name: "twitter:site",
+          content: "@NarratEngine",
+        },
+        {
+          name: "twitter:image",
+          content: imageUrl,
+        },
+        {
+          name: "twitter:image:alt",
+          content: "Narrat website logo",
         },
         {
           name: `twitter:description`,
