@@ -6,21 +6,21 @@ description: "Questions and answers about Narrat"
 
 ## What is narrat?
 
-Narrat is a narrative game engine for text-based games, Inspired by renpy syntax. It is built to work on the web, mobile and desktop.
+Narrat is a narrative RPG game engine for text-based games, Inspired by renpy syntax. It is built to work on the web, mobile and desktop.
 
 ## Is Narrat open source?
 
-Yes, narrat is completely open source
+Yes, narrat is completely [open source](https://github.com/liana-p/narrat)
 
 ## What kind of games can I make with Narrat
 
-* Visual Novels
-* Text-based RPGs
-* Point and click adventures
+- Text-based RPGs
+- Point and click adventures
+- Visual Novels
 
 ## Is Narrat ready to use?
 
-Somewhat. It has very recently been released and isn't fully documented yet, but all the needed features to make a game are there and it is production-ready.
+Yes! It's being used on multiple projects actively and has been battle-tested quite a bit
 
 ## How do I get started?
 
