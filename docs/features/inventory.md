@@ -1,6 +1,6 @@
 ---
 description: Narrat games can have an inventory of player items
-cover: ../.gitbook/assets/image (4).png
+cover: ../.gitbook/assets/image (4) (1).png
 coverY: 0
 ---
 
@@ -34,6 +34,6 @@ main:
     talk helper idle "You have no bread"
 ```
 
-![](<../.gitbook/assets/image (4).png>)
+![](<../.gitbook/assets/image (4) (1).png>)
 
 ![](../.gitbook/assets/Animation.webp)

@@ -23,6 +23,7 @@
 * [Notify](functions-documentation/notify.md)
 * [Set Stat](functions-documentation/set-stat.md)
 * [Add Stat](functions-documentation/add-stat.md)
+* [Text Field](functions-documentation/text-field.md)
 
 ## Features
 

@@ -12,7 +12,7 @@ Narrat is a game engine for easily creative interactive narrative games with RPG
 
 This example shows the script of a game and the result on screen when playing.
 
-![Example screenshot of narrat script next to its result](.gitbook/assets/narrat-banner.jpg)
+![Example screenshot of narrat script next to its result](../static/narrat-banner.jpg)
 
 There is an [online demo](https://get-narrat.com/demo/) available. It contains a built version of the [narrat game demo](https://github.com/nialna/narrat-demo)
 

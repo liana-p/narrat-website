@@ -3,7 +3,7 @@ description: >-
   Narrat games can have different screens which are 2D images used to illustrate
   the story. Screens are also interactive and can have buttons to click on
   elementsNarrat games can have different screens
-cover: ../.gitbook/assets/image (7).png
+cover: ../.gitbook/assets/image (31).png
 coverY: 0
 ---
 
@@ -11,7 +11,7 @@ coverY: 0
 
 ## Introduction
 
-<img src="../.gitbook/assets/image (7).png" alt="" data-size="original">
+<img src="../.gitbook/assets/image (31).png" alt="" data-size="original">
 
 
 
