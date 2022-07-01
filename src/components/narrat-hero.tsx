@@ -11,9 +11,15 @@ const NarratHero: React.FC<NarratHeroProps> = ({}) => {
   return (
     <Box sx={{ p: "xl", width: "100%" }}>
       <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
-        <Grid gap={40} columns={[1, "1.5fr 2fr"]} sx={{ mt: "m" }}>
-          <Box>
-            <Heading as="h1" sx={{ variant: "textStyles.display", mb: "m" }}>
+        <Grid gap={40} columns={[1, 1, "1.5fr 2fr"]} sx={{ mt: "m" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              flexDirection: "column",
+            }}
+          >
+            <Heading as="h1" sx={{ mb: "m" }}>
               Make <Text variant="textStyles.accent">narrative RPGs</Text> for
               web and desktop easily
             </Heading>
@@ -44,7 +50,7 @@ const NarratHero: React.FC<NarratHeroProps> = ({}) => {
               </Link>
             </Box>
           </Box>
-          <Box>
+          <Box sx={{ variant: "boxes.flexVertical", justifyContent: "center" }}>
             <video
               autoPlay
               muted

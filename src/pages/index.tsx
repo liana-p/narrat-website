@@ -15,8 +15,8 @@ import { FeatureHero } from "../components/feature-hero";
 import { IconTitleDesc } from "../components/icons-title-desc";
 import { FaDiscord, FaGamepad, FaGithub } from "react-icons/fa";
 import { BsPencil } from "react-icons/bs";
+import { shortcodes } from "../helpers/componentShortcodes";
 
-const shortcodes = {};
 interface IndexProps {
   data: IndexQuery;
   location: Location;
@@ -24,7 +24,7 @@ interface IndexProps {
 const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
   const metadata = useSiteMetadata();
   const canonicalUrl = metadata.siteUrl;
-  // const posts = data.posts.nodes;
+  const news = usePosts().nodes;
   return (
     <Layout
       location={location}
@@ -85,6 +85,7 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
         <MDXProvider components={shortcodes}>
           <MDXRenderer>{data.mdx!.body}</MDXRenderer>
         </MDXProvider>
+        <NewsList news={news} />
       </Container>
     </Layout>
   );
