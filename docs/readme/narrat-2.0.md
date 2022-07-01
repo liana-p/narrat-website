@@ -6,11 +6,22 @@ description: >-
 
 # Narrat 2.0
 
+### How to migrate from 1.x to 2.x
+
+See the [2.0.0 merge PR](https://github.com/liana-p/narrat-template/pull/1/files) of the narrat template for an example of the changes needed.
+
+1. Update narrat: `npm update narrat`
+2. Add an import of the narrat css file at the top of`src/index:ts`:  `import 'narrat/dist/lib.css';`
+3. Update the syntax of any line using `$if` (See [new if syntax ](narrat-2.0.md#new-if-syntax)below). There is a [tool ](narrat-2.0.md#script-updating-tool)that can help auto update syntax for simple use cases
+4. Update the syntax of `this.roll` syntax in choices to instead use the roll command normally (the script updater tool should do it automatically)
+
 ### What changed in narrat 2.0
 
 Narrat has a **new language syntax** in 2.0.0 - The parser has been improved to turn the narrat scripting into a full programming language with support for expressions, variables and functions
 
 The syntax is generally the same so existing scripts would mostly work, except for the use of `$if` (which used to be a hack by sending your code to JavaScript [eval](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global\_Objects/eval)).
+
+The CSS from narrat is also not automatically added to the page anymore (due to an issue with Vite), so it needs to be imported manually in the game's code by adding `import 'narrat/dist/lib.css';` in `src/index.ts`. The narrat template has already been updated to do this.
 
 ### Script updating tool
 
