@@ -13,7 +13,7 @@ import { NewsList } from "../components/news-list";
 import { NarratCodeIllustration } from "../components/narrat-code-illustration";
 import { FeatureHero } from "../components/feature-hero";
 import { IconTitleDesc } from "../components/icons-title-desc";
-import { FaGamepad, FaGithub } from "react-icons/fa";
+import { FaDiscord, FaGamepad, FaGithub } from "react-icons/fa";
 import { BsPencil } from "react-icons/bs";
 
 const shortcodes = {};
@@ -75,11 +75,11 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
             linkTitle="Learn how"
           />
           <IconTitleDesc
-            icon={<FaGamepad />}
-            title="Game"
-            explanation="That's all you need to make a game. Ready to publish"
-            link="https://docs.get-narrat.com/guides/building-and-exporting-your-game"
-            linkTitle="Export your game"
+            icon={<FaDiscord />}
+            title="Community"
+            explanation="Get help, discuss narrat or suggest features."
+            link="https://discord.gg/Xgz7EQ2Xgh"
+            linkTitle="Join the discord"
           />
         </Grid>
         <MDXProvider components={shortcodes}>
