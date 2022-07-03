@@ -4,9 +4,11 @@ This is a copy of the script used in the [demo](https://get-narrat.com/demo/).
 
 For a more up to date version, look at the latest demo script directly on GitHub.
 
-{% embed url="https://github.com/liana-pigeot/narrat-demo/blob/main/public/data/demo.rpy" %}
-Demo script on GitHub
-{% endembed %}
+{% embed url="https://github.com/liana-p/narrat-demo/blob/main/public/data/demo.rpy" %}
+
+There is also a (messier) test script used in the narrat repo when developping features. This script might not make a coherent game, but it is likely to be the most up to date syntax example as it's used when developping the engine to test various features:
+
+{% embed url="https://github.com/liana-p/narrat/blob/main/public/data/example.rpy" %}
 
 ```renpy
 main:
@@ -46,9 +48,9 @@ askAboutChoices:
       "Cat will remember this."
   choice:
     talk cat idle "Now I think we should do an activity based on choice making?"
-    "Yes, I like making choices!" $if this.data.likeChoices: // A choice can have a condition so it only appears in the list if the condition is met
+    "Yes, I like making choices!" if $data.likeChoices: // A choice can have a condition so it only appears in the list if the condition is met
       jump makeChoices
-    "No, I don't like making choices" $if !this.data.likeChoices:
+    "No, I don't like making choices" if (! $data.likeChoices):
       jump dontLikeChoices
     "I don't want to do anything!":
       jump doNothing
@@ -85,7 +87,7 @@ otherFeatures:
   talk helper idle "For example you just levelled up in agility. You can view your skill level in the skills menu"
   add_xp agility 3
   talk helper idle "It's also possible to gain xp"
-  $if this.roll("someSkillCheck", "agility", 40): // You can use skillchecks in conditions
+  if (roll someSkillCheck agility 40): // You can use skillchecks in conditions
     "This line only appears if you passed a hidden passive skill check"
   "Skill checks can also happen as a choice option:"
   jump skillCheckChoice
@@ -111,10 +113,10 @@ stats:
 stats_2:
   choice:
     "Can we spend some energy?"
-    "Spend 5 energy" $if this.stats.energy >= 5:
+    "Spend 5 energy" if (>= $stats.energy 5):
       add_stat energy -5
       talk player idle "Spent 5 energy!"
-    "I'm too tired!" $if this.stats.energy <= 0:
+    "I'm too tired!" if (<= $stats.energy 0):
       jump saveLoad
   jump stats_2
 
@@ -142,5 +144,5 @@ shopButton:
 parkButton:
   "You go on a walk to the little park"
   talk inner idle "That was a nice walk! Now I feel like going to the shop to buy water"
-  set_button shopButton trueren
+  set_button shopButton true
 ```
