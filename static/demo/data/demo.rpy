@@ -35,9 +35,9 @@ askAboutChoices:
       "Cat will remember this."
   choice:
     talk cat idle "Now I think we should do an activity based on choice making?"
-    "Yes, I like making choices!" $if this.data.likeChoices: // A choice can have a condition so it only appears in the list if the condition is met
+    "Yes, I like making choices!" if $data.likeChoices: // A choice can have a condition so it only appears in the list if the condition is met
       jump makeChoices
-    "No, I don't like making choices" $if !this.data.likeChoices:
+    "No, I don't like making choices" if (! $data.likeChoices):
       jump dontLikeChoices
     "I don't want to do anything!":
       jump doNothing
@@ -74,7 +74,7 @@ otherFeatures:
   talk helper idle "For example you just levelled up in agility. You can view your skill level in the skills menu"
   add_xp agility 3
   talk helper idle "It's also possible to gain xp"
-  $if this.roll("someSkillCheck", "agility", 40): // You can use skillchecks in conditions
+  if (roll someSkillCheck agility 40): // You can use skillchecks in conditions
     "This line only appears if you passed a hidden passive skill check"
   "Skill checks can also happen as a choice option:"
   jump skillCheckChoice
@@ -100,10 +100,10 @@ stats:
 stats_2:
   choice:
     "Can we spend some energy?"
-    "Spend 5 energy" $if this.stats.energy >= 5:
+    "Spend 5 energy" if (>= $stats.energy 5):
       add_stat energy -5
       talk player idle "Spent 5 energy!"
-    "I'm too tired!" $if this.stats.energy <= 0:
+    "I'm too tired!" if (<= $stats.energy 0):
       jump saveLoad
   jump stats_2
 
