@@ -2,12 +2,10 @@
 
 ## if function
 
-The `$if` command is the main method of doing conditions in narrat. It can be used to branch inside a script, or to make choice options conditionally available.
-
-Syntax:
+The `if` command is the main method of doing conditions in narrat. It can be used to branch inside a script, or to make choice options conditionally available.
 
 ```renpy
-$if [condition]:
+if [condition]:
   "This code is run on condition success"
 else:
   "This code is run on condition failure"
@@ -17,32 +15,47 @@ else:
 `else` is optional
 {% endhint %}
 
-If conditions have access to the following values (inside the `this` object):
+The condition should be a boolean. You can directly pass a value (`if $data.someValue` ), or an expression that returns a boolean (for example `if (> $data.player.age 18)`
 
-* `data`: The object containing the game variables created by functions like `set` and `add`
-* `skillchecks`: The object containing the state of skill checks that have been passed
-* `skills`: The skills state
-* `stats: HUD stats`
-* `roll:` The roll function (see [skills system page](../features/skills-system.md))
+### Examples
 
-Condition example: `$if this.skills.agility.level > 2`:
+Simple example:
 
-{% hint style="info" %}
-Note: The `$if` command is special and uses `eval` behind the scene to evaluate your condition as a piece of JavaScript that gets given access to specific variables. The code written in the `[condition]` part of the command is simply JavaScript.
-{% endhint %}
-
-## Example
-
-```
-set_example:
-    choice:
-        talk cat idle "Do you like surprises?"
-        "Yes":
-            set data.like_surprises true
-        "No!":
-            set data.like_surprises false
-    $if this.data.like_surprises:
-        talk cat idle "Since you like surprises, here's a surprise message"
+```renpy
+main:
+  talk player idle "Wow, I found the key!"
+  add_item key 1
+  jump tryDoor
+  
+tryDoor:
+  if (has_item? key):
+    "You open the door and get inside"
+  else:
+    "You need a key to open the door!"
 ```
 
-![Result of the above code](../.gitbook/assets/set\_function\_example.gif)
+Example:
+
+```renpy
+main:
+  choice:
+    talk alice idle "Do you prefer pizza or buger?"
+    "Pizza":
+      set data.player.prefers "pizza"
+    "Burger":
+      set data.player.prefers "burger"
+  
+ifExample:
+  if (== $data.player.prefers "pizza"):
+    talk alice idle "Let's have pizza then"
+    jump havePizza
+  else:
+    talk alice idle "Let's go for a burger"
+    jump haveBurger
+    
+havePizza:
+  //...
+  
+haveBurger:
+  //...
+```
