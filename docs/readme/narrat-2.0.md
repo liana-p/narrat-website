@@ -6,10 +6,6 @@ description: >-
 
 # Narrat 2.0
 
-{% hint style="info" %}
-Note: Narrat 2.0.0 is now the main branch and what's used by default in the template. The docs below explain details on what's been changed and how to migrate a 1.x game
-{% endhint %}
-
 ### How to migrate from 1.x to 2.x
 
 See the [2.0.0 merge PR](https://github.com/liana-p/narrat-template/pull/1/files) of the narrat template for an example of the changes needed.

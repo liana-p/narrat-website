@@ -19,33 +19,11 @@ In the `public/data` folder of the template or demo, there is an `example.rpy` f
 
 Narrat script files are `.rpy` files using a syntax similar to Renpy. We advise using [Visual Studio Code](https://code.visualstudio.com) with the r[en'py syntax highlighter extension](https://marketplace.visualstudio.com/items?itemName=LuqueDaniel.languague-renpy).
 
-#### Indentation
+See the page linked below for more details on how to write narrat scripts.
 
-Indentation matters in narrat script, as the nesting of branches is defined by their indentation level (like in Python or similar languages).
-
-{% hint style="info" %}
-It is important to use the same level of indentation throughout the game. It is possible to indent using any amount of spaces, or tabs, but it needs to be consistent
-{% endhint %}
-
-#### Labels
-
-Labels are how narrat scripts are split into individual chunks. The game flows by jumping from label to label. The game is also saved when a new label is jumped to.
-
-Script files are split into labels, which are the first level of indentation you see in the code (labels `main:` and `askForHelp:` , `askAboutChoices:` etc. in the example code). Those labels are standalone pieces of script which can be played at anytime by jumping to them.
-
-{% hint style="info" %}
-The [jump ](../functions-documentation/api-jump.md)command can jump to a label and is the primary method of controlling the flow of your game
-{% endhint %}
-
-#### Adding scripts to the game
-
-To add new scripts to your game, add their path to the list in the`config.json` file. You can add as many scripts as you want.
-
-Script files can reference labels in any other script file. Scripts can be split into as many or as little files as desired.
-
-{% hint style="info" %}
-At least one of the script files needs to have a `main:` label, which is where the game starts
-{% endhint %}
+{% content-ref url="language-syntax-and-expressions.md" %}
+[language-syntax-and-expressions.md](language-syntax-and-expressions.md)
+{% endcontent-ref %}
 
 ### Config files
 
