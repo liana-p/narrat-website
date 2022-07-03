@@ -38,6 +38,7 @@
 
 ## Guides
 
+* [Language syntax and expressions](guides/language-syntax-and-expressions.md)
 * [Using items](guides/using-items.md)
 * [Getting Started](guides/getting-started.md)
 * [Config files](guides/config-files.md)
