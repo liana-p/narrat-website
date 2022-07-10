@@ -100,10 +100,10 @@ stats:
 stats_2:
   choice:
     "Can we spend some energy?"
-    "Spend 5 energy" if (>= $stats.energy 5):
+    "Spend 5 energy" if (>= $stats.energy.value 5):
       add_stat energy -5
       talk player idle "Spent 5 energy!"
-    "I'm too tired!" if (<= $stats.energy 0):
+    "I'm too tired!" if (<= $stats.energy.value 0):
       jump saveLoad
   jump stats_2
 

@@ -7525,13 +7525,13 @@ var _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$e = defineComponent({
+const _sfc_main$g = defineComponent({
   props: {
     containerCssClass: String
   }
 });
-const _hoisted_1$d = { class: "modal-header" };
-const _hoisted_2$b = /* @__PURE__ */ createTextVNode(" default header ");
+const _hoisted_1$e = { class: "modal-header" };
+const _hoisted_2$c = /* @__PURE__ */ createTextVNode(" default header ");
 const _hoisted_3$7 = /* @__PURE__ */ createBaseVNode("hr", { class: "solid" }, null, -1);
 const _hoisted_4$6 = { class: "modal-body" };
 const _hoisted_5$6 = /* @__PURE__ */ createTextVNode(" default body ");
@@ -7547,13 +7547,13 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
           class: normalizeClass(["modal-container bg-gray-800 card-4", _ctx.containerCssClass]),
           onClick: _cache[1] || (_cache[1] = (e20) => e20.stopPropagation())
         }, [
-          createBaseVNode("div", _hoisted_1$d, [
+          createBaseVNode("div", _hoisted_1$e, [
             createBaseVNode("button", {
               class: "close-button",
               onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("close"))
             }, "X"),
             renderSlot(_ctx.$slots, "header", {}, () => [
-              _hoisted_2$b
+              _hoisted_2$c
             ]),
             _hoisted_3$7
           ]),
@@ -7571,7 +7571,7 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-var Modal = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d]]);
+var Modal = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$d]]);
 function isArray$1(value) {
   return !Array.isArray ? getTag(value) === "[object Array]" : Array.isArray(value);
 }
@@ -41209,6 +41209,16 @@ function getSkillConfig(id2) {
   }
   return skill;
 }
+function getImageUrl(imageKeyOrUrl) {
+  if (config$1.images[imageKeyOrUrl]) {
+    return config$1.images[imageKeyOrUrl];
+  } else {
+    return imageKeyOrUrl;
+  }
+}
+function getButtonConfig(button) {
+  return config$1.buttons[button];
+}
 function getItemConfig(id2) {
   const item = config$1.items[id2];
   if (!item) {
@@ -43940,23 +43950,6 @@ const useInventory = defineStore("inventory", {
     }
   }
 });
-const everyObject = (object, predicate) => {
-  for (const key in object) {
-    if (!predicate(object[key])) {
-      return false;
-    }
-  }
-  return true;
-};
-const filterObject = (object, predicate) => {
-  const result = {};
-  for (const key in object) {
-    if (predicate(object[key])) {
-      result[key] = object[key];
-    }
-  }
-  return result;
-};
 const useQuests = defineStore("quests", {
   state: () => ({
     quests: {}
@@ -44046,7 +44039,7 @@ const useQuests = defineStore("quests", {
       if (!quest) {
         return false;
       }
-      return everyObject(quest.objectives, (objective) => objective.state === "completed");
+      return quest.state === "completed";
     },
     isObjectiveCompleted(questId, objectiveId) {
       const objective = this.getObjective(questId, objectiveId);
@@ -44083,31 +44076,53 @@ const useQuests = defineStore("quests", {
 });
 const useScreens = defineStore("screens", {
   state: () => ({
-    currentScreen: "default",
+    layers: ["default"],
     buttons: {}
   }),
   actions: {
-    setScreen(screen) {
-      this.currentScreen = screen;
+    setScreen(screen, layer) {
+      this.layers[layer || 0] = screen;
     },
-    setButtons(buttons) {
-      for (const i2 in buttons) {
-        this.buttons[i2] = {
-          enabled: buttons[i2].enabled
+    emptyLayer(layer) {
+      delete this.layers[layer];
+    },
+    setButtons(config2) {
+      const { buttons: buttonsConfig, screens: screensConfig, images } = config2;
+      for (const key in buttonsConfig) {
+        this.buttons[key] = {
+          state: buttonsConfig[key].enabled
         };
+      }
+      for (const key in screensConfig) {
+        if (screensConfig[key].buttons) {
+          const screen = screensConfig[key];
+          if (screen.background && images[screen.background]) {
+            screen.background = images[screen.background];
+          }
+          for (const index in screen.buttons) {
+            const button = screen.buttons[index];
+            if (typeof button === "object") {
+              buttonsConfig[button.id] = button;
+              screen.buttons[index] = button.id;
+              this.buttons[button.id] = {
+                state: button.enabled
+              };
+            }
+          }
+        }
       }
     },
     changeButton(button, newValue) {
-      this.buttons[button].enabled = newValue;
+      this.buttons[button].state = newValue;
     },
     generateSaveData() {
       return {
-        currentScreen: this.currentScreen,
+        layers: this.layers,
         buttons: this.buttons
       };
     },
     loadSaveData(data) {
-      this.currentScreen = data.currentScreen;
+      this.layers = data.layers;
       this.buttons = cjs(this.buttons, data.buttons);
     }
   }
@@ -44194,41 +44209,41 @@ const loggerManager = new LogManager();
 loggerManager.setupDebugger(false);
 const logger = loggerManager.logger;
 function parseScript(errorHandler, code, fileName) {
-  const ctx2 = {
+  const ctx = {
     fileName,
     currentLine: 0,
-    error: (line, text) => errorHandler(ctx2, line, text),
+    error: (line, text) => errorHandler(ctx, line, text),
     processCommandsFunction: processCommands,
     indentSize: 0
   };
-  ctx2.indentSize = detectIndentation(ctx2, code);
-  const lines = findLines(ctx2, code);
-  ctx2.currentLine = 0;
+  ctx.indentSize = detectIndentation(ctx, code);
+  const lines = findLines(ctx, code);
+  ctx.currentLine = 0;
   logger.log(lines);
   const script = {};
   for (const line of lines) {
     if (line.code.search(":") === -1) {
-      ctx2.error(line.line, `First indentation level should only be used to specify labels`);
+      ctx.error(line.line, `First indentation level should only be used to specify labels`);
     }
     const labelString = line.code.replace(":", "");
     const labelWords = labelString.split(/ +/g);
     const labelName = labelWords[0];
     const labelArgs = labelWords.slice(1);
     if (!line.branch) {
-      ctx2.error(line.line, `This line should have a branch but doesn't`);
+      ctx.error(line.line, `This line should have a branch but doesn't`);
     }
     script[labelName] = {
-      branch: processCommands(ctx2, line.branch, void 0),
+      branch: processCommands(ctx, line.branch, void 0),
       args: labelArgs
     };
   }
   return script;
 }
-function processCommands(ctx2, lines, parentLine) {
-  const startLine = ctx2.currentLine;
+function processCommands(ctx, lines, parentLine) {
+  const startLine = ctx.currentLine;
   const branchContext = {
     processCommandsFunction: processCommands,
-    parserContext: ctx2,
+    parserContext: ctx,
     lines,
     currentLine: 0,
     line: lines[0]
@@ -44239,13 +44254,13 @@ function processCommands(ctx2, lines, parentLine) {
     if (parentLine) {
       lineNumber = parentLine.line;
     }
-    ctx2.error(lineNumber, `Processing of command failed because the current branch has no lines inside`);
+    ctx.error(lineNumber, `Processing of command failed because the current branch has no lines inside`);
     return [];
   }
   while (branchContext.currentLine < lines.length) {
     const line = lines[branchContext.currentLine];
     branchContext.line = line;
-    const parsed = parseExpression(ctx2, line, line.expression);
+    const parsed = parseExpression(ctx, line, line.expression);
     const commandPlugin = vm.commands[parsed.command.operator];
     let parseFunction = commandPlugin == null ? void 0 : commandPlugin.parser;
     if (!parseFunction) {
@@ -44254,25 +44269,25 @@ function processCommands(ctx2, lines, parentLine) {
     logger.log(vm.commands.text);
     const { newLine } = parseFunction(branchContext, parsed);
     branchContext.currentLine = newLine;
-    ctx2.currentLine = startLine + newLine;
+    ctx.currentLine = startLine + newLine;
     branch.push(parsed);
   }
   return branch;
 }
-function parseExpression(ctx2, line, expression) {
+function parseExpression(ctx, line, expression) {
   logger.log(expression);
   if (typeof expression[0] !== "string") {
-    ctx2.error(line.line, `Expression operator should be a string`);
+    ctx.error(line.line, `Expression operator should be a string`);
   }
   const parsed = {
     code: line.code,
-    fileName: ctx2.fileName,
+    fileName: ctx.fileName,
     line: line.line,
     command: {
       staticOptions: {},
       commandType: expression[0],
       operator: expression[0],
-      args: expression.slice(1).map((arg) => parseArgument(ctx2, line, arg)),
+      args: expression.slice(1).map((arg) => parseArgument(ctx, line, arg)),
       options: {}
     }
   };
@@ -44281,14 +44296,14 @@ function parseExpression(ctx2, line, expression) {
   if (!command) {
     const otherKeywords = ["else", "success", "failure"];
     if (!isParsedTokenString(firstElement) && !otherKeywords.includes(firstElement)) {
-      ctx2.error(line.line, `Unknown command ${firstElement}`);
+      ctx.error(line.line, `Unknown command ${firstElement}`);
     }
   }
   return parsed;
 }
-function parseArgument(ctx2, line, argument) {
+function parseArgument(ctx, line, argument) {
   if (Array.isArray(argument)) {
-    return parseExpression(ctx2, line, argument);
+    return parseExpression(ctx, line, argument);
   } else {
     return argument;
   }
@@ -44303,12 +44318,12 @@ function parseTokenToPrimitive(value) {
   }
   return value;
 }
-function parseCodeLine(ctx2, codeToProcess) {
+function parseCodeLine(ctx, codeToProcess) {
   if (codeToProcess.charAt(codeToProcess.length - 1) === ":") {
     codeToProcess = codeToProcess.substr(0, codeToProcess.length - 1);
   }
   const tokens = parseCodeLineIntoTokens(codeToProcess);
-  const [expression] = tokensToExpression(ctx2, tokens);
+  const [expression] = tokensToExpression(ctx, tokens);
   return expression;
 }
 function parseCodeLineIntoTokens(code) {
@@ -44341,7 +44356,7 @@ function splitIntoTokens(code) {
   result = result.reduce((total, curr) => [...total, ...curr.split(/(\(|\))/g)].filter((el2) => el2 && el2), []);
   return result.map((token) => parseTokenToPrimitive(token));
 }
-function tokensToExpression(ctx2, tokens) {
+function tokensToExpression(ctx, tokens) {
   logger.log("===============");
   let expression = [];
   let cursor = 0;
@@ -44354,7 +44369,7 @@ function tokensToExpression(ctx2, tokens) {
     const subExpressionString = tokens.slice(parenthesisIndex + 1);
     logger.log(`Found a sub expression. Before: ${expression} - After: ${subExpressionString}`);
     cursor = parenthesisIndex;
-    const [subExpression, subExpressionLength] = tokensToExpression(ctx2, subExpressionString);
+    const [subExpression, subExpressionLength] = tokensToExpression(ctx, subExpressionString);
     const subExpressionEndIndex = cursor + subExpressionLength;
     expression.push(subExpression);
     cursor = subExpressionEndIndex + 1;
@@ -44374,19 +44389,19 @@ function tokensToExpression(ctx2, tokens) {
   }
   const endIndex = findExpressionEnd(tokens.slice(cursor)) + cursor;
   if (endIndex === -1) {
-    ctx2.error(ctx2.currentLine, `Expression is not closed (missing ")" closing parenthesis)`);
+    ctx.error(ctx.currentLine, `Expression is not closed (missing ")" closing parenthesis)`);
     return [expression, endIndex];
   }
   const restOfString = tokens.slice(cursor, endIndex);
   logger.log(`End of expression: ${endIndex} - ${restOfString}`);
   logger.log("===================");
   expression = [...expression, ...restOfString];
-  validateExpression(ctx2, expression);
+  validateExpression(ctx, expression);
   return [expression, endIndex + 1];
 }
-function validateExpression(ctx2, expression) {
+function validateExpression(ctx, expression) {
   if (expression.length < 1) {
-    ctx2.error(ctx2.currentLine, `Expression is empty`);
+    ctx.error(ctx.currentLine, `Expression is empty`);
   }
 }
 function findExpressionStart(tokens) {
@@ -44395,7 +44410,7 @@ function findExpressionStart(tokens) {
 function findExpressionEnd(tokens) {
   return tokens.findIndex((token) => token === ")");
 }
-function findLines(ctx2, data) {
+function findLines(ctx, data) {
   const code = data.split(/\r?\n|$/).map((line) => {
     const commentIndex = line.search(/ *\/\//g);
     if (commentIndex !== -1) {
@@ -44403,10 +44418,10 @@ function findLines(ctx2, data) {
     }
     return line;
   });
-  const lines = findBranches(ctx2, code, 0, 0);
+  const lines = findBranches(ctx, code, 0, 0);
   return lines.lines;
 }
-function findBranches(ctx2, code, startLine, indentLevel) {
+function findBranches(ctx, code, startLine, indentLevel) {
   let stillInBranch = true;
   let currentLine = startLine;
   const lines = [];
@@ -44418,20 +44433,20 @@ function findBranches(ctx2, code, startLine, indentLevel) {
     if (lineText.search(/^\s*$/) !== -1) {
       currentLine++;
     } else {
-      const lineIndent = getIndentLevel(ctx2, lineText);
-      lineText = lineText.substring(lineIndent * ctx2.indentSize);
-      validateIndent(ctx2, lineIndent, currentLine);
+      const lineIndent = getIndentLevel(ctx, lineText);
+      lineText = lineText.substring(lineIndent * ctx.indentSize);
+      validateIndent(ctx, lineIndent, currentLine);
       if (lineIndent < indentLevel) {
         stillInBranch = false;
       } else if (lineIndent > indentLevel) {
         if (lines.length === 0 || lineIndent - indentLevel !== 1) {
-          ctx2.error(currentLine, `Wrong double indentation`);
+          ctx.error(currentLine, `Wrong double indentation`);
         }
-        const branchLines = findBranches(ctx2, code, currentLine, lineIndent);
+        const branchLines = findBranches(ctx, code, currentLine, lineIndent);
         lines[lines.length - 1].branch = branchLines.lines;
         currentLine = branchLines.endLine;
       } else {
-        const expression = parseCodeLine(ctx2, lineText);
+        const expression = parseCodeLine(ctx, lineText);
         const line = {
           code: lineText,
           indentation: lineIndent,
@@ -44440,7 +44455,7 @@ function findBranches(ctx2, code, startLine, indentLevel) {
         };
         lines.push(line);
         currentLine++;
-        ctx2.currentLine = currentLine;
+        ctx.currentLine = currentLine;
       }
     }
   }
@@ -44449,19 +44464,19 @@ function findBranches(ctx2, code, startLine, indentLevel) {
     endLine: currentLine
   };
 }
-function validateIndent(ctx2, indentLevel, currentIndex) {
+function validateIndent(ctx, indentLevel, currentIndex) {
   if (indentLevel % 1 !== 0) {
-    ctx2.error(currentIndex, `Indentation level of ${indentLevel} incorrect. Expected indentation of ${ctx2.indentSize} spaces for this file.`);
+    ctx.error(currentIndex, `Indentation level of ${indentLevel} incorrect. Expected indentation of ${ctx.indentSize} spaces for this file.`);
   }
 }
-function getIndentLevel(ctx2, line) {
-  return line.search(/[^ ]/) / ctx2.indentSize;
+function getIndentLevel(ctx, line) {
+  return line.search(/[^ ]/) / ctx.indentSize;
 }
-function detectIndentation(ctx2, script) {
+function detectIndentation(ctx, script) {
   const regex = /\n( *)/;
   const result = script.match(regex);
   if (!result || result.length < 2) {
-    ctx2.error(0, `Can't detect indentation level. Make sure you indent with at least 2 spaces and consistently`);
+    ctx.error(0, `Can't detect indentation level. Make sure you indent with at least 2 spaces and consistently`);
     return 0;
   }
   logger.log(result);
@@ -44474,7 +44489,8 @@ const useVM = defineStore("vm", {
     lastLabel: "main",
     script: {},
     labelStack: ["main"],
-    currentScope: {}
+    currentScope: {},
+    commandsWaitingForPlayerAnswer: []
   }),
   actions: {
     generateSaveData() {
@@ -44491,7 +44507,14 @@ const useVM = defineStore("vm", {
       this.currentScope = {};
     },
     setReturnValue(value) {
-      this.currentStack.returnValue = value;
+      this.currentFrame.returnValue = value;
+    },
+    waitForPlayerAnswer(cmd) {
+      this.commandsWaitingForPlayerAnswer.push(cmd);
+    },
+    popAnswerQueue() {
+      const cmd = this.commandsWaitingForPlayerAnswer.pop();
+      return cmd;
     },
     removeFromScope(vars) {
       for (const varName of vars) {
@@ -44500,8 +44523,8 @@ const useVM = defineStore("vm", {
     },
     addScopedVariable(key, value) {
       this.currentScope[key] = value;
-      if (this.currentStack) {
-        this.currentStack.scope[key] = value;
+      if (this.currentFrame) {
+        this.currentFrame.scope[key] = value;
       }
     },
     extendScope(scope) {
@@ -44519,7 +44542,7 @@ const useVM = defineStore("vm", {
         const file = files[index];
         scripts = {
           ...scripts,
-          ...parseScript((ctx2, line, error2) => parserError(ctx2, line, error2), file, scriptPaths[index])
+          ...parseScript((ctx, line, error2) => parserError(ctx, line, error2), file, scriptPaths[index])
         };
       }
       const end = Date.now();
@@ -44596,35 +44619,80 @@ const useVM = defineStore("vm", {
       const dataToModify = getModifiableDataPinia();
       addDataHelper(dataToModify, path, value);
     },
-    addStack(newStackOptions) {
+    addFrame(newStackOptions) {
       if (!newStackOptions.label) {
-        newStackOptions.label = this.currentStack.label;
+        if (this.currentFrame) {
+          newStackOptions.label = this.currentFrame.label;
+        } else {
+          throw new Error(`Tried to add a new frame but no label was passed and there is no current frame label`);
+        }
       }
       const newStack = this.stackOptionsToStack(newStackOptions);
       this.stack.push(newStack);
-      return this.runLine();
+    },
+    async addAndRunFrame(newStackOptions) {
+      await this.addFrame(newStackOptions);
+      await this.runFrame();
+    },
+    async runFrame() {
+      const frame = this.currentFrame;
+      if (!frame) {
+        throw new Error(`Tried to run a frame but there is no current frame`);
+      }
+      frame.currentIndex = 0;
+      while (this.currentLine) {
+        await this.runLineOnly();
+        frame.currentIndex++;
+      }
+      const previousScope = frame.scope;
+      this.removeFromScope(Object.keys(previousScope));
+      const { returnValue, onComplete } = frame;
+      this.stack.splice(this.stack.length - 1, 1);
+      if (onComplete) {
+        onComplete(returnValue);
+      }
+    },
+    async runGame() {
+      await this.runFrame();
+      if (this.stack.length === 0) {
+        this.reachedEndOfScript();
+      }
+    },
+    async nextLineOnly() {
+      if (this.stack.length === 0) {
+        return false;
+      }
+      if (this.currentFrame && this.currentFrame.currentIndex < this.currentFrame.branchData.branch.length - 1) {
+        this.currentFrame.currentIndex++;
+        return true;
+      } else {
+        return false;
+      }
     },
     async nextLine() {
       if (this.stack.length === 0) {
-        this.finishGame();
+        this.reachedEndOfScript();
         return;
       }
-      if (this.currentStack.currentIndex < this.currentStack.branchData.branch.length - 1) {
-        this.currentStack.currentIndex++;
+      if (this.currentFrame && this.currentFrame.currentIndex < this.currentFrame.branchData.branch.length - 1) {
+        this.currentFrame.currentIndex++;
       } else {
-        return this.previousStack();
+        return this.previousFrame();
       }
       if (this.stack.length === 0) {
-        this.finishGame();
+        this.reachedEndOfScript();
       } else {
         return this.runLine();
       }
-      this.currentStack.currentIndex++;
+      this.currentFrame.currentIndex++;
     },
-    async previousStack() {
-      const previousScope = this.currentStack.scope;
+    async previousFrame() {
+      if (!this.currentFrame) {
+        throw new Error(`Tried to go back to previous frame but there is no current frame`);
+      }
+      const previousScope = this.currentFrame.scope;
       this.removeFromScope(Object.keys(previousScope));
-      const { returnValue, onComplete } = this.currentStack;
+      const { returnValue, onComplete } = this.currentFrame;
       this.stack.splice(this.stack.length - 1, 1);
       if (onComplete) {
         onComplete(returnValue);
@@ -44632,7 +44700,7 @@ const useVM = defineStore("vm", {
         return this.nextLine();
       }
     },
-    finishGame() {
+    reachedEndOfScript() {
       useInventory().onScriptEnd();
       const mainStore = useMain();
       if (mainStore.options.debug) {
@@ -44643,7 +44711,7 @@ const useVM = defineStore("vm", {
         });
       }
     },
-    async runLine() {
+    async runLineOnly() {
       const expression = this.currentLine;
       if (!expression) {
         error(`There is no line of script to run.`);
@@ -44651,6 +44719,10 @@ const useVM = defineStore("vm", {
       }
       useInventory().onScriptStart();
       await runCommand(expression);
+    },
+    async runLine() {
+      await this.runLineOnly();
+      this.nextLine();
     },
     runLabelFunction(label, ...args) {
       return new Promise((resolve, reject) => {
@@ -44667,11 +44739,11 @@ const useVM = defineStore("vm", {
             resolve(returnValue);
           }
         };
-        this.addStack(stack);
+        this.addAndRunFrame(stack);
       });
     },
-    runCustomStack(stack) {
-      this.addStack(stack);
+    runCustomFrame(stack) {
+      this.addAndRunFrame(stack);
     },
     runLabel(label, ...args) {
       const branchData = this.script[label];
@@ -44685,18 +44757,23 @@ const useVM = defineStore("vm", {
         args,
         label
       });
-      this.runLine();
+      this.runGame();
     }
   },
   getters: {
-    currentStack(state) {
+    currentFrame(state) {
       const result = state.stack[state.stack.length - 1];
       return result;
     },
     currentLine() {
-      const currentStack = this.currentStack;
-      if (this.currentStack) {
-        return currentStack.branchData.branch[currentStack.currentIndex];
+      const currentFrame = this.currentFrame;
+      if (this.currentFrame && currentFrame.branchData.branch.length > currentFrame.currentIndex) {
+        return currentFrame.branchData.branch[currentFrame.currentIndex];
+      }
+    },
+    commandWaitingForAnswer() {
+      if (this.commandsWaitingForPlayerAnswer.length > 0) {
+        return this.commandsWaitingForPlayerAnswer[0];
       }
     }
   }
@@ -44920,7 +44997,7 @@ async function runCommand(expression, choices) {
     error(`Narrat script runtime error at  <span class="error-filename">${expression.fileName}:${expression.line + 1}</span>
       <b>${err}</b>
       Script: ${expression.code}
-      Label: ${vmStore.currentStack.label}`);
+      Label: ${vmStore.currentFrame.label}`);
   }
 }
 async function generateCommand(expr, choices) {
@@ -44978,7 +45055,7 @@ async function runExpression(expr, choices) {
   const command = await generateCommand(expr, choices);
   const commandPlugin = vm.commands[command.commandType];
   if (commandPlugin) {
-    const result = await commandPlugin.runner(command, choices);
+    const result = await commandPlugin.run(command, choices);
     return result;
   } else {
     throw new Error(`${command.commandType} is not a valid command`);
@@ -44987,17 +45064,15 @@ async function runExpression(expr, choices) {
 async function playerAnswered(choice) {
   audioEvent("onPlayerAnswered");
   const vmStore = useVM();
-  const command = vmStore.lastChoiceCommand;
-  vmStore.lastChoiceCommand = void 0;
+  const command = vmStore.popAnswerQueue();
   const currentLine = vmStore.currentLine;
   try {
     if (command) {
       const commandPlugin = vm.commands[command.commandType];
-      if (commandPlugin && commandPlugin.onPlayerAnswered) {
-        return await commandPlugin.onPlayerAnswered(command, choice);
+      if (commandPlugin) {
+        return await commandPlugin.processPlayerAnswer(command, choice);
       }
     }
-    return await vmStore.nextLine();
   } catch (err) {
     console.error(err);
     error(`Error after player answer at ${currentLine.fileName}:${currentLine.line + 1} (${currentLine.code}<br /> - Error: ${err}`);
@@ -45053,7 +45128,7 @@ const useMain = defineStore("main", {
       }
       await useVM().loadScripts(scriptPaths);
       const screens = useScreens();
-      screens.setButtons(config2.buttons);
+      screens.setButtons(config2);
       const skillsStore = useSkills();
       skillsStore.setupSkills(config2.skills);
       const hudStore = useHud();
@@ -45075,7 +45150,7 @@ const useMain = defineStore("main", {
     },
     async startGame() {
       this.startMachine();
-      await useVM().runLine();
+      await useVM().runGame();
       await this.saveGame();
     },
     async loadGame(saveFile) {
@@ -45220,11 +45295,16 @@ const useMain = defineStore("main", {
         Object.assign(states[key], stateOverride);
       }
     }
+  },
+  getters: {
+    isInGame(state) {
+      return state.flowState === "playing";
+    }
   }
 });
-function parserError(ctx2, line, text) {
-  console.error(`Parser error: ${ctx2.fileName}:${ctx2.currentLine}`, text);
-  const errorText = `[Parser Error] in <span class="error-filename">${ctx2.fileName}:${line + 1}</span> - <b>${text}</b>`;
+function parserError(ctx, line, text) {
+  console.error(`Parser error: ${ctx.fileName}:${ctx.currentLine}`, text);
+  const errorText = `[Parser Error] in <span class="error-filename">${ctx.fileName}:${line + 1}</span> - <b>${text}</b>`;
   error(errorText);
 }
 function error(text) {
@@ -45314,7 +45394,7 @@ const useSkills = defineStore("skills", {
   }
 });
 let fuse;
-const _sfc_main$d = defineComponent({
+const _sfc_main$f = defineComponent({
   components: {
     Modal
   },
@@ -45543,8 +45623,8 @@ const _sfc_main$d = defineComponent({
     }
   }
 });
-const _hoisted_1$c = { class: "debug-menu" };
-const _hoisted_2$a = {
+const _hoisted_1$d = { class: "debug-menu" };
+const _hoisted_2$b = {
   key: 0,
   class: "debug-info"
 };
@@ -45568,7 +45648,7 @@ const _hoisted_5$5 = [
   _hoisted_4$5
 ];
 const _hoisted_6$5 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Jump to label", -1);
-const _hoisted_7$5 = {
+const _hoisted_7$4 = {
   key: 0,
   class: "search-results"
 };
@@ -45606,12 +45686,12 @@ const _hoisted_26 = /* @__PURE__ */ createBaseVNode("h3", { style: { "color": "p
 const _hoisted_27 = { ref: "stateViewer" };
 function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_modal = resolveComponent("modal");
-  return openBlock(), createElementBlock("div", _hoisted_1$c, [
+  return openBlock(), createElementBlock("div", _hoisted_1$d, [
     createBaseVNode("button", {
       onClick: _cache[0] || (_cache[0] = (...args) => _ctx.open && _ctx.open(...args)),
       class: "button debug-button"
     }, "Debug Menu"),
-    !_ctx.playing && _ctx.flowState === "menu" ? (openBlock(), createElementBlock("div", _hoisted_2$a, _hoisted_5$5)) : createCommentVNode("", true),
+    !_ctx.playing && _ctx.flowState === "menu" ? (openBlock(), createElementBlock("div", _hoisted_2$b, _hoisted_5$5)) : createCommentVNode("", true),
     _ctx.jumping ? (openBlock(), createBlock(_component_modal, {
       key: 1,
       onClose: _ctx.finishJumping,
@@ -45630,7 +45710,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 544), [
           [vModelText, _ctx.searchString]
         ]),
-        _ctx.matches.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_7$5, [
+        _ctx.matches.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_7$4, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.matches, (match, index) => {
             return openBlock(), createElementBlock("div", {
               class: "search-result",
@@ -45724,8 +45804,8 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["onClose"])) : createCommentVNode("", true)
   ]);
 }
-var DebugMenu = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c]]);
-const _sfc_main$c = defineComponent({
+var DebugMenu = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$c]]);
+const _sfc_main$e = defineComponent({
   data() {
     return {
       muted: false
@@ -45751,14 +45831,14 @@ const _sfc_main$c = defineComponent({
     }
   }
 });
-const _hoisted_1$b = { class: "volume-controls" };
-const _hoisted_2$9 = /* @__PURE__ */ createBaseVNode("label", {
+const _hoisted_1$c = { class: "volume-controls" };
+const _hoisted_2$a = /* @__PURE__ */ createBaseVNode("label", {
   for: "volume",
   class: "volume-label"
 }, "Volume", -1);
 function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$b, [
-    _hoisted_2$9,
+  return openBlock(), createElementBlock("div", _hoisted_1$c, [
+    _hoisted_2$a,
     createBaseVNode("input", {
       ref: "slider",
       class: "volume-slider",
@@ -45773,8 +45853,8 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 544)
   ]);
 }
-var VolumeControls = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b]]);
-const _sfc_main$b = defineComponent({
+var VolumeControls = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$b]]);
+const _sfc_main$d = defineComponent({
   components: {
     VolumeControls
   },
@@ -45802,8 +45882,8 @@ const _sfc_main$b = defineComponent({
     }
   }
 });
-const _hoisted_1$a = ["src"];
-const _hoisted_2$8 = { class: "bold hud-text" };
+const _hoisted_1$b = ["src"];
+const _hoisted_2$9 = { class: "bold hud-text" };
 const _hoisted_3$5 = /* @__PURE__ */ createTextVNode(": ");
 function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
@@ -45818,16 +45898,16 @@ function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
         createBaseVNode("img", {
           class: "hud-icon",
           src: _ctx.statsConfig[key].icon
-        }, null, 8, _hoisted_1$a),
-        createBaseVNode("span", _hoisted_2$8, toDisplayString(_ctx.statsConfig[key].name), 1),
+        }, null, 8, _hoisted_1$b),
+        createBaseVNode("span", _hoisted_2$9, toDisplayString(_ctx.statsConfig[key].name), 1),
         _hoisted_3$5,
         createBaseVNode("span", null, toDisplayString(Math.floor(stat.value * 100) / 100), 1)
       ]);
     }), 128))
   ], 4);
 }
-var Hud = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a]]);
-const _sfc_main$a = defineComponent({
+var Hud = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$a]]);
+const _sfc_main$c = defineComponent({
   props: {
     percentage: Number,
     step: String
@@ -45843,21 +45923,21 @@ const _sfc_main$a = defineComponent({
   },
   computed: {}
 });
-const _hoisted_1$9 = { id: "loading-bar" };
-const _hoisted_2$7 = { id: "loading-text" };
+const _hoisted_1$a = { id: "loading-bar" };
+const _hoisted_2$8 = { id: "loading-text" };
 function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$9, [
+  return openBlock(), createElementBlock("div", _hoisted_1$a, [
     createBaseVNode("div", {
       id: "inner-loading-bar",
       style: normalizeStyle(_ctx.loadingStyle())
     }, null, 4),
-    createBaseVNode("div", _hoisted_2$7, [
+    createBaseVNode("div", _hoisted_2$8, [
       createBaseVNode("h3", null, "Loading " + toDisplayString(Math.floor(_ctx.percentage * 100)) + "% - " + toDisplayString(_ctx.step), 1)
     ])
   ]);
 }
-var LoadingBar = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9]]);
-const _sfc_main$9 = defineComponent({
+var LoadingBar = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$9]]);
+const _sfc_main$b = defineComponent({
   data() {
   },
   methods: {},
@@ -45884,7 +45964,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-var NotificationToast = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8]]);
+var NotificationToast = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$8]]);
 let config$2;
 function setCharactersConfig(data) {
   config$2 = data;
@@ -45913,22 +45993,6 @@ function aspectRatioFit(screenWidth, screenHeight, gameWidth, gameHeight) {
   const bestRatio = Math.min(widthRatio, heightRatio);
   return bestRatio;
 }
-function screenToCanvas(x2, y2, element) {
-  const rect = element.getBoundingClientRect();
-  const ratio = element.width / rect.width;
-  const canvasX = x2 - rect.x;
-  const canvasY = y2 - rect.y;
-  const scaledX = canvasX * ratio;
-  const scaledY = canvasY * ratio;
-  return {
-    x: scaledX,
-    y: scaledY
-  };
-}
-function aabb(ax2, ay2, aw2, ah2, bx2, by2, bw2, bh2) {
-  return !(ax2 + aw2 < bx2 || ay2 + ah2 < by2 || ax2 > bx2 + bw2 || ay2 > by2 + bh2);
-}
-const images = {};
 let imagesToLoad = 0;
 let imagesLoaded = 0;
 function loadImages(config2) {
@@ -45946,7 +46010,6 @@ function loadImage(key, path, resolver, rejecter) {
   const image = new Image();
   image.onload = () => {
     imagesLoaded += 1;
-    images[key] = image;
     logger$1.log(`Loaded image ${key} successfully`);
     if (imagesLoaded >= imagesToLoad) {
       logger$1.log(`All images loaded`);
@@ -46011,7 +46074,7 @@ function debounce(func, waitMilliseconds = 50, options = {}) {
   };
   return debouncedFunction;
 }
-const _sfc_main$8 = defineComponent({
+const _sfc_main$a = defineComponent({
   components: {
     Modal,
     VolumeControls
@@ -46041,8 +46104,8 @@ const _sfc_main$8 = defineComponent({
     ...mapState(useMain, ["playTime"])
   }
 });
-const _hoisted_1$8 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Menu", -1);
-const _hoisted_2$6 = { class: "menu-content" };
+const _hoisted_1$9 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Menu", -1);
+const _hoisted_2$7 = { class: "menu-content" };
 function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_VolumeControls = resolveComponent("VolumeControls");
   const _component_modal = resolveComponent("modal");
@@ -46052,10 +46115,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     containerCssClass: "menu-modal"
   }, {
     header: withCtx(() => [
-      _hoisted_1$8
+      _hoisted_1$9
     ]),
     body: withCtx(() => [
-      createBaseVNode("div", _hoisted_2$6, [
+      createBaseVNode("div", _hoisted_2$7, [
         createBaseVNode("h3", null, "Play time: " + toDisplayString(_ctx.getPlayTimeString()), 1),
         createVNode(_component_VolumeControls),
         createBaseVNode("button", {
@@ -46071,8 +46134,8 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-var MainMenu = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7]]);
-const _sfc_main$7 = defineComponent({
+var MainMenu = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$7]]);
+const _sfc_main$9 = defineComponent({
   setup() {
     const store = useSkills();
     const skills = computed$1(() => store.skills);
@@ -46129,8 +46192,8 @@ const _sfc_main$7 = defineComponent({
     }
   }
 });
-const _hoisted_1$7 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Skills", -1);
-const _hoisted_2$5 = {
+const _hoisted_1$8 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Skills", -1);
+const _hoisted_2$6 = {
   key: 0,
   class: "skills-container"
 };
@@ -46138,7 +46201,7 @@ const _hoisted_3$4 = ["onClick"];
 const _hoisted_4$4 = { class: "skill-title" };
 const _hoisted_5$4 = { class: "skill-xp-container" };
 const _hoisted_6$4 = { class: "skill-xp-text" };
-const _hoisted_7$4 = { class: "skill-level" };
+const _hoisted_7$3 = { class: "skill-level" };
 const _hoisted_8$3 = { key: 1 };
 const _hoisted_9$1 = { class: "flex flex-row skill-description-container" };
 const _hoisted_10$1 = { class: "flex skill-left" };
@@ -46152,10 +46215,10 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     containerCssClass: "skills-modal"
   }, {
     header: withCtx(() => [
-      _hoisted_1$7
+      _hoisted_1$8
     ]),
     body: withCtx(() => [
-      !_ctx.chosenSkill ? (openBlock(), createElementBlock("div", _hoisted_2$5, [
+      !_ctx.chosenSkill ? (openBlock(), createElementBlock("div", _hoisted_2$6, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.skillsToDisplay, (skill) => {
           return openBlock(), createElementBlock("button", {
             onClick: () => _ctx.clickSkill(skill.id),
@@ -46171,7 +46234,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 4),
               createBaseVNode("h3", _hoisted_6$4, toDisplayString(skill.xp) + " / " + toDisplayString(_ctx.xpPerLevel) + " XP", 1)
             ]),
-            createBaseVNode("h3", _hoisted_7$4, toDisplayString(skill.level), 1)
+            createBaseVNode("h3", _hoisted_7$3, toDisplayString(skill.level), 1)
           ], 12, _hoisted_3$4);
         }), 128))
       ])) : typeof _ctx.chosenSkill === "string" ? (openBlock(), createElementBlock("div", _hoisted_8$3, [
@@ -46198,8 +46261,8 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-var Skills = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6]]);
-const _sfc_main$6 = defineComponent({
+var Skills = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$6]]);
+const _sfc_main$8 = defineComponent({
   setup() {
     const store = useInventory();
     const dialogStore = useDialogStore();
@@ -46289,8 +46352,8 @@ const _sfc_main$6 = defineComponent({
     }
   }
 });
-const _hoisted_1$6 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Inventory", -1);
-const _hoisted_2$4 = {
+const _hoisted_1$7 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Inventory", -1);
+const _hoisted_2$5 = {
   key: 0,
   class: "inventory-container"
 };
@@ -46298,7 +46361,7 @@ const _hoisted_3$3 = ["onClick"];
 const _hoisted_4$3 = { class: "item-title" };
 const _hoisted_5$3 = { class: "item-amount" };
 const _hoisted_6$3 = { key: 1 };
-const _hoisted_7$3 = { class: "flex flex-row item-description-container" };
+const _hoisted_7$2 = { class: "flex flex-row item-description-container" };
 const _hoisted_8$2 = { class: "flex item-left" };
 const _hoisted_9 = { class: "flex item-right" };
 const _hoisted_10 = /* @__PURE__ */ createBaseVNode("hr", { class: "hr-solid" }, null, -1);
@@ -46315,10 +46378,10 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     containerCssClass: "inventory-modal"
   }, {
     header: withCtx(() => [
-      _hoisted_1$6
+      _hoisted_1$7
     ]),
     body: withCtx(() => [
-      !_ctx.chosenItem && Object.keys(_ctx.itemsToDisplay).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$4, [
+      !_ctx.chosenItem && Object.keys(_ctx.itemsToDisplay).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$5, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.itemsToDisplay, (item) => {
           return openBlock(), createElementBlock("button", {
             onClick: () => _ctx.clickItem(item.id),
@@ -46331,7 +46394,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
           ], 12, _hoisted_3$3);
         }), 128))
       ])) : typeof _ctx.chosenId === "string" ? (openBlock(), createElementBlock("div", _hoisted_6$3, [
-        createBaseVNode("div", _hoisted_7$3, [
+        createBaseVNode("div", _hoisted_7$2, [
           createBaseVNode("div", _hoisted_8$2, [
             createBaseVNode("div", {
               class: "item-display",
@@ -46358,8 +46421,8 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["onClose"]);
 }
-var InventoryUi = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5]]);
-const _sfc_main$5 = defineComponent({
+var InventoryUi = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$5]]);
+const _sfc_main$7 = defineComponent({
   props: {
     pictureUrl: String
   },
@@ -46385,7 +46448,7 @@ const _sfc_main$5 = defineComponent({
     }
   }
 });
-const _hoisted_1$5 = ["src"];
+const _hoisted_1$6 = ["src"];
 function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: "dialog-picture override",
@@ -46394,11 +46457,11 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     createBaseVNode("img", {
       src: _ctx.pictureUrl,
       class: "picture override"
-    }, null, 8, _hoisted_1$5)
+    }, null, 8, _hoisted_1$6)
   ], 4);
 }
-var DialogPicture = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4]]);
-const _sfc_main$4 = defineComponent({
+var DialogPicture = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$4]]);
+const _sfc_main$6 = defineComponent({
   data() {
     return {
       playerText: "",
@@ -46540,8 +46603,8 @@ const _sfc_main$4 = defineComponent({
     }
   }
 });
-const _hoisted_1$4 = { class: "dialog-content" };
-const _hoisted_2$3 = ["innerHTML"];
+const _hoisted_1$5 = { class: "dialog-content" };
+const _hoisted_2$4 = ["innerHTML"];
 const _hoisted_3$2 = ["innerHTML"];
 const _hoisted_4$2 = ["innerHTML"];
 const _hoisted_5$2 = {
@@ -46549,7 +46612,7 @@ const _hoisted_5$2 = {
   class: "dialog-choices"
 };
 const _hoisted_6$2 = ["onClick", "innerHTML"];
-const _hoisted_7$2 = { key: 2 };
+const _hoisted_7$1 = { key: 2 };
 const _hoisted_8$1 = {
   key: 3,
   class: "buttons-container"
@@ -46559,13 +46622,13 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     class: "dialog-box w-full override",
     style: normalizeStyle(_ctx.dialogBoxStyle)
   }, [
-    createBaseVNode("div", _hoisted_1$4, [
+    createBaseVNode("div", _hoisted_1$5, [
       _ctx.options.title ? (openBlock(), createElementBlock("span", {
         key: 0,
         class: "dialog-title override",
         style: normalizeStyle(_ctx.titleStyle),
         innerHTML: _ctx.options.title
-      }, null, 12, _hoisted_2$3)) : createCommentVNode("", true),
+      }, null, 12, _hoisted_2$4)) : createCommentVNode("", true),
       createBaseVNode("span", {
         class: "dialog-text dialog-separator override",
         style: normalizeStyle(_ctx.textStyle),
@@ -46586,7 +46649,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
             innerHTML: `${index + 1}. \u2013\xA0 ${choice.choice}`
           }, null, 14, _hoisted_6$2);
         }), 128))
-      ])) : _ctx.canInteract && _ctx.options.textField ? (openBlock(), createElementBlock("div", _hoisted_7$2, [
+      ])) : _ctx.canInteract && _ctx.options.textField ? (openBlock(), createElementBlock("div", _hoisted_7$1, [
         withDirectives(createBaseVNode("input", {
           type: "text",
           class: "label-input input",
@@ -46610,9 +46673,9 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 4);
 }
-var DialogBox = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3]]);
-const _hoisted_1$3 = /* @__PURE__ */ createBaseVNode("div", { class: "anchor" }, null, -1);
-const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+var DialogBox = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$3]]);
+const _hoisted_1$4 = /* @__PURE__ */ createBaseVNode("div", { class: "anchor" }, null, -1);
+const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   __name: "game-dialog",
   props: {
     layoutMode: String,
@@ -46624,6 +46687,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     const stack = computed$1(() => vmStore.stack);
     const dialogStore = useDialogStore();
     const dialog = computed$1(() => dialogStore.dialog);
+    const dialogRef = ref(null);
     const dialogContainerStyle = computed$1(() => {
       if (props.layoutMode === "vertical") {
         return {};
@@ -46689,6 +46753,12 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       const result = i2 === dialogStore.dialog.length - 1 && stack.value.length > 0;
       return result;
     }
+    watch(dialog.value, (newValue) => {
+      if (dialogRef.value) {
+        const dialog2 = dialogRef.value;
+        dialog2.scrollTop = dialog2.scrollHeight + 1e8;
+      }
+    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock(Fragment, null, [
         createVNode(Transition, { name: "fade" }, {
@@ -46703,8 +46773,8 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
         __props.inGame ? (openBlock(), createElementBlock("div", {
           key: 0,
           class: "dialog override",
-          ref_key: "dialog",
-          ref: dialog,
+          ref_key: "dialogRef",
+          ref: dialogRef,
           style: normalizeStyle(unref(dialogStyle))
         }, [
           createVNode(TransitionGroup, {
@@ -46724,13 +46794,22 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
             ]),
             _: 1
           }, 8, ["style"]),
-          _hoisted_1$3
+          _hoisted_1$4
         ], 4)) : createCommentVNode("", true)
       ], 64);
     };
   }
 });
-const _sfc_main$2 = defineComponent({
+const filterObject = (object, predicate) => {
+  const result = {};
+  for (const key in object) {
+    if (predicate(object[key])) {
+      result[key] = object[key];
+    }
+  }
+  return result;
+};
+const _sfc_main$4 = defineComponent({
   setup() {
     const questsStore = useQuests();
     const quests = computed$1(() => questsStore.quests);
@@ -46779,8 +46858,8 @@ const _sfc_main$2 = defineComponent({
     Modal
   }
 });
-const _hoisted_1$2 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Quests", -1);
-const _hoisted_2$2 = {
+const _hoisted_1$3 = /* @__PURE__ */ createBaseVNode("h3", { class: "title" }, "Quests", -1);
+const _hoisted_2$3 = {
   key: 0,
   class: "quests-container"
 };
@@ -46794,9 +46873,9 @@ const _hoisted_6$1 = {
   key: 1,
   class: "menu-container"
 };
-const _hoisted_7$1 = /* @__PURE__ */ createBaseVNode("h2", { class: "title" }, "There are no quests!", -1);
+const _hoisted_7 = /* @__PURE__ */ createBaseVNode("h2", { class: "title" }, "There are no quests!", -1);
 const _hoisted_8 = [
-  _hoisted_7$1
+  _hoisted_7
 ];
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_modal = resolveComponent("modal");
@@ -46806,10 +46885,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     containerCssClass: "quests-modal"
   }, {
     header: withCtx(() => [
-      _hoisted_1$2
+      _hoisted_1$3
     ]),
     body: withCtx(() => [
-      Object.keys(_ctx.questsToDisplay).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$2, [
+      Object.keys(_ctx.questsToDisplay).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$3, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.questsToDisplay, (quest) => {
           return openBlock(), createElementBlock("div", {
             class: "quest-display",
@@ -46846,8 +46925,8 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["onClose"]);
 }
-var QuestsUi = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
-const _sfc_main$1 = defineComponent({
+var QuestsUi = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$2]]);
+const _sfc_main$3 = defineComponent({
   data() {
     return {
       buttons: [
@@ -46953,21 +47032,172 @@ const _sfc_main$1 = defineComponent({
     }
   }
 });
-const _hoisted_1$1 = { class: "menu-container" };
-const _hoisted_2$1 = ["onClick", "id"];
+const _hoisted_1$2 = { class: "menu-container" };
+const _hoisted_2$2 = ["onClick", "id"];
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$1, [
+  return openBlock(), createElementBlock("div", _hoisted_1$2, [
     (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.buttonsToShow, (buttonConf) => {
       return openBlock(), createElementBlock("button", {
         key: buttonConf.id,
         onClick: ($event) => _ctx.buttonClick(buttonConf),
         id: buttonConf.cssId,
         class: "button menu-toggle-button"
-      }, toDisplayString(buttonConf.text), 9, _hoisted_2$1);
+      }, toDisplayString(buttonConf.text), 9, _hoisted_2$2);
     }), 128))
   ]);
 }
-var MenuButtons = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+var MenuButtons = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$1]]);
+const _hoisted_1$1 = ["id"];
+const _hoisted_2$1 = ["id", "onClick"];
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "screen-layer",
+  props: {
+    layer: String
+  },
+  setup(__props) {
+    const props = __props;
+    const vmStore = useVM();
+    const main2 = useMain();
+    const screensStore = useScreens();
+    const currentScreen = computed$1(() => {
+      return props.layer;
+    });
+    const buttonsState = computed$1(() => {
+      return screensStore.buttons;
+    });
+    const screenConfig = computed$1(() => {
+      const conf = getConfig().screens[currentScreen.value];
+      if (!conf) {
+        throw new Error(`Screen ${currentScreen.value} doesn't have a config`);
+      }
+      return conf;
+    });
+    const screenButtons = computed$1(() => {
+      return screenConfig.value.buttons || [];
+    });
+    const inGame = computed$1(() => {
+      return main2.isInGame;
+    });
+    function getButtonImageUrl(button) {
+      const config2 = getButtonConfig(button);
+      const background = config2.background;
+      if (!background) {
+        return void 0;
+      }
+      return getImageUrl(background);
+    }
+    function getButtonStyle(button) {
+      const config2 = getButtonConfig(button);
+      const style = {};
+      if (config2.position.width) {
+        style.width = `${config2.position.width}px`;
+      }
+      if (config2.position.height) {
+        style.height = `${config2.position.height}px`;
+      }
+      if (config2.background) {
+        style.backgroundImage = `url(${getButtonImageUrl(button)})`;
+      }
+      if (buttonsState.value[button].state === false) {
+        style.opacity = 0.3;
+        style.pointerEvents = "none";
+      } else if (buttonsState.value[button].state === "hidden") {
+        style.display = "none";
+      }
+      return {
+        ...style,
+        left: `${config2.position.left}px`,
+        top: `${config2.position.top}px`
+      };
+    }
+    function clickOnButton(button) {
+      const config2 = getButtonConfig(button);
+      const state = buttonsState.value[button];
+      if (state.state === true) {
+        const scriptToRun = config2.action;
+        const newStack = {
+          branchData: vmStore.script[scriptToRun],
+          currentIndex: 0,
+          label: scriptToRun
+        };
+        vmStore.setStack(newStack);
+        vmStore.runLine();
+      }
+    }
+    const layerStyle = computed$1(() => {
+      return {
+        backgroundImage: `url(${getImageUrl(screenConfig.value.background)})`
+      };
+    });
+    return (_ctx, _cache) => {
+      return unref(inGame) ? (openBlock(), createElementBlock("div", {
+        key: 0,
+        class: "viewport-layer",
+        id: `viewport-layer-${unref(currentScreen)}`,
+        style: normalizeStyle(unref(layerStyle))
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(unref(screenButtons), (button, index) => {
+          return openBlock(), createElementBlock("button", {
+            key: index,
+            class: "viewport-button",
+            id: `viewport-button-${button}`,
+            onClick: ($event) => clickOnButton(button),
+            style: normalizeStyle(getButtonStyle(button))
+          }, toDisplayString(unref(getButtonConfig)(button).text), 13, _hoisted_2$1);
+        }), 128))
+      ], 12, _hoisted_1$1)) : createCommentVNode("", true);
+    };
+  }
+});
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "screens",
+  setup(__props) {
+    const rendering = useRenderingStore();
+    const main2 = useMain();
+    const screensStore = useScreens();
+    const layers = computed$1(() => {
+      return screensStore.layers.filter((layer) => layer);
+    });
+    const layoutMode = computed$1(() => {
+      return rendering.layoutMode;
+    });
+    const layoutWidth = computed$1(() => {
+      return getConfig().layout.backgrounds.width;
+    });
+    const layoutHeight = computed$1(() => {
+      return getConfig().layout.backgrounds.height;
+    });
+    const inGame = computed$1(() => {
+      return main2.isInGame;
+    });
+    const viewportStyle = computed$1(() => {
+      const width = `${layoutWidth.value}px`;
+      let height = `${layoutHeight.value}px`;
+      if (layoutMode.value === "vertical") {
+        height = `${100 - getConfig().layout.mobileDialogHeightPercentage}%`;
+      }
+      return {
+        height,
+        width
+      };
+    });
+    return (_ctx, _cache) => {
+      return unref(inGame) ? (openBlock(), createElementBlock("div", {
+        key: 0,
+        class: "viewport",
+        id: "narrat-viewport",
+        style: normalizeStyle(unref(viewportStyle))
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(unref(layers), (layer, index) => {
+          return openBlock(), createBlock(_sfc_main$2, {
+            key: index,
+            layer
+          }, null, 8, ["layer"]);
+        }), 128))
+      ], 4)) : createCommentVNode("", true);
+    };
+  }
+});
 const _sfc_main = defineComponent({
   setup() {
     const dialogStore = useDialogStore();
@@ -46992,9 +47222,10 @@ const _sfc_main = defineComponent({
     MainMenu,
     Skills,
     InventoryUi,
-    GameDialog: _sfc_main$3,
+    GameDialog: _sfc_main$5,
     QuestsUi,
-    MenuButtons
+    MenuButtons,
+    Screens: _sfc_main$1
   },
   data() {
     return {
@@ -47043,14 +47274,6 @@ const _sfc_main = defineComponent({
       this.updateScreenSize();
     }, 50);
   },
-  watch: {
-    dialogLength(newCount, oldCount) {
-      if (this.$refs.dialog) {
-        const dialog = this.$refs.dialog;
-        dialog.scrollTop = dialog.scrollHeight + 1e8;
-      }
-    }
-  },
   computed: {
     ...mapState(useRenderingStore, [
       "screenWidth",
@@ -47062,21 +47285,6 @@ const _sfc_main = defineComponent({
       "layoutMode"
     ]),
     ...mapState(useVM, ["currentLine"]),
-    dialogLength() {
-      return this.dialog.length;
-    },
-    lastDialog() {
-      if (this.dialog.length > 0) {
-        return this.dialog[this.dialog.length - 1];
-      }
-      return void 0;
-    },
-    picture() {
-      if (this.lastDialog) {
-        return getCharacterPictureUrl(this.lastDialog.speaker, this.lastDialog.pose);
-      }
-      return void 0;
-    },
     backgroundStyle() {
       let height;
       if (this.layoutMode === "vertical") {
@@ -47105,23 +47313,6 @@ const _sfc_main = defineComponent({
         height: this.canvasHeight,
         top: this.topOffset,
         left: this.leftOffset
-      };
-    },
-    dialogWidth() {
-      const width = getConfig().layout.minTextWidth;
-      this.mq;
-      return width;
-    },
-    dialogStyle() {
-      let transform;
-      const height = "100%";
-      if (this.layoutMode === "horizontal")
-        ;
-      return {
-        width: this.layoutMode === "horizontal" ? `${this.dialogWidth}px` : "100%",
-        height,
-        transform,
-        transformOrigin: "right"
       };
     },
     gameWidth() {
@@ -47166,15 +47357,6 @@ const _sfc_main = defineComponent({
       const baseWidth = config2.layout.minTextWidth + config2.layout.backgrounds.width;
       const widthRatio = this.screenWidth / baseWidth;
       return widthRatio;
-    },
-    dialogContainerStyle() {
-      if (this.layoutMode === "vertical") {
-        return {};
-      } else {
-        return {
-          paddingBottom: `${getConfig().layout.dialogBottomPadding}px`
-        };
-      }
     }
   },
   methods: {
@@ -47194,10 +47376,6 @@ const _sfc_main = defineComponent({
       audioEvent("onPressStart");
       useMain().loadGame(this.getSaveFile());
     },
-    isDialogActive(i2) {
-      const result = i2 === this.dialog.length - 1 && this.stack.length > 0;
-      return result;
-    },
     nextLine() {
       useVM().nextLine();
     },
@@ -47206,43 +47384,19 @@ const _sfc_main = defineComponent({
     },
     closeModal() {
       useMain().closeModal();
-    },
-    getDialogBoxOptions(dialogKey, index) {
-      const info = getCharacterInfo(dialogKey.speaker);
-      let title = info.name;
-      if (index >= 1) {
-        const previousDialog = this.dialog[index - 1];
-        if (previousDialog.speaker === dialogKey.speaker) {
-          title = void 0;
-        }
-      }
-      if (dialogKey.choices) {
-        dialogKey.choices.forEach((choice) => {
-          choice.choice = processText(choice.choice);
-        });
-      }
-      return {
-        title: title != null ? title : "",
-        text: dialogKey.text,
-        styleId: dialogKey.speaker,
-        choices: dialogKey.choices,
-        old: index < this.dialog.length - 1,
-        interactive: dialogKey.interactive
-      };
     }
   }
 });
-const _hoisted_1 = ["width", "height"];
-const _hoisted_2 = {
+const _hoisted_1 = {
   key: 2,
   id: "game-menu",
   style: { "height": "100%", "padding": "20px" }
 };
-const _hoisted_3 = { id: "game-header" };
-const _hoisted_4 = { id: "game-title-container" };
-const _hoisted_5 = { id: "game-title-text" };
-const _hoisted_6 = { class: "flex flex-col" };
-const _hoisted_7 = { key: 3 };
+const _hoisted_2 = { id: "game-header" };
+const _hoisted_3 = { id: "game-title-container" };
+const _hoisted_4 = { id: "game-title-text" };
+const _hoisted_5 = { class: "flex flex-col" };
+const _hoisted_6 = { key: 3 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Hud = resolveComponent("Hud");
   const _component_MenuButtons = resolveComponent("MenuButtons");
@@ -47250,6 +47404,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_InventoryUi = resolveComponent("InventoryUi");
   const _component_QuestsUi = resolveComponent("QuestsUi");
   const _component_MainMenu = resolveComponent("MainMenu");
+  const _component_Screens = resolveComponent("Screens");
   const _component_GameDialog = resolveComponent("GameDialog");
   const _component_LoadingBar = resolveComponent("LoadingBar");
   const _component_DebugMenu = resolveComponent("DebugMenu");
@@ -47281,28 +47436,17 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 3,
         onClose: _ctx.closeModal
       }, null, 8, ["onClose"])) : createCommentVNode("", true),
-      _ctx.inGame ? (openBlock(), createElementBlock("div", {
-        key: 4,
-        class: "background",
-        style: normalizeStyle(_ctx.backgroundStyle)
-      }, [
-        createBaseVNode("canvas", {
-          width: _ctx.layoutWidth,
-          height: _ctx.layoutHeight,
-          id: "background-canvas",
-          class: "narrat-canvas"
-        }, null, 8, _hoisted_1)
-      ], 4)) : createCommentVNode("", true),
+      createVNode(_component_Screens),
       createVNode(_component_GameDialog, {
         inGame: _ctx.inGame,
         layoutMode: _ctx.layoutMode
       }, null, 8, ["inGame", "layoutMode"])
-    ], 4)) : _ctx.gameLoaded ? (openBlock(), createElementBlock("div", _hoisted_2, [
-      createBaseVNode("div", _hoisted_3, [
-        createBaseVNode("div", _hoisted_4, [
-          createBaseVNode("h1", _hoisted_5, toDisplayString(_ctx.gameTitle), 1)
+    ], 4)) : _ctx.gameLoaded ? (openBlock(), createElementBlock("div", _hoisted_1, [
+      createBaseVNode("div", _hoisted_2, [
+        createBaseVNode("div", _hoisted_3, [
+          createBaseVNode("h1", _hoisted_4, toDisplayString(_ctx.gameTitle), 1)
         ]),
-        createBaseVNode("div", _hoisted_6, [
+        createBaseVNode("div", _hoisted_5, [
           createBaseVNode("button", {
             class: "button menu-button main-menu-button larg start-button override",
             onClick: _cache[0] || (_cache[0] = (...args) => _ctx.startGame && _ctx.startGame(...args))
@@ -47314,7 +47458,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           }, " Continue Game ")) : createCommentVNode("", true)
         ])
       ])
-    ])) : (openBlock(), createElementBlock("div", _hoisted_7, [
+    ])) : (openBlock(), createElementBlock("div", _hoisted_6, [
       createVNode(_component_LoadingBar, {
         percentage: _ctx.loadingPercentage,
         step: _ctx.loadingStep
@@ -47325,93 +47469,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   ], 4);
 }
 var GameApp = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
-let canvas;
-let ctx;
-const mousePos = {
-  x: 0,
-  y: 0
-};
-function startGameLoop() {
-  document.addEventListener("mousemove", (e20) => {
-    mousePos.x = e20.clientX;
-    mousePos.y = e20.clientY;
-  });
-  document.addEventListener("click", debounce(mouseclick, 100, { maxWait: 200 }));
-  gameLoop();
-}
-function gameLoop() {
-  const screens = useScreens();
-  const mainStore = useMain();
-  if (mainStore.playing) {
-    if (!canvas) {
-      canvas = document.querySelector("#background-canvas");
-      if (canvas && !ctx) {
-        ctx = canvas.getContext("2d");
-      }
-    } else if (canvas && ctx) {
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      const currentScreen = screens.currentScreen;
-      const screen = getConfig().screens[currentScreen];
-      const bg2 = screen.background;
-      ctx.drawImage(images[bg2], 0, 0);
-      let foundCollision = false;
-      const scaledMousePos = screenToCanvas(mousePos.x, mousePos.y, canvas);
-      if (screen.buttons) {
-        for (const buttonName of screen.buttons) {
-          if (screens.buttons[buttonName].enabled) {
-            const button = getConfig().buttons[buttonName];
-            const image = images[button.background];
-            ctx.drawImage(image, button.position.left, button.position.top);
-            if (aabb(scaledMousePos.x, scaledMousePos.y, 1, 1, button.position.left, button.position.top, button.position.width, button.position.height)) {
-              foundCollision = true;
-            }
-          }
-        }
-      }
-      if (foundCollision) {
-        document.body.style.cursor = "pointer";
-      } else {
-        document.body.style.cursor = "default";
-      }
-      ctx.fillStyle = "black";
-      ctx.textAlign = "left";
-    }
-  } else {
-    canvas = void 0;
-    ctx = void 0;
-  }
-  window.requestAnimationFrame(gameLoop);
-}
-function mouseclick(e20) {
-  const screens = useScreens();
-  const vmStore = useVM();
-  if (!canvas) {
-    return;
-  }
-  mousePos.x = e20.clientX;
-  mousePos.y = e20.clientY;
-  const scaledMousePos = screenToCanvas(mousePos.x, mousePos.y, canvas);
-  const currentScreen = screens.currentScreen;
-  const screen = getConfig().screens[currentScreen];
-  if (screen.buttons) {
-    for (const buttonName of screen.buttons) {
-      if (screens.buttons[buttonName].enabled) {
-        const button = getConfig().buttons[buttonName];
-        if (aabb(scaledMousePos.x, scaledMousePos.y, 1, 1, button.position.left, button.position.top, button.position.width, button.position.height)) {
-          const scriptToRun = button.action;
-          const newStack = {
-            branchData: vmStore.script[scriptToRun],
-            currentIndex: 0,
-            label: scriptToRun
-          };
-          vmStore.setStack(newStack);
-          vmStore.runLine();
-        }
-      }
-    }
-  }
-}
 function commandRuntimeError(cmd, errorText) {
   console.error(`Runtime error =========================`);
   console.error("Args: ", cmd.args);
@@ -47428,6 +47485,7 @@ class CommandPlugin {
     __publicField(this, "argTypes");
     __publicField(this, "parser");
     __publicField(this, "onPlayerAnswered");
+    __publicField(this, "returnAfterPlayerAnswer");
     this.keyword = keyword;
     this.runner = runner;
     this.argTypes = argTypes;
@@ -47436,6 +47494,34 @@ class CommandPlugin {
     } else {
       this.parser = parser;
     }
+    this.returnAfterPlayerAnswer = false;
+  }
+  async run(cmd, choices) {
+    let res = await this.runner(cmd, choices);
+    if (this.returnAfterPlayerAnswer) {
+      res = await new Promise((resolve, reject) => {
+        useVM().waitForPlayerAnswer(cmd);
+        cmd.finishCommand = resolve;
+      });
+    }
+    return res;
+  }
+  async processPlayerAnswer(cmd, choice) {
+    let res = choice;
+    if (this.onPlayerAnswered) {
+      res = await this.onPlayerAnswered(cmd, choice);
+    }
+    if (this.returnAfterPlayerAnswer && cmd.finishCommand) {
+      cmd.finishCommand(res);
+    }
+    return res;
+  }
+  static FromOptions(options) {
+    var _a2;
+    const plugin = new CommandPlugin(options.keyword, options.argTypes, options.runner, options.parser);
+    plugin.onPlayerAnswered = options.onPlayerAnswered;
+    plugin.returnAfterPlayerAnswer = (_a2 = options.returnAfterPlayerAnswer) != null ? _a2 : false;
+    return plugin;
   }
 }
 function generateParser(keyword, argTypes) {
@@ -47450,9 +47536,9 @@ function generateParser(keyword, argTypes) {
       expectedArgCount.push(argTypes.length - 1);
     }
   }
-  return (ctx2, parsed) => {
+  return (ctx, parsed) => {
     const returnValue = {
-      newLine: ctx2.currentLine + 1
+      newLine: ctx.currentLine + 1
     };
     const args = parsed.command.args;
     if (argTypes !== "any") {
@@ -47460,7 +47546,7 @@ function generateParser(keyword, argTypes) {
         console.log("Error details");
         console.log(parsed.command);
         console.log(args);
-        ctx2.parserContext.error(ctx2.line.line, `Command ${keyword}: Expected ${expectedArgCount.join(" or ")} arguments but got ${args.length}`);
+        ctx.parserContext.error(ctx.line.line, `Command ${keyword}: Expected ${expectedArgCount.join(" or ")} arguments but got ${args.length}`);
         return returnValue;
       }
     }
@@ -47471,13 +47557,13 @@ function generateParser(keyword, argTypes) {
         if (!isExpression(arg)) {
           const isValid = argType.type === "any" || typeof arg === argType.type;
           if (!isValid) {
-            ctx2.parserContext.error(ctx2.line.line, `Command ${keyword}: Argument #${index + 1} (${argType.name}) should be a ${argType.type}, but got type ${typeof arg}: ${JSON.stringify(arg)}`);
+            ctx.parserContext.error(ctx.line.line, `Command ${keyword}: Argument #${index + 1} (${argType.name}) should be a ${argType.type}, but got type ${typeof arg}: ${JSON.stringify(arg)}`);
           }
         }
       });
     }
     return {
-      newLine: ctx2.currentLine + 1
+      newLine: ctx.currentLine + 1
     };
   };
 }
@@ -47496,7 +47582,6 @@ const addLevelPlugin = new CommandPlugin("add_level", [
     commandRuntimeError(cmd, `add_level command needs a skill id and a value as parameters`);
   }
   useSkills().incrementSkill(skillKey, amount);
-  return useVM().nextLine();
 });
 const addXpPlugin = new CommandPlugin("add_xp", [
   { name: "xpKey", type: "string" },
@@ -47507,7 +47592,6 @@ const addXpPlugin = new CommandPlugin("add_xp", [
     commandRuntimeError(cmd, `add_xp command needs a skill id and a value as parameters`);
   }
   useSkills().addXp(xpKey, xpToAdd);
-  return useVM().nextLine();
 });
 const rollPlugin = new CommandPlugin("roll", [
   { name: "id", type: "string" },
@@ -47523,31 +47607,29 @@ const rollPlugin = new CommandPlugin("roll", [
     hideAfterRoll
   };
   const result = runSkillCheck(skillCheck);
-  return result;
+  return result.succeeded;
 });
 const addStatPlugin = new CommandPlugin("add_stat", [
   { name: "statKey", type: "string" },
   { name: "amountToAdd", type: "number" }
 ], async (cmd) => {
   const { statKey, amountToAdd } = cmd.options;
-  if (!statKey || !amountToAdd) {
+  if (!statKey || typeof amountToAdd !== "number") {
     commandRuntimeError(cmd, `add_stat command needs a stat id and a value as parameters`);
   }
   const hud = useHud();
   hud.addStat(statKey, amountToAdd);
-  return useVM().nextLine();
 });
 const setStatPlugin = new CommandPlugin("set_stat", [
   { name: "statKey", type: "string" },
   { name: "value", type: "number" }
 ], async (cmd) => {
   const { statKey, value } = cmd.options;
-  if (!statKey || !value) {
+  if (!statKey || typeof value !== "number") {
     commandRuntimeError(cmd, `set_stat command needs a stat id and a value as parameters`);
   }
   const hud = useHud();
   hud.setStat(statKey, value);
-  return useVM().nextLine();
 });
 const getStatPlugin = new CommandPlugin("get_stat_value", [{ name: "statKey", type: "string" }], async (cmd) => {
   const { statKey } = cmd.options;
@@ -47557,42 +47639,56 @@ const getStatPlugin = new CommandPlugin("get_stat_value", [{ name: "statKey", ty
   const hud = useHud();
   return hud.getStatValue(statKey);
 });
-const jumpCommand = new CommandPlugin("jump", "any", async (cmd) => {
-  if (cmd.args.length < 1 || typeof cmd.args[0] !== "string") {
-    commandRuntimeError(cmd, `requires a label argument`);
+const jumpCommand = CommandPlugin.FromOptions({
+  keyword: "jump",
+  argTypes: "any",
+  runner: async (cmd) => {
+    if (cmd.args.length < 1 || typeof cmd.args[0] !== "string") {
+      commandRuntimeError(cmd, `requires a label argument`);
+    }
+    const label = cmd.args[0];
+    const vm2 = useVM();
+    const newStack = {
+      branchData: vm2.script[label],
+      label,
+      args: cmd.args.splice(1),
+      currentIndex: 0
+    };
+    vm2.setStack(newStack);
+    await useMain().saveGame();
+    await vm2.runFrame();
   }
-  const label = cmd.args[0];
-  const vm2 = useVM();
-  const newStack = {
-    branchData: vm2.script[label],
-    label,
-    args: cmd.args.splice(1),
-    currentIndex: 0
-  };
-  vm2.setStack(newStack);
-  await useMain().saveGame();
-  await vm2.runLine();
 });
-const runLabelPlugin = new CommandPlugin("run", "any", async (cmd) => {
-  if (cmd.args.length < 1 || typeof cmd.args[0] !== "string") {
-    commandRuntimeError(cmd, `run command needs a label to argument run`);
+const runLabelPlugin = CommandPlugin.FromOptions({
+  keyword: "run",
+  argTypes: "any",
+  runner: async (cmd) => {
+    if (cmd.args.length < 1 || typeof cmd.args[0] !== "string") {
+      commandRuntimeError(cmd, `run command needs a label to argument run`);
+    }
+    const label = cmd.args[0];
+    const res = await useVM().runLabelFunction(label, ...cmd.args.slice(1));
+    return res;
   }
-  const label = cmd.args[0];
-  const res = await useVM().runLabelFunction(label, ...cmd.args.slice(1));
-  return res;
 });
-const defineVariablePlugin = new CommandPlugin("var", [
-  { name: "name", type: "string" },
-  { name: "value", type: "any" }
-], async (cmd) => {
-  const { name, value } = cmd.options;
-  useVM().addScopedVariable(name, value);
-  return useVM().nextLine();
+const defineVariablePlugin = CommandPlugin.FromOptions({
+  keyword: "var",
+  argTypes: [
+    { name: "name", type: "string" },
+    { name: "value", type: "any" }
+  ],
+  runner: async (cmd) => {
+    const { name, value } = cmd.options;
+    useVM().addScopedVariable(name, value);
+  }
 });
-const returnPlugin = new CommandPlugin("return", [{ name: "value", type: "any" }], async (cmd) => {
-  const { value } = cmd.options;
-  useVM().setReturnValue(value);
-  return useVM().nextLine();
+const returnPlugin = CommandPlugin.FromOptions({
+  keyword: "return",
+  argTypes: [{ name: "value", type: "any" }],
+  runner: async (cmd) => {
+    const { value } = cmd.options;
+    useVM().setReturnValue(value);
+  }
 });
 const playCommandArgs = [
   { name: "mode", type: "string" },
@@ -47605,7 +47701,6 @@ const playCommand = new CommandPlugin("play", playCommandArgs, async (cmd) => {
   } else {
     playAudio(playOptions.audio);
   }
-  useVM().nextLine();
 });
 const pauseCommand = new CommandPlugin("pause", playCommandArgs, async (cmd) => {
   const pauseOptions = cmd.options;
@@ -47619,7 +47714,6 @@ const pauseCommand = new CommandPlugin("pause", playCommandArgs, async (cmd) => 
   } else {
     commandRuntimeError(cmd, `pause first option needs to either be in music mode, or if stopping a sound needs to have the sound name supplied as second argument.`);
   }
-  return useVM().nextLine();
 });
 const stopCommand = new CommandPlugin("stop", playCommandArgs, async (cmd) => {
   const stopOptions = cmd.options;
@@ -47633,7 +47727,6 @@ const stopCommand = new CommandPlugin("stop", playCommandArgs, async (cmd) => {
   } else {
     commandRuntimeError(cmd, `stop option needs to either be in music mode, or if stopping a sound needs to have the sound name supplied as second argument.`);
   }
-  return useVM().nextLine();
 });
 const setCommand = new CommandPlugin("set", [
   { name: "key", type: "string" },
@@ -47641,7 +47734,6 @@ const setCommand = new CommandPlugin("set", [
 ], async (cmd) => {
   const state = getModifiableDataPinia();
   setDataHelper(state, cmd.options.key, cmd.options.value);
-  return useVM().nextLine();
 });
 const addPlugin = new CommandPlugin("add", [
   { name: "key", type: "string" },
@@ -47649,63 +47741,77 @@ const addPlugin = new CommandPlugin("add", [
 ], async (cmd) => {
   const state = getModifiableDataPinia();
   addDataHelper(state, cmd.options.key, cmd.options.value);
-  return useVM().nextLine();
 });
-const setScreenCommand = new CommandPlugin("set_screen", [{ name: "screen", type: "string" }], (cmd) => {
+const setScreenCommand = new CommandPlugin("set_screen", [
+  { name: "screen", type: "string" },
+  { name: "layer", type: "number", optional: true }
+], async (cmd) => {
   const screens = useScreens();
-  screens.setScreen(cmd.options.screen);
-  return useVM().nextLine();
+  screens.setScreen(cmd.options.screen, cmd.options.layer);
+});
+const emptyLayerCommand = new CommandPlugin("empty_layer", [{ name: "layer", type: "number" }], async (cmd) => {
+  const screens = useScreens();
+  screens.emptyLayer(cmd.options.layer);
 });
 const setButtonCommand = new CommandPlugin("set_button", [
   { name: "buttonId", type: "string" },
-  { name: "enabled", type: "boolean" }
+  { name: "state", type: "any" }
 ], async (cmd) => {
-  const { buttonId, enabled } = cmd.options;
+  const { buttonId, state } = cmd.options;
   const screens = useScreens();
-  screens.changeButton(buttonId, enabled);
-  return useVM().nextLine();
+  screens.changeButton(buttonId, state);
 });
-const talkCommand = new CommandPlugin("talk", [
-  {
-    name: "speaker",
-    type: "string"
+const talkCommand = CommandPlugin.FromOptions({
+  keyword: "talk",
+  argTypes: [
+    {
+      name: "speaker",
+      type: "string"
+    },
+    {
+      name: "pose",
+      type: "string"
+    },
+    {
+      name: "text",
+      type: "string"
+    }
+  ],
+  runner: async (cmd, choices) => {
+    await textCommand({
+      speaker: cmd.options.speaker,
+      pose: cmd.options.pose,
+      text: `"${cmd.options.text}"`,
+      choices,
+      interactive: true
+    });
   },
-  {
-    name: "pose",
-    type: "string"
-  },
-  {
-    name: "text",
-    type: "string"
-  }
-], async (cmd, choices) => {
-  await textCommand({
-    speaker: cmd.options.speaker,
-    pose: cmd.options.pose,
-    text: `"${cmd.options.text}"`,
-    choices,
-    interactive: true
-  });
+  returnAfterPlayerAnswer: true
 });
 const textParser = () => {
   const parser = generateParser("text", []);
-  return (ctx2, parsed) => {
-    const result = parser(ctx2, parsed);
+  return (ctx, parsed) => {
+    const result = parser(ctx, parsed);
     parsed.command.staticOptions = {
       text: parsed.code
     };
     return result;
   };
 };
-const textCommandPlugin = new CommandPlugin("text", [], async (cmd, choices) => {
-  await textCommand({
-    speaker: "game",
-    text: cmd.staticOptions.text,
-    choices,
-    interactive: true
-  });
-}, textParser());
-console.log(textCommandPlugin);
+const textCommandPlugin = CommandPlugin.FromOptions({
+  keyword: "text",
+  argTypes: [],
+  runner: async (cmd, choices) => {
+    await textCommand({
+      speaker: "game",
+      text: cmd.staticOptions.text,
+      choices,
+      interactive: true
+    });
+  },
+  parser: textParser(),
+  returnAfterPlayerAnswer: true
+});
 const addItemPlugin = new CommandPlugin("add_item", [
   { name: "id", type: "string" },
   { name: "amount", type: "number" }
@@ -47716,7 +47822,6 @@ const addItemPlugin = new CommandPlugin("add_item", [
     id: id2,
     amount
   });
-  return useVM().nextLine();
 });
 const removeItemPlugin = new CommandPlugin("remove_item", [
   { name: "id", type: "string" },
@@ -47728,7 +47833,6 @@ const removeItemPlugin = new CommandPlugin("remove_item", [
     id: id2,
     amount
   });
-  return useVM().nextLine();
 });
 const hasItemPlugin = new CommandPlugin("has_item?", [
   { name: "id", type: "string" },
@@ -47747,19 +47851,16 @@ const enableInteractionPlugin = new CommandPlugin("enable_interaction", [{ name:
   const tag = cmd.options.tag;
   const inventory = useInventory();
   inventory.enableInteraction(tag);
-  return useVM().nextLine();
 });
 const disableInteractionPlugin = new CommandPlugin("disable_interaction", [{ name: "tag", type: "string" }], async (cmd) => {
   const tag = cmd.options.tag;
   const inventory = useInventory();
   inventory.disableInteraction(tag);
-  return useVM().nextLine();
 });
 const startQuestPlugin = new CommandPlugin("start_quest", [{ name: "questId", type: "string" }], async (cmd) => {
   const questId = cmd.options.questId;
   const quests = useQuests();
   quests.startQuest(questId);
-  return useVM().nextLine();
 });
 const startObjectivePlugin = new CommandPlugin("start_objective", [
   { name: "questId", type: "string" },
@@ -47768,7 +47869,6 @@ const startObjectivePlugin = new CommandPlugin("start_objective", [
   const { questId, objectiveId } = cmd.options;
   const quests = useQuests();
   quests.startObjective(questId, objectiveId);
-  return useVM().nextLine();
 });
 const completeObjectivePlugin = new CommandPlugin("complete_objective", [
   { name: "questId", type: "string" },
@@ -47777,7 +47877,6 @@ const completeObjectivePlugin = new CommandPlugin("complete_objective", [
   const { questId, objectiveId } = cmd.options;
   const quests = useQuests();
   quests.completeObjective(questId, objectiveId);
-  return useVM().nextLine();
 });
 const completeQuestPlugin = new CommandPlugin("complete_quest", [
   { name: "questId", type: "string" },
@@ -47786,7 +47885,6 @@ const completeQuestPlugin = new CommandPlugin("complete_quest", [
   const { questId, ending } = cmd.options;
   const quests = useQuests();
   quests.completeQuest(questId, ending);
-  return useVM().nextLine();
 });
 const questCompletedPlugin = new CommandPlugin("quest_completed?", [{ name: "questId", type: "string" }], async (cmd) => {
   const { questId } = cmd.options;
@@ -47814,18 +47912,19 @@ const objectiveStartedPlugin = new CommandPlugin("objective_started?", [
   const quests = useQuests();
   return quests.isObjectiveStarted(questId, objectiveId);
 });
-const waitCommand = new CommandPlugin("wait", [{ name: "duration", type: "number" }], async (cmd) => {
-  await timeout(cmd.options.duration);
-  return useVM().nextLine();
+const waitCommand = CommandPlugin.FromOptions({
+  keyword: "wait",
+  argTypes: [{ name: "duration", type: "number" }],
+  runner: async (cmd) => {
+    await timeout(cmd.options.duration);
+  }
 });
 const notifyPlugin = new CommandPlugin("notify", [{ name: "text", type: "string" }], async (cmd) => {
   const { text } = cmd.options;
   useNotifications().addNotification(text);
-  return useVM().nextLine();
 });
 const clearDialogPlugin = new CommandPlugin("clear_dialog", [], async (cmd) => {
   useDialogStore().clearDialog();
-  return useVM().nextLine();
 });
 const ifCommand = new CommandPlugin("if", [{ name: "condition", type: "boolean" }], async (cmd) => {
   const newBranch = runConditionCommand(cmd);
@@ -47837,25 +47936,24 @@ const ifCommand = new CommandPlugin("if", [{ name: "condition", type: "boolean" 
       },
       currentIndex: 0
     };
-    return vmStore.addStack(newStack);
+    return vmStore.addAndRunFrame(newStack);
   }
-  return vmStore.nextLine();
-}, (ctx2, parsed) => {
-  let newLine = ctx2.currentLine;
+}, (ctx, parsed) => {
+  let newLine = ctx.currentLine;
   const parser = generateParser("if", [
     { name: "condition", type: "string" }
   ]);
-  parser(ctx2, parsed);
-  const { lines, currentLine, line } = ctx2;
+  parser(ctx, parsed);
+  const { lines, currentLine, line } = ctx;
   const command = parsed.command;
   let failure;
   const nextLine = getLine(lines, currentLine + 1);
   if (nextLine && nextLine.code === "else:") {
-    failure = ctx2.processCommandsFunction(ctx2.parserContext, nextLine.branch, line);
+    failure = ctx.processCommandsFunction(ctx.parserContext, nextLine.branch, line);
     newLine++;
   }
   command.staticOptions = {
-    success: ctx2.processCommandsFunction(ctx2.parserContext, line.branch, line),
+    success: ctx.processCommandsFunction(ctx.parserContext, line.branch, line),
     failure
   };
   newLine++;
@@ -47988,7 +48086,6 @@ const divisionPlugin = new CommandPlugin("/", "any", async (cmd) => {
   }, 0);
 });
 const runChoice = async (cmd) => {
-  useVM().lastChoiceCommand = cmd;
   const { prompt, choices } = cmd.staticOptions;
   const choiceResults = [];
   for (const [index, choice] of choices.entries()) {
@@ -47996,69 +48093,70 @@ const runChoice = async (cmd) => {
     choiceResults.push(choiceResult);
   }
   cmd.options.choiceResults = choiceResults;
-  const dialogChoices = choiceResults.map((res, index) => {
+  const dialogChoices = choiceResults.map((res2, index) => {
     var _a2, _b2;
     let allowed = true;
-    if (res.skillCheck) {
-      allowed = (_b2 = (_a2 = res.skillCheck) == null ? void 0 : _a2.allowed) != null ? _b2 : false;
+    if (res2.skillCheck) {
+      allowed = (_b2 = (_a2 = res2.skillCheck) == null ? void 0 : _a2.allowed) != null ? _b2 : false;
     }
     const result = {
-      choice: res.text,
+      choice: res2.text,
       originalIndex: index,
       allowed
     };
     return result;
   }).filter((el2) => el2.choice);
-  runCommand(prompt, dialogChoices);
+  const res = await runCommand(prompt, dialogChoices);
+  await onChoicePlayerAnswered(cmd, res);
 };
-function parseChoiceOption(ctx2, choice, index) {
+function parseChoiceOption(ctx, choice, index) {
   choice.expression;
   if (!choice.branch) {
-    ctx2.parserContext.error(choice.line, `Choice option doesn't have any branch to go to (${choice.code} - ${choice.line})`);
+    ctx.parserContext.error(choice.line, `Choice option doesn't have any branch to go to (${choice.code} - ${choice.line})`);
   }
   let skillBranches;
   let mainBranch;
   const branch = choice.branch;
   if (choice.expression[1] === "roll") {
     if (!branch[0].branch || !branch[1].branch) {
-      ctx2.parserContext.error(choice.line, `Choice option with a skill roll needs success and failure branches (${choice.code} - ${choice.line})`);
+      ctx.parserContext.error(choice.line, `Choice option with a skill roll needs success and failure branches (${choice.code} - ${choice.line})`);
     }
     skillBranches = {
-      success: ctx2.processCommandsFunction(ctx2.parserContext, branch[0].branch, choice),
-      failure: ctx2.processCommandsFunction(ctx2.parserContext, branch[1].branch, choice)
+      success: ctx.processCommandsFunction(ctx.parserContext, branch[0].branch, choice),
+      failure: ctx.processCommandsFunction(ctx.parserContext, branch[1].branch, choice)
     };
   } else {
-    mainBranch = ctx2.processCommandsFunction(ctx2.parserContext, branch, choice);
+    mainBranch = ctx.processCommandsFunction(ctx.parserContext, branch, choice);
   }
   const choiceInfo = {
-    prompt: ctx2.processCommandsFunction(ctx2.parserContext, [choice], choice)[0],
+    prompt: ctx.processCommandsFunction(ctx.parserContext, [choice], choice)[0],
     branch: mainBranch,
     skillBranches
   };
   return choiceInfo;
 }
-const choiceParser = (ctx2, parsed) => {
-  let newLine = ctx2.currentLine;
+const choiceParser = (ctx, parsed) => {
+  let newLine = ctx.currentLine;
   generateParser("choice", []);
-  const { line } = ctx2;
+  const { line } = ctx;
   const command = parsed.command;
   if (!line.branch || line.branch.length < 2) {
-    ctx2.parserContext.error(line.line, `Choice menu needs to have at least one option`);
+    ctx.parserContext.error(line.line, `Choice menu needs to have at least one option`);
   }
   const prompt = line.branch[0];
   if (!prompt) {
-    ctx2.parserContext.error(ctx2.line.line, `Choice prompt is missing `);
+    ctx.parserContext.error(ctx.line.line, `Choice prompt is missing `);
   }
   const choices = line.branch.slice(1);
   const prompts = choices.map((choice, index) => {
     if (!choice.branch) {
-      ctx2.parserContext.error(choice.line, `Choice option doesn't have any branch to go to (${choice.code})`);
+      ctx.parserContext.error(choice.line, `Choice option doesn't have any branch to go to (${choice.code})`);
     }
-    choice = getChoiceOptionLineFromChoicePrompt(ctx2.parserContext, choice);
-    return parseChoiceOption(ctx2, choice);
+    choice = getChoiceOptionLineFromChoicePrompt(ctx.parserContext, choice);
+    return parseChoiceOption(ctx, choice);
   });
   command.staticOptions = {
-    prompt: ctx2.processCommandsFunction(ctx2.parserContext, [prompt], line)[0],
+    prompt: ctx.processCommandsFunction(ctx.parserContext, [prompt], line)[0],
     choices: prompts
   };
   newLine++;
@@ -48066,8 +48164,13 @@ const choiceParser = (ctx2, parsed) => {
     newLine
   };
 };
-const choicePlugin = new CommandPlugin("choice", [], runChoice, choiceParser);
-choicePlugin.onPlayerAnswered = async (command, playerChoice) => {
+const choicePlugin = CommandPlugin.FromOptions({
+  keyword: "choice",
+  argTypes: [],
+  runner: runChoice,
+  parser: choiceParser
+});
+const onChoicePlayerAnswered = async (command, playerChoice) => {
   const choiceIndex = playerChoice;
   const vmStore = useVM();
   const { choices } = command.staticOptions;
@@ -48106,12 +48209,10 @@ choicePlugin.onPlayerAnswered = async (command, playerChoice) => {
         branch: newBranch
       }
     };
-    return vmStore.addStack(newStack);
-  } else {
-    vmStore.nextLine();
+    await vmStore.addAndRunFrame(newStack);
   }
 };
-function getChoiceOptionLineFromChoicePrompt(ctx2, choice) {
+function getChoiceOptionLineFromChoicePrompt(ctx, choice) {
   const generatedCode = `choicePrompt ${choice.code}`;
   const newLine = {
     code: generatedCode,
@@ -48137,7 +48238,7 @@ const choicePromptCommandPlugin = new CommandPlugin("choicePrompt", "any", async
       };
     }
     const skillCheckFailed = state.happened && !state.succeeded;
-    const { difficultyText, allowed } = getSkillCheckText({
+    const { difficultyText } = getSkillCheckText({
       skill: skillId,
       skillCheckId,
       value: difficulty
@@ -48174,10 +48275,11 @@ const choicePromptCommandPlugin = new CommandPlugin("choicePrompt", "any", async
     };
   }
 });
-const textFieldPlugin = new CommandPlugin("text_field", [{ name: "prompt", type: "string" }], async (cmd) => {
-  return new Promise((resolve) => {
-    useVM().lastChoiceCommand = cmd;
-    cmd.options.resolve = resolve;
+const textFieldPlugin = CommandPlugin.FromOptions({
+  keyword: "text_field",
+  argTypes: [{ name: "prompt", type: "string" }],
+  returnAfterPlayerAnswer: true,
+  runner: async (cmd) => {
     const dialog = {
       speaker: "game",
       text: cmd.options.prompt,
@@ -48185,22 +48287,26 @@ const textFieldPlugin = new CommandPlugin("text_field", [{ name: "prompt", type:
       interactive: true
     };
     useDialogStore().addDialog(dialog);
-  });
+  }
 });
 textFieldPlugin.onPlayerAnswered = async (cmd, choice) => {
   if (typeof choice !== "string") {
     commandRuntimeError(cmd, `The player's answer should be a string`);
   }
-  cmd.options.resolve(choice);
+  return choice;
 };
-const textFieldPromptPlugin = new CommandPlugin("text_field_prompt", [{ name: "prompt", type: "string" }], async (cmd) => {
-  const dialog = {
-    speaker: "game",
-    text: cmd.options.prompt,
-    textField: true,
-    interactive: true
-  };
-  useDialogStore().addDialog(dialog);
+const textFieldPromptPlugin = CommandPlugin.FromOptions({
+  keyword: "text_field_prompt",
+  argTypes: [{ name: "prompt", type: "string" }],
+  runner: async (cmd) => {
+    const dialog = {
+      speaker: "game",
+      text: cmd.options.prompt,
+      textField: true,
+      interactive: true
+    };
+    useDialogStore().addDialog(dialog);
+  }
 });
 function registerBaseCommands(vm2) {
   vm2.addCommand(choicePlugin);
@@ -48216,6 +48322,7 @@ function registerBaseCommands(vm2) {
   vm2.addCommand(stopCommand);
   vm2.addCommand(setButtonCommand);
   vm2.addCommand(setScreenCommand);
+  vm2.addCommand(emptyLayerCommand);
   vm2.addCommand(waitCommand);
   vm2.addCommand(equalPlugin);
   vm2.addCommand(greaterThanPlugin);
@@ -48293,7 +48400,6 @@ async function startApp(config2, options) {
     };
     window.narrat = narrat;
   }
-  startGameLoop();
 }
 
 export { startApp };
