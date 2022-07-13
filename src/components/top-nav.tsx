@@ -53,6 +53,9 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
           <RouteNavLink to="/news" title="News">
             News
           </RouteNavLink>
+          <RouteNavLink to="/narrat-demo" title="Demos">
+            Demos
+          </RouteNavLink>
         </Flex>
         <Box sx={{ display: "flex", placeItems: "center" }}>
           <NavLink

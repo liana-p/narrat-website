@@ -1,0 +1,303 @@
+{
+  "gameTitle": "Narrat Game Example",
+  "images": {},
+  "layout": {
+    "backgrounds": {
+      "width": 880,
+      "height": 720
+    },
+    "dialogBottomPadding": 70,
+    "minTextWidth": 475,
+    "mobileDialogHeightPercentage": 60,
+    "verticalLayoutThreshold": 1000,
+    "portraits": {
+      "width": 100,
+      "height": 100
+    }
+  },
+  "screens": {
+    "default": {
+      "background": "img/backgrounds/rpg.png"
+    },
+    "rpg": {
+      "background": "img/backgrounds/rpg.png",
+      "buttons": [
+        {
+          "id": "startGame",
+          "background": "img/ui/start.png",
+          "enabled": true,
+          "position": {
+            "left": 440,
+            "top": 500,
+            "width": 291,
+            "height": 64
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "action": "setup_rpg"
+        }
+      ]
+    },
+    "battle_grass": {
+      "background": "img/levels/grass.png",
+      "buttons": ["goblin", "slime", "skeleton", "wizard", "rogue", "warrior"]
+    },
+    "battle_cave": {
+      "background": "img/levels/cave.png",
+      "buttons": ["goblin", "slime", "skeleton", "wizard", "rogue", "warrior"]
+    },
+    "battle_dungeon": {
+      "background": "img/levels/dungeon.png",
+      "buttons": ["goblin", "slime", "skeleton", "wizard", "rogue", "warrior"]
+    },
+    "dungeon_FRL": {
+      "background": "img/levels/dungeon_FRL.png",
+      "buttons": ["go_left", "go_front", "go_right"]
+    },
+    "dungeon_F": {
+      "background": "img/levels/dungeon_F.png",
+      "buttons": ["go_front"]
+    },
+    "dungeon_FL": {
+      "background": "img/levels/dungeon_FL.png",
+      "buttons": ["go_left", "go_front"]
+    },
+    "dungeon_FR": {
+      "background": "img/levels/dungeon_FR.png",
+      "buttons": ["go_front", "go_right"]
+    },
+    "dungeon_LR": {
+      "background": "img/levels/dungeon_LR.png",
+      "buttons": ["go_left", "go_right"]
+    }
+  },
+  "buttons": {
+    "goblin": {
+      "enabled": false,
+      "background": "img/enemies/goblin.png",
+      "position": {
+        "left": 100,
+        "top": 600,
+        "width": 255,
+        "height": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "slime": {
+      "enabled": false,
+      "background": "img/enemies/slime.png",
+      "position": {
+        "left": 150,
+        "top": 600,
+        "width": 255,
+        "height": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "skeleton": {
+      "enabled": false,
+      "background": "img/enemies/skeleton.png",
+      "position": {
+        "left": 100,
+        "top": 600,
+        "width": 255,
+        "height": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "wizard": {
+      "enabled": false,
+      "background": "img/players/wizard.png",
+      "position": {
+        "left": 600,
+        "top": 600,
+        "width": 255,
+        "height": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "rogue": {
+      "enabled": false,
+      "background": "img/players/wizard.png",
+      "position": {
+        "left": 600,
+        "top": 600,
+        "width": 255,
+        "height": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "warrior": {
+      "enabled": false,
+      "background": "img/players/wizard.png",
+      "position": {
+        "left": 600,
+        "top": 600,
+        "width": 255,
+        "height": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "go_left": {
+      "enabled": false,
+      "background": "img/ui/left.png",
+      "position": {
+        "left": 100,
+        "top": 250,
+        "width": 96,
+        "height": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "action": "choose_left"
+    },
+    "go_right": {
+      "enabled": false,
+      "background": "img/ui/right.png",
+      "position": {
+        "left": 770,
+        "top": 250,
+        "width": 96,
+        "height": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "action": "choose_right"
+    },
+    "go_front": {
+      "enabled": false,
+      "background": "img/ui/front.png",
+      "position": {
+        "left": 440,
+        "top": 120,
+        "width": 96,
+        "height": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "action": "choose_front"
+    }
+  },
+  "skills": {
+    "strength": {
+      "name": "Strength",
+      "description": "Increases your attack power.",
+      "startingLevel": 1,
+      "icon": "img/skills/agility.jpg"
+    },
+    "intelligence": {
+      "name": "Intelligence",
+      "description": "Increases your magic power.",
+      "startingLevel": 1,
+      "icon": "img/skills/intelligence.jpg"
+    },
+    "agility": {
+      "name": "Agility",
+      "description": "How good you are at moving around.",
+      "startingLevel": 1,
+      "icon": "img/skills/agility.jpg"
+    }
+  },
+  "skillChecks": {
+    "rollRange": 100,
+    "skillMultiplier": 10,
+    "failureChance": 1,
+    "difficultyText": [
+      [0, "Very Easy"],
+      [10, "Easy"],
+      [30, "Medium"],
+      [50, "Hard"],
+      [70, "Very Hard"],
+      [80, "Extremely Hard"],
+      [90, "Near Impossible"]
+    ]
+  },
+  "scripts": ["data/rpg.rpy"],
+  "audio": {
+    "game": {
+      "src": "music/game.wav",
+      "loop": true
+    },
+    "battle": {
+      "src": "music/battle.wav",
+      "loop": true
+    },
+    "click": {
+      "src": "audio/click.ogg"
+    },
+    "game_start": {
+      "src": "audio/game_start.ogg"
+    },
+    "failure": {
+      "src": "audio/failure.ogg"
+    },
+    "success": {
+      "src": "audio/success.wav"
+    }
+  },
+  "audioOptions": {
+    "volume": 0.5,
+    "musicFadeInTime": 0.5,
+    "musicFadeInDelay": 0.5,
+    "musicFadeOutTime": 0.5
+  },
+  "notifications": {
+    "timeOnScreen": 2.5
+  },
+  "hudStats": {
+    "mp": {
+      "icon": "img/ui/energy.png",
+      "name": "MP",
+      "startingValue": 100,
+      "minValue": 0,
+      "maxValue": 100
+    },
+    "hp": {
+      "icon": "img/ui/energy.png",
+      "name": "HP",
+      "startingValue": 100,
+      "minValue": 0,
+      "maxValue": 100
+    }
+  },
+  "items": {},
+  "interactionTags": {
+    "default": {
+      "onlyInteractOutsideOfScripts": true
+    }
+  },
+  "quests": {},
+  "audioTriggers": {
+    "onPlayerAnswered": "click",
+    "onPressStart": "game_start",
+    "onSkillCheckFailure": "failure",
+    "onSkillCheckSuccess": "success"
+  },
+  "menuButtons": {}
+}
