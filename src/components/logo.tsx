@@ -4,7 +4,7 @@ import { StaticImage } from "gatsby-plugin-image";
 const Logo: React.FC<any> = () => (
   <StaticImage
     alt="Narrat logo"
-    src="../images/logo.png"
+    src="./top-nav/logo.svg"
     sx={{ variant: "images.logo" }}
   />
 );

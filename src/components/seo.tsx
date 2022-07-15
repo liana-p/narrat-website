@@ -32,17 +32,18 @@ const Seo: React.FC<SeoProps> = ({
 }) => {
   const metadata = useSiteMetadata();
 
-  const metaDescription = description || metadata?.description;
-  const defaultTitle = metadata?.title;
+  const metaDescription = description || metadata?.description!;
+  const defaultTitle = metadata?.title!;
+  const pageTitle = title || defaultTitle;
   contentType = contentType || "website";
-  imageUrl = imageUrl || metadata.siteImage;
+  imageUrl = imageUrl || metadata.siteImage!;
 
   return (
     <Helmet
       htmlAttributes={{
         lang,
       }}
-      title={title || defaultTitle}
+      title={pageTitle}
       // titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
       meta={[
         {
@@ -51,7 +52,7 @@ const Seo: React.FC<SeoProps> = ({
         },
         {
           property: `og:title`,
-          content: title,
+          content: pageTitle,
         },
         {
           property: `og:description`,
@@ -59,7 +60,7 @@ const Seo: React.FC<SeoProps> = ({
         },
         {
           property: "og:site_name",
-          content: metadata.title,
+          content: defaultTitle,
         },
         {
           property: "og:image",
@@ -79,7 +80,7 @@ const Seo: React.FC<SeoProps> = ({
         },
         {
           name: `twitter:title`,
-          content: title,
+          content: pageTitle,
         },
         {
           name: "twitter:site",
@@ -98,7 +99,9 @@ const Seo: React.FC<SeoProps> = ({
           content: metaDescription,
         },
       ].concat(meta)}
-    />
+    >
+      <link rel="icon" href="/favicon.svg" />
+    </Helmet>
   );
 };
 
