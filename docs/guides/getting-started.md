@@ -32,6 +32,22 @@ For more advanced manual installation instruction into an existing web project, 
 
 ## Running the game
 
+<details>
+
+<summary>How it works</summary>
+
+The narrat template is essentially a template for a mostly empty web project, with narrat as a library.
+
+node.js is the JavaScript engine used to run our project (and build it or export it to an executable game later).
+
+We use [npm ](https://www.w3schools.com/whatis/whatis\_npm.asp)to install libraries into the game. npm is simply a package manager for installing JS libraries with node.js
+
+There is a [package.json](https://github.com/liana-p/narrat-template/blob/main/package.json) file at the root of the template, which is a standard node.js file for defining a project and its dependencies, which get installed via npm. Inside the `dependencies` part of this file, you can find narrat with a version number. This is what tells the project to install a specific version of narrat.
+
+Our template uses npm to download and install narrat (and other dependencies) and get the game ready to go. Then using npm scripts, we can use run commands to build/export the game (which all use node.js under the hood one way or another).
+
+</details>
+
 With the narrat template cloned or downloaded, [open a terminal inside the folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
 
 There is a first command to install the dependencies (libraries) on first use.

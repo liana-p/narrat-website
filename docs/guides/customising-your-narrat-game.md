@@ -9,6 +9,12 @@ There are two types of content to edit to make a narrat game:
 * Dialogue scripts: `.rpy` files that contain the branching narrative of the game
 * Config files: `.json` files that contain config data about the game
 
+### Public folder
+
+The content to edit will usually be inside the `public` folder from the root of the game. This public folder is a folder for static assets which will be added to the final build. A narrat game is effectively made of config files and assets that are all inside this folder.
+
+For advanced uses, it is also possible to change code itself or integrate plugins, in which case the place to edit those would be the `src` folder.
+
 ### Dialogue scripts
 
 {% content-ref url="../examples/example-narrat-script.md" %}
