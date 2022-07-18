@@ -119,11 +119,11 @@ The `difficultyText` config array specifies a list of thresholds and the corresp
 ### Passive skill check
 
 ```renpy
-  $if this.roll("someSkillCheck", "agility", 40): // You can use skillchecks in conditions
+  if (roll someSkillCheck agility 40): // You can use skillchecks in conditions
     "This line only appears if you passed a hidden passive skill check"
 ```
 
-Passive skill checks are done by calling the `roll` function inside a `$if` command.
+Passive skill checks are done by calling the `roll` function inside an `if` command.
 
 The roll function takes the following parameters:
 

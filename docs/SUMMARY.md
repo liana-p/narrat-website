@@ -47,6 +47,7 @@
 * [Installing Narrat in a web app](guides/installing-narrat-in-a-web-app.md)
 * [Editing a narrat game](guides/customising-your-narrat-game.md)
 * [Building and exporting your game](guides/building-and-exporting-your-game.md)
+* [Publishing on Steam (Steamworks integration)](guides/publishing-on-steam-steamworks-integration.md)
 
 ## Examples
 
