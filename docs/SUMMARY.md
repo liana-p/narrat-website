@@ -40,6 +40,7 @@
 
 * [Language syntax and expressions](guides/language-syntax-and-expressions.md)
 * [Using items](guides/using-items.md)
+* [Updating narrat](guides/updating-narrat.md)
 * [Getting Started](guides/getting-started.md)
 * [Config files](guides/config-files.md)
 * [Useful Links](guides/useful-links.md)

@@ -20,6 +20,6 @@ main:
   "Your name is %{playerName}"
 ```
 
-![](<../.gitbook/assets/image (7).png>)
+![](<../.gitbook/assets/image (7) (2).png>)
 
 ![](<../.gitbook/assets/image (4).png>)

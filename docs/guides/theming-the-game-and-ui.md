@@ -230,7 +230,7 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 .dialog-container: Contains all the dialog
 
-![](<../.gitbook/assets/image (15) (1).png>)
+![](<../.gitbook/assets/image (15) (1) (1) (1).png>)
 
 .dialog: The entire right-side box of the screen that is scrollable with all the dialog in it
 
