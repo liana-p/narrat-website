@@ -46,7 +46,9 @@ Config:
   }
 ```
 
-The `onUse` `action` property can be either `jump` or `run_label`, allowing to either jump to a script, or run a script as a function (see [1.3.0 changes](https://github.com/liana-pigeot/narrat/blob/main/CHANGELOG.md#1.3.0) or [functions docs](https://docs.get-narrat.com/features/functions)), which effectively allows interrupting the current dialogue to run an item's function before going back to it.
+The `onUse` `action` property can be either `jump` or `run`, allowing to either jump to a script, or run a script as a function (see [1.3.0 changes](https://github.com/liana-pigeot/narrat/blob/main/CHANGELOG.md#1.3.0) or [functions docs](https://docs.get-narrat.com/features/functions)), which effectively allows interrupting the current dialogue to run an item's function before going back to it.
+
+### Interaction tags
 
 The `tag` property on an item data sets which interaction group it is part of. This allows fine control of which items can be allowed to be used when. For example, some items might be available to use all the time, while some should only be allowed to be used at certain points.
 

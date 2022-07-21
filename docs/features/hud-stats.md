@@ -42,10 +42,10 @@ Stats are defined in the `hudStats` part of the config.
 
 ### Functions
 
-{% content-ref url="../functions-documentation/set-stat.md" %}
-[set-stat.md](../functions-documentation/set-stat.md)
+{% content-ref url="../functions-documentation/stats/" %}
+[stats](../functions-documentation/stats/)
 {% endcontent-ref %}
 
-{% content-ref url="../functions-documentation/add-stat.md" %}
-[add-stat.md](../functions-documentation/add-stat.md)
+{% content-ref url="../functions-documentation/stats/add-stat.md" %}
+[add-stat.md](../functions-documentation/stats/add-stat.md)
 {% endcontent-ref %}

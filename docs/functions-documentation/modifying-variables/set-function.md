@@ -26,5 +26,5 @@ set_example:
 
 ```
 
-![Result of the above code](../.gitbook/assets/set\_function\_example.gif)
+![Result of the above code](../../.gitbook/assets/set\_function\_example.gif)
 

@@ -10,7 +10,7 @@ The add\_stat function in narrat add a specified value to a HUD stat
 
 Syntax: `add_stat [statId] [value]`
 
-See [HUD Stats](../features/hud-stats.md) page for more info on this feature
+See [HUD Stats](../../features/hud-stats.md) page for more info on this feature
 
 Example:
 

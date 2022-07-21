@@ -34,6 +34,14 @@ main:
     talk helper idle "You have no bread"
 ```
 
+### Using items
+
+Items can also be used, see guide below:
+
+{% content-ref url="../guides/using-items.md" %}
+[using-items.md](../guides/using-items.md)
+{% endcontent-ref %}
+
 ![](<../.gitbook/assets/image (4) (1).png>)
 
 ![](../.gitbook/assets/Animation.webp)

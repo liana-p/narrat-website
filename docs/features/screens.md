@@ -87,6 +87,14 @@ This script would be triggered by pressing the `parkButton` in the `map` screen 
 The `default` screen must always exist, as it is the first screen the game gets loaded with.
 {% endhint %}
 
+## Button interaction tags
+
+Buttons can also have a `tag` property in their config to use interaction tag, the same way inventory items can. See the guide below for more info on interaction tags (in the interaction tags section):
+
+{% content-ref url="../guides/using-items.md" %}
+[using-items.md](../guides/using-items.md)
+{% endcontent-ref %}
+
 ## Controlling screens and buttons in scripts
 
 ### Changing Screen
