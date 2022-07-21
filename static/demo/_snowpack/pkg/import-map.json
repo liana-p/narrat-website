@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "narrat": "./narrat.js",
-    "narrat/dist/lib.css": "./narrat/dist/lib.css"
-  }
-}

@@ -23,8 +23,8 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
         px: "l",
       }}
     >
-      <Flex sx={{ justifyContent: "space-between" }}>
-        <Flex sx={{ alignItems: "center" }}>
+      <Flex sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
+        <Flex sx={{ alignItems: "center", flexWrap: "wrap" }}>
           <div>
             <RouteNavLink
               to="/"
@@ -57,7 +57,7 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
             Demos
           </RouteNavLink>
         </Flex>
-        <Box sx={{ display: "flex", placeItems: "center" }}>
+        <Box sx={{ display: "flex", placeItems: "center", flexWrap: "wrap" }}>
           <NavLink
             href="https://discord.gg/Xgz7EQ2Xgh"
             sx={{ variant: "links.nav" }}
