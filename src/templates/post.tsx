@@ -9,7 +9,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import RouteLink from "../components/route-link";
 import { Avatar, Box, Container, Flex, Heading, Text } from "theme-ui";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import { getCanonicalUrl } from "../helpers/url-helpers";
+import { getCanonicalUrl, getNewsUrl } from "../helpers/url-helpers";
 import { useSiteMetadata } from "../hooks/use-site-metadata";
 import { shortcodes } from "../helpers/componentShortcodes";
 import { MDXProvider } from "@mdx-js/react";
@@ -22,7 +22,7 @@ const BlogPostTemplate: React.FC<BlogPostProps> = ({ data, location }) => {
   const metadata = useSiteMetadata();
   const post = data.mdx!;
   const { previous, next } = data;
-  const canonicalUrl = getCanonicalUrl(metadata!.siteUrl!, post.fields!.slug!);
+  const canonicalUrl = getNewsUrl(metadata.siteUrl!, post.fields!.slug!);
   const title = post.frontmatter!.title;
   return (
     <Layout

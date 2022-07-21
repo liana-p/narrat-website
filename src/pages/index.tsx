@@ -3,19 +3,18 @@ import { graphql } from "gatsby";
 import Layout from "../components/layout";
 import { IndexQuery } from "../../graphql-types";
 import NarratHero from "../components/narrat-hero";
-import { Badge, Box, Container, Grid, Heading } from "theme-ui";
+import { Container, Grid } from "theme-ui";
 import { useSiteMetadata } from "../hooks/use-site-metadata";
 import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
-import RouteLink from "../components/route-link";
-import { usePosts } from "../hooks/use-news";
-import { NewsList } from "../components/news-list";
 import { NarratCodeIllustration } from "../components/narrat-code-illustration";
 import { FeatureHero } from "../components/feature-hero";
 import { IconTitleDesc } from "../components/icons-title-desc";
-import { FaDiscord, FaGamepad, FaGithub } from "react-icons/fa";
+import { FaDiscord, FaGithub } from "react-icons/fa";
 import { BsPencil } from "react-icons/bs";
 import { shortcodes } from "../helpers/componentShortcodes";
+import { useNewsList } from "../hooks/use-news-list";
+import { NewsList } from "../components/news/news-list";
 
 interface IndexProps {
   data: IndexQuery;
@@ -24,7 +23,7 @@ interface IndexProps {
 const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
   const metadata = useSiteMetadata();
   const canonicalUrl = metadata.siteUrl;
-  const news = usePosts().nodes;
+  const news = useNewsList().nodes;
   return (
     <Layout
       location={location}

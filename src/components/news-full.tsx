@@ -7,9 +7,9 @@ import { PostsQuery } from "../../graphql-types";
 import { shortcodes } from "../helpers/componentShortcodes";
 import RouteLink from "./route-link";
 
-type News = PostsQuery["posts"]["nodes"];
+type NewsFull = PostsQuery["posts"]["nodes"];
 
-export const NewsList: React.FC<{ news: News }> = ({ news }) => {
+export const NewsFull: React.FC<{ news: NewsFull }> = ({ news }) => {
   return (
     <Box>
       <Heading as="h1">News</Heading>
@@ -27,7 +27,7 @@ export const NewsList: React.FC<{ news: News }> = ({ news }) => {
                 as="h1"
               >
                 <RouteLink
-                  to={post.fields!.slug}
+                  to={`/news/${post.fields!.slug}`}
                   sx={{ variant: "links.unstyled" }}
                 >
                   {post.frontmatter!.title}

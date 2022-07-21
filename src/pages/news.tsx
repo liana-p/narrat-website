@@ -1,14 +1,13 @@
 import * as React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
-import { Badge, Box, Container, Heading } from "theme-ui";
+import { Container } from "theme-ui";
 import { useSiteMetadata } from "../hooks/use-site-metadata";
 import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
-import RouteLink from "../components/route-link";
 import { usePosts } from "../hooks/use-news";
 import { NewsPageQuery } from "../../graphql-types";
-import { NewsList } from "../components/news-list";
+import { NewsFull } from "../components/news-full";
 
 const shortcodes = {};
 interface IndexProps {
@@ -24,7 +23,7 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
     <Layout
       location={location}
       pageTitle={metadata.title!}
-      canonicalUrl={canonicalUrl!}
+      canonicalUrl={`${metadata.siteUrl!}/news`}
     >
       <Container
         px={20}
@@ -38,7 +37,7 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
         <MDXProvider components={shortcodes}>
           <MDXRenderer>{data.mdx!.body}</MDXRenderer>
         </MDXProvider>
-        <NewsList news={posts} />
+        <NewsFull news={posts} />
       </Container>
     </Layout>
   );
