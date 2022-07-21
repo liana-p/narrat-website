@@ -335,8 +335,8 @@ export type MdxFrontmatter = {
   date?: Maybe<Scalars['Date']>;
   slug?: Maybe<Scalars['String']>;
   categories?: Maybe<Array<Maybe<Scalars['String']>>>;
-  description?: Maybe<Scalars['String']>;
   featuredImage?: Maybe<File>;
+  description?: Maybe<Scalars['String']>;
 };
 
 
@@ -1129,8 +1129,8 @@ export type MdxFrontmatterFilterInput = {
   date?: Maybe<DateQueryOperatorInput>;
   slug?: Maybe<StringQueryOperatorInput>;
   categories?: Maybe<StringQueryOperatorInput>;
-  description?: Maybe<StringQueryOperatorInput>;
   featuredImage?: Maybe<FileFilterInput>;
+  description?: Maybe<StringQueryOperatorInput>;
 };
 
 export type FileFilterInput = {
@@ -1391,7 +1391,6 @@ export type FileFieldsEnum =
   | 'childrenMdx___frontmatter___date'
   | 'childrenMdx___frontmatter___slug'
   | 'childrenMdx___frontmatter___categories'
-  | 'childrenMdx___frontmatter___description'
   | 'childrenMdx___frontmatter___featuredImage___sourceInstanceName'
   | 'childrenMdx___frontmatter___featuredImage___absolutePath'
   | 'childrenMdx___frontmatter___featuredImage___relativePath'
@@ -1430,6 +1429,7 @@ export type FileFieldsEnum =
   | 'childrenMdx___frontmatter___featuredImage___childrenImageSharp'
   | 'childrenMdx___frontmatter___featuredImage___id'
   | 'childrenMdx___frontmatter___featuredImage___children'
+  | 'childrenMdx___frontmatter___description'
   | 'childrenMdx___slug'
   | 'childrenMdx___body'
   | 'childrenMdx___excerpt'
@@ -1488,7 +1488,6 @@ export type FileFieldsEnum =
   | 'childMdx___frontmatter___date'
   | 'childMdx___frontmatter___slug'
   | 'childMdx___frontmatter___categories'
-  | 'childMdx___frontmatter___description'
   | 'childMdx___frontmatter___featuredImage___sourceInstanceName'
   | 'childMdx___frontmatter___featuredImage___absolutePath'
   | 'childMdx___frontmatter___featuredImage___relativePath'
@@ -1527,6 +1526,7 @@ export type FileFieldsEnum =
   | 'childMdx___frontmatter___featuredImage___childrenImageSharp'
   | 'childMdx___frontmatter___featuredImage___id'
   | 'childMdx___frontmatter___featuredImage___children'
+  | 'childMdx___frontmatter___description'
   | 'childMdx___slug'
   | 'childMdx___body'
   | 'childMdx___excerpt'
@@ -2969,7 +2969,6 @@ export type MdxFieldsEnum =
   | 'frontmatter___date'
   | 'frontmatter___slug'
   | 'frontmatter___categories'
-  | 'frontmatter___description'
   | 'frontmatter___featuredImage___sourceInstanceName'
   | 'frontmatter___featuredImage___absolutePath'
   | 'frontmatter___featuredImage___relativePath'
@@ -3050,6 +3049,7 @@ export type MdxFieldsEnum =
   | 'frontmatter___featuredImage___internal___mediaType'
   | 'frontmatter___featuredImage___internal___owner'
   | 'frontmatter___featuredImage___internal___type'
+  | 'frontmatter___description'
   | 'slug'
   | 'body'
   | 'excerpt'
