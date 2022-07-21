@@ -1,9 +1,10 @@
 module.exports = {
   siteMetadata: {
     siteUrl: "https://get-narrat.com",
-    title: "Narrat",
+    title: "Narrat Game Engine - Make narrative RPG games",
+    siteTitle: "Narrat",
     description: `Narrat is a game engine for making interactive narrative RPGs packed with features.`,
-    siteImage: "https://get-narrat.com/games/llrpg/llrpg-1.jpg",
+    siteImage: "/logo.png",
   },
   plugins: [
     "gatsby-plugin-theme-ui",

@@ -22,7 +22,7 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
   return (
     <Layout
       location={location}
-      pageTitle={metadata.title!}
+      pageTitle={"News"}
       canonicalUrl={`${metadata.siteUrl!}/news`}
     >
       <Container

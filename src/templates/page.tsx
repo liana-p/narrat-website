@@ -12,6 +12,7 @@ import { useSiteMetadata } from "../hooks/use-site-metadata";
 import { getCanonicalUrl } from "../helpers/url-helpers";
 import { MDXProvider } from "@mdx-js/react";
 import { shortcodes } from "../helpers/componentShortcodes";
+import { featuredImage } from "../helpers/featured-image";
 
 interface PageProps {
   data: PageBySlugQuery;
@@ -22,10 +23,16 @@ const PageTemplate: React.FC<PageProps> = ({ data, location }) => {
   const post = data.mdx!;
   const canonicalUrl = getCanonicalUrl(metadata.siteUrl!, post.fields!.slug!);
   const title = post.frontmatter!.title;
+  if (!data.mdx || !data.mdx.frontmatter) {
+    return <h1>No article</h1>;
+  }
+  let imageUrl;
+  imageUrl = featuredImage(data.mdx.frontmatter.featuredImage as any);
   return (
     <Layout
       location={location}
       pageTitle={title}
+      imageUrl={imageUrl}
       canonicalUrl={canonicalUrl}
       description={post!.frontmatter!.description || post!.excerpt}
     >
@@ -75,6 +82,9 @@ export const pageQuery = graphql`
       frontmatter {
         title
         description
+        featuredImage {
+          publicURL
+        }
       }
     }
   }

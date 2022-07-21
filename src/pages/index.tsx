@@ -24,12 +24,11 @@ const IndexPage: React.FC<IndexProps> = ({ data, location }) => {
   const metadata = useSiteMetadata();
   const canonicalUrl = metadata.siteUrl;
   const news = useNewsList().nodes;
+  if (!data.mdx || !data.mdx.frontmatter) {
+    return <h1>No article</h1>;
+  }
   return (
-    <Layout
-      location={location}
-      pageTitle={metadata.title!}
-      canonicalUrl={canonicalUrl!}
-    >
+    <Layout location={location} canonicalUrl={canonicalUrl!}>
       <NarratHero />
       <Container
         px={20}

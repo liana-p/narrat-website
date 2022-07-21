@@ -7,12 +7,12 @@ import Layout from "../components/layout";
 import { BlogPostBySlugQuery } from "../../graphql-types";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import RouteLink from "../components/route-link";
-import { Avatar, Box, Container, Flex, Heading, Text } from "theme-ui";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import { getCanonicalUrl, getNewsUrl } from "../helpers/url-helpers";
+import { Box, Container, Flex, Heading, Text } from "theme-ui";
+import { getNewsUrl } from "../helpers/url-helpers";
 import { useSiteMetadata } from "../hooks/use-site-metadata";
 import { shortcodes } from "../helpers/componentShortcodes";
 import { MDXProvider } from "@mdx-js/react";
+import { featuredImage } from "../helpers/featured-image";
 
 interface BlogPostProps {
   data: BlogPostBySlugQuery;
@@ -24,10 +24,16 @@ const BlogPostTemplate: React.FC<BlogPostProps> = ({ data, location }) => {
   const { previous, next } = data;
   const canonicalUrl = getNewsUrl(metadata.siteUrl!, post.fields!.slug!);
   const title = post.frontmatter!.title;
+  let imageUrl: undefined | string;
+  if (!data.mdx || !data.mdx.frontmatter) {
+    return <h1>No article</h1>;
+  }
+  imageUrl = featuredImage(data.mdx.frontmatter.featuredImage as any);
   return (
     <Layout
       location={location}
       pageTitle={title}
+      imageUrl={imageUrl}
       canonicalUrl={canonicalUrl}
       description={post.frontmatter!.description || post.excerpt}
     >
@@ -102,8 +108,8 @@ const BlogPostTemplate: React.FC<BlogPostProps> = ({ data, location }) => {
                 {previous && (
                   <p>
                     Previous Article: {` `}
-                    <RouteLink to={`/${previous.fields.slug}`} rel="prev">
-                      ← {previous.frontmatter.title}
+                    <RouteLink to={`/news/${previous.fields!.slug}`} rel="prev">
+                      ← {previous.frontmatter!.title}
                     </RouteLink>
                   </p>
                 )}
@@ -112,8 +118,8 @@ const BlogPostTemplate: React.FC<BlogPostProps> = ({ data, location }) => {
                 {next && (
                   <p>
                     Next Article:{` `}
-                    <RouteLink to={`/${next.fields.slug}`} rel="next">
-                      {next.frontmatter.title} →
+                    <RouteLink to={`/news/${next.fields!.slug}`} rel="next">
+                      {next.frontmatter!.title} →
                     </RouteLink>
                   </p>
                 )}
@@ -145,6 +151,9 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        featuredImage {
+          publicURL
+        }
       }
     }
     previous: mdx(id: { eq: $previousPostId }) {

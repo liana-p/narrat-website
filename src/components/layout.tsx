@@ -8,12 +8,12 @@ import { Helmet } from "react-helmet";
 import { useSiteMetadata } from "../hooks/use-site-metadata";
 
 export interface LayoutProps {
-  location: Location
-  pageTitle?: string
-  description?: string
-  canonicalUrl: string
-  imageUrl?: string
-  contentType?: 'article' | 'website'
+  location: Location;
+  pageTitle?: string;
+  description?: string;
+  canonicalUrl: string;
+  imageUrl?: string;
+  contentType?: "article" | "website";
 }
 const Layout: React.FC<LayoutProps> = ({
   location,
@@ -27,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({
   const metadata = useSiteMetadata();
   const rootPath = `${__PATH_PREFIX__}/`;
   const isRootPath = location.pathname === rootPath;
-  let header = <TopNav location={location} title={metadata.title} />;
+  let header = <TopNav location={location} title={metadata.title!} />;
 
   return (
     <div
@@ -39,8 +39,13 @@ const Layout: React.FC<LayoutProps> = ({
         variant: "layout.root",
       }}
     >
-      <Seo title={pageTitle} description={description} canonicalUrl={canonicalUrl}
-        imageUrl={imageUrl} contentType={contentType}/>
+      <Seo
+        title={pageTitle}
+        description={description}
+        canonicalUrl={canonicalUrl}
+        imageUrl={imageUrl}
+        contentType={contentType}
+      />
       <header
         sx={{
           width: "100%",

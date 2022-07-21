@@ -4,6 +4,7 @@ slug: "narrat-2-2-0-steam-saves-sound"
 title: "Narrat 2.2.0 - Scripting improvements, Steam support, new sound features and save slots"
 categories:
   - News
+featuredImage: "./banner.jpg"
 ---
 
 ## Narrat 2.2.0

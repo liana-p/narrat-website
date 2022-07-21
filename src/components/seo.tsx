@@ -34,7 +34,8 @@ const Seo: React.FC<SeoProps> = ({
 
   const metaDescription = description || metadata?.description!;
   const defaultTitle = metadata?.title!;
-  const pageTitle = title || defaultTitle;
+  let pageStart = title ? `${title} | ` : "";
+  const pageTitle = `${pageStart}${defaultTitle}`;
   contentType = contentType || "website";
   imageUrl = imageUrl || metadata.siteImage!;
 
