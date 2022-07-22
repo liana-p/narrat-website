@@ -56,6 +56,10 @@ There is a first command to install the dependencies (libraries) on first use.
 npm install
 ```
 
+{% hint style="info" %}
+You will probably see npm complain about "**security issues**" here. Those are false positives and **can be ignored** caused by a very careless implementation of security by NPM. Those security issues are irrelevant to the use case of narrat. Feel free to read more about why npm security warnings are broken in [this article ](https://overreacted.io/npm-audit-broken-by-design/)by Dan Abramov, creator of React
+{% endhint %}
+
 Once everything is installed, this command runs the game:
 
 ```bash
