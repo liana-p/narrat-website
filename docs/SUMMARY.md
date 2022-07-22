@@ -50,6 +50,7 @@
 ## Features
 
 * [Quests](features/quests.md)
+* [Transitions](features/transitions.md)
 * [Inventory](features/inventory.md)
 * [HUD Stats](features/hud-stats.md)
 * [Screens](features/screens.md)
