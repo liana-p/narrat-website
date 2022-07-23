@@ -10,6 +10,7 @@ const theme = {
     highlight: "#29112c",
     gray: "#999",
     purple: "#c0f",
+    blue: "#33ccff",
   },
   fonts: {
     body: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
@@ -203,6 +204,9 @@ const theme = {
       textDecoration: "none",
       fontSize: "l",
     },
+    alert: {
+      color: "blue",
+    },
     unstyled: {
       textDecoration: "none",
       fontWeight: "unset",
@@ -221,6 +225,14 @@ const theme = {
     feature: {
       fontSize: "xxxxl",
       color: "accent",
+    },
+  },
+  alerts: {
+    secondary: {
+      color: "text",
+      bg: "secondary",
+      py: "s",
+      px: "m",
     },
   },
   grids: {

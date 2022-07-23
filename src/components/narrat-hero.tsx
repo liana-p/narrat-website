@@ -4,6 +4,8 @@ import * as React from "react";
 import {
   Alert,
   Box,
+  Button,
+  Close,
   Container,
   Flex,
   Grid,
@@ -17,15 +19,29 @@ import ButtonLink from "./button-link";
 
 export interface NarratHeroProps {}
 const NarratHero: React.FC<NarratHeroProps> = ({}) => {
+  const [alert, setShowAlert] = React.useState(true);
   const metadata = useSiteMetadata();
   return (
     <Container sx={{ maxWidth: 1400, mx: "auto" }}>
-      <Alert>
-        The{" "}
-        <Link href="https://itch.io/jam/narrat-game-jam">Narrat Game Jam</Link>{" "}
-        is starting soon! Everyone is welcome
-      </Alert>
       <Box sx={{ p: "xl", width: "100%" }}>
+        {alert && (
+          <Box sx={{ width: 600, mx: "auto" }}>
+            <Alert variant="secondary">
+              <Link
+                variant="unstyled"
+                href="https://itch.io/jam/narrat-game-jam"
+              >
+                The Narrat Game Jam is starting soon! Click to learn more.
+              </Link>
+              <Close
+                ml="auto"
+                mr={-2}
+                sx={{ cursor: "pointer" }}
+                onClick={() => setShowAlert(false)}
+              />
+            </Alert>
+          </Box>
+        )}
         <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
           <Grid gap={40} columns={[1, 1, "1.5fr 2fr"]} sx={{ mt: "m" }}>
             <Box
