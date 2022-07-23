@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import {
+  Alert,
   Box,
   Container,
   Flex,
@@ -19,6 +20,11 @@ const NarratHero: React.FC<NarratHeroProps> = ({}) => {
   const metadata = useSiteMetadata();
   return (
     <Container sx={{ maxWidth: 1400, mx: "auto" }}>
+      <Alert>
+        The{" "}
+        <Link href="https://itch.io/jam/narrat-game-jam">Narrat Game Jam</Link>{" "}
+        is starting soon! Everyone is welcome
+      </Alert>
       <Box sx={{ p: "xl", width: "100%" }}>
         <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
           <Grid gap={40} columns={[1, 1, "1.5fr 2fr"]} sx={{ mt: "m" }}>
