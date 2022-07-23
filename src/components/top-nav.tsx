@@ -7,7 +7,7 @@ import Logo from "./logo";
 import MenuLink from "./menu-link";
 import RouteLink from "./route-link";
 import RouteNavLink from "./route-nav-link";
-import { FaDiscord, FaGithub } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaTwitterSquare } from "react-icons/fa";
 
 export interface TopNavProps {
   location: Location;
@@ -58,6 +58,14 @@ const TopNav: React.FC<TopNavProps> = ({ location, title }) => {
           </RouteNavLink>
         </Flex>
         <Box sx={{ display: "flex", placeItems: "center", flexWrap: "wrap" }}>
+          <NavLink
+            href="https://twitter.com/NarratEngine"
+            sx={{ variant: "links.nav" }}
+            target="_blank"
+            rel="noopener"
+          >
+            <FaTwitterSquare sx={{ mr: "s" }}></FaTwitterSquare>Twitter
+          </NavLink>
           <NavLink
             href="https://discord.gg/Xgz7EQ2Xgh"
             sx={{ variant: "links.nav" }}
