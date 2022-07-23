@@ -14,21 +14,33 @@ Getting started with narrat is very quick. There is a ready-to-use template that
 
 ### Prerequisites
 
-* Have [node.js ](https://nodejs.org/en/)installed (LTS version is fine)
-* Have a text editor ready to go. We recommend [Visual Studio Code](https://code.visualstudio.com/)
-* Know how to [open a terminal in a folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
+* Have [node.js ](https://nodejs.org/en/)16 or above installed (LTS version is fine)
 
-### Creating the game
+## Creating the game project
 
-Use the [Narrat Template App](https://github.com/nialna/narrat-template). Users of git can press the "Use this template" button to generate a repo based on it. Otherwise, simply download it as a zip somewhere
+Open a terminal in a folder of your choice (on Windows, you can shift-right-click in your folder and choose "Open PowerShell window here")
 
-{% hint style="info" %}
-If not using git, simply download the template as a zip fileby pressing the code button next to the green "Use this template" button
-{% endhint %}
+<details>
 
-![](<../.gitbook/assets/image (2).png>)
+<summary>Help with opening the terminal</summary>
 
-For more advanced manual installation instruction into an existing web project, see the [Installing Narrat in a web app](installing-narrat-in-a-web-app.md) guide
+![](<../.gitbook/assets/image (5).png>)
+
+For more info on how to open a terminal in a folder on Windows and other OS, see [this link](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
+
+
+
+</details>
+
+Once opened, you can run the following command:
+
+```bash
+npm create narrat@latest
+```
+
+This will download narrat and ask you some questions to configure your project. You can choose between a few game templates to get started.
+
+Once finished, the tool will tell you how to run the game.
 
 ## Running the game
 
@@ -48,7 +60,7 @@ Our template uses npm to download and install narrat (and other dependencies) an
 
 </details>
 
-With the narrat template cloned or downloaded, [open a terminal inside the folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
+With the narrat game setup, [open a terminal inside the folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/) (or keep the terminal you already used for creating the project)
 
 There is a first command to install the dependencies (libraries) on first use.
 

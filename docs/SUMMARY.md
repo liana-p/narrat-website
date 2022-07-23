@@ -66,6 +66,7 @@
 * [Using items](guides/using-items.md)
 * [Updating narrat](guides/updating-narrat.md)
 * [Getting Started](guides/getting-started.md)
+* [Old Template method](guides/old-template-method.md)
 * [Config files](guides/config-files.md)
 * [Useful Links](guides/useful-links.md)
 * [Theming the game and UI](guides/theming-the-game-and-ui.md)
