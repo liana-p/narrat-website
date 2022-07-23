@@ -10,11 +10,11 @@ transitions_test:
   "normal set screen"
   set_screen map
   "set screen with fade"
-  set_screen default 0 slide-right // slide-right is the name of the transition to use
+  set_screen default 0 fade // fade is the name of the transition to use
   "set screen with duration"
-  set_screen map 0 slide-right 2000 // Make transition last 2 seconds
+  set_screen map 0 fade 2000 // Make transition last 2 seconds
   "set screen with duration and delay"
-  set_screen default 0 slide-right 2000 4000 // Make transition last 2 seconds and have the second element be delayed by 4 seconds
+  set_screen default 0 fade 2000 4000 // Make transition last 2 seconds and have the new screen be delayed by 4 seconds
 ```
 
 {% hint style="info" %}
@@ -91,3 +91,7 @@ Transitions can also have an optional config to change their default duration an
     }
   },
 ```
+
+If no config is provided, the default duration is 0.5s, and the default delay is 0 (the old and new screens effectively transition at the same time).
+
+The order of priority for choosing the duration or delay is: what's passed in the script --> If none, use the default for that command provided in the config -->  if none, use the global default
