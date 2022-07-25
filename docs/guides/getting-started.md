@@ -12,6 +12,16 @@ description: >-
 Getting started with narrat is very quick. There is a ready-to-use template that can get you running your game in a minute
 {% endhint %}
 
+## Video Guide
+
+This one minute video shows the entire setup from start to having the game running
+
+{% embed url="https://www.youtube.com/watch?v=516YTDxSO9Y" %}
+How to install narrat and create a game
+{% endembed %}
+
+## Text Instructions
+
 ### Prerequisites
 
 * Have [node.js ](https://nodejs.org/en/)16 or above installed (LTS version is fine)
