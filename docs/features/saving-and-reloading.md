@@ -21,7 +21,7 @@ Because there is no way to identify which specific line of dialogue the player i
 A save slot is an individual save file. Each game can have any amount of save slots. There are two different ways save slots are managed, depending on how the game is configured:
 
 * `game-slots`:  This is the default mode, where starting a new game will create an Autosave slot for that playthrough, which will keep getting overwritten as the player goes. Starting a new game creates a separate new autosave slot for that playthrough. When the player loads a slot, autosaves will overwrite that slot automatically **TLDR: One save slot per playthrough.** Example: Zelda, Dark Souls
-* `manual`: In this mode, there is a single global auto save used no matter which save gets loaded, but manual saves won't be overwritten unless the player chooses to overwrite them. **TLDR: Only one global autosave, and manual saves can be created and loaded but won't be overwritten by autosaves.** Example: Disco Elysium, Bethesda Games
+* `manual`: In this mode, there is a single global auto save used no matter which save gets loaded, but manual saves won't be overwritten unless the player chooses to overwrite them. **TLDR: Only one global autosave.** Example: Disco Elysium, Bethesda Games
 
 This value can be changed in `config.json`  in `saves.mode`:
 
