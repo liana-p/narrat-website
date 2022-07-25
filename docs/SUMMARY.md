@@ -5,6 +5,7 @@
 
 ## Functions Documentation
 
+* [Save Commands](functions-documentation/save-commands.md)
 * [String commands](functions-documentation/string-commands/README.md)
   * [Concat](functions-documentation/string-commands/concat.md)
   * [Join](functions-documentation/string-commands/join.md)

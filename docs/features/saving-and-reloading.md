@@ -8,14 +8,7 @@ Narrat supports automatic saving and reloading, but there are some important det
 
 How saves works:
 
-* All relevant bits of the state are extracted into one object. This includes:
-  * The `DATA` storage used for game variables
-  * Skills
-  * Previous dialog entries \(so they can be displayed on reload\)
-  * button states on the interactive screens
-  * Current label the script is at
-  * skill checks passed or failed
-  * play time \(unused for now\)
+* All relevant bits of the state are extracted into one object. This includes
 * This object gets stored in the browser's [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 * On game load, the local storage gets read for a save, and if present all the data above gets placed in the state to continue playing
 
@@ -23,19 +16,56 @@ How saves works:
 Because there is no way to identify which specific line of dialogue the player is on, **saving only saves the last label the player started,** not the exact line they reached
 {% endhint %}
 
+### Save Slots
+
+A save slot is an individual save file. Each game can have any amount of save slots. There are two different ways save slots are managed, depending on how the game is configured:
+
+* `game-slots`:  This is the default mode, where starting a new game will create an Autosave slot for that playthrough, which will keep getting overwritten as the player goes. Starting a new game creates a separate new autosave slot for that playthrough. When the player loads a slot, autosaves will overwrite that slot automatically **TLDR: One save slot per playthrough.** Example: Zelda, Dark Souls
+* `manual`: In this mode, there is a single global auto save used no matter which save gets loaded, but manual saves won't be overwritten unless the player chooses to overwrite them. **TLDR: Only one global autosave, and manual saves can be created and loaded but won't be overwritten by autosaves.** Example: Disco Elysium, Bethesda Games
+
+This value can be changed in `config.json`  in `saves.mode`:
+
+{% code title="config.json" %}
+```json
+{
+  "saves": {
+    "mode": "manual"
+  }
+}
+```
+{% endcode %}
+
+{% hint style="info" %}
+If using `manual` mode, you should give the player a chance to create manual saves sometimes, as there is only one autosave which can get overwritten by starting a new game
+{% endhint %}
+
+### Manual saving
+
+To let the player save manually, there are two commands:
+
+{% content-ref url="../functions-documentation/save-commands.md" %}
+[save-commands.md](../functions-documentation/save-commands.md)
+{% endcontent-ref %}
+
+{% hint style="info" %}
+Because save data is only generated when jumping to a new label, save prompts should ideally be at the start of a label. Otherwise, the data saved will be outdated.
+{% endhint %}
+
 ### The problem with saving a specific line
+
+<details>
+
+<summary>Why we can only save on label change</summary>
 
 We could save the dialog line number the player is at, but it would cause issues with game updates. Say the player is at line 53 of `some_script.rpy`, but you update the game and the code changes. Suddenly line 53 refers to a completely different bit of dialogue.
 
-One solution could be to give every line of dialogue a unique identifier \(which would also allow for localisation\), but this would be very tedious for users and isn't planned at the moment.
+One solution could be to give every line of dialogue a unique identifier (which would also allow for localisation), but this would be very tedious for users and isn't planned at the moment.
 
-The only viable solution for saving without risk of updates breaking it for now is to only remember the current label.
+The only viable solution for saving without risk of game updates breaking past saves
 
-This means some dialogue might be replayed when a user reloads if they were halfway through a label
-
-{% hint style="danger" %}
-Currently, narrat saves every time a new line is played. There is a risk that some lines of script could be replayed if a user leaves and reloads halfway through a label. This can cause an unintended side effect of **replaying script effects twice**. See [related GitHub issue](https://github.com/nialna/narrat/issues/5)
-{% endhint %}
+This means some dialogue will be replayed when a user reloads if they were halfway through a label, but it's only because the save was made at a point in time.
 
 
+
+</details>
 
