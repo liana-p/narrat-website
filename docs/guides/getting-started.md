@@ -16,7 +16,7 @@ Getting started with narrat is very quick. There is a ready-to-use template that
 
 * Have [node.js ](https://nodejs.org/en/)16 or above installed (LTS version is fine)
 
-## Creating the game project
+### Creating the game project
 
 Open a terminal in a folder of your choice (on Windows, you can shift-right-click in your folder and choose "Open PowerShell window here")
 
@@ -38,9 +38,7 @@ Once opened, you can run the following command:
 npm create narrat@latest
 ```
 
-This will download narrat and ask you some questions to configure your project. You can choose between a few game templates to get started.
-
-Once finished, the tool will tell you how to run the game.
+This will download narrat and ask you some questions to configure your project. You can choose between a few game templates to get started. You can now follow the instructions from the tool to run the game, or follow the "Running the game" guide below
 
 ## Running the game
 
@@ -60,25 +58,35 @@ Our template uses npm to download and install narrat (and other dependencies) an
 
 </details>
 
-With the narrat game setup, [open a terminal inside the folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/) (or keep the terminal you already used for creating the project)
+#### Install libraries (only the first time or when updating)
 
-There is a first command to install the dependencies (libraries) on first use.
+With the narrat game setup, [open a terminal inside the folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/)
+
+There is a first command to install the dependencies (libraries) on first use:
 
 ```bash
 npm install
 ```
 
-{% hint style="info" %}
-You will probably see npm complain about "**security issues**" here. Those are false positives and **can be ignored** caused by a very careless implementation of security by NPM. Those security issues are irrelevant to the use case of narrat. Feel free to read more about why npm security warnings are broken in [this article ](https://overreacted.io/npm-audit-broken-by-design/)by Dan Abramov, creator of React
-{% endhint %}
+<details>
 
-Once everything is installed, this command runs the game:
+<summary>If you get warnings during npm install</summary>
+
+Unless you see actual errors, **warnings can generally be ignored**
+
+#### **Security issues warning**
+
+You will probably see npm complain about "**security issues**". Those are false positives and **can be ignored** caused by a very careless implementation of security by NPM. Those security issues are irrelevant to the use case of narrat. Feel free to read more about why npm security warnings are broken in [this article ](https://overreacted.io/npm-audit-broken-by-design/)by Dan Abramov, creator of React
+
+</details>
+
+#### Running the game
 
 ```bash
 npm start
 ```
 
-This should open a browser tab with the game running after a minute. The game can be accessed at https://localhost:8080
+This should open a browser tab with the game running after a short build time. The game can be accessed at https://localhost:8080
 
 The game is ready to edit!
 
