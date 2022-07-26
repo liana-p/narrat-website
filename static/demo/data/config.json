@@ -16,43 +16,56 @@
     "mobileDialogHeightPercentage": 60,
     "verticalLayoutThreshold": 1000,
     "portraits": {
-      "width": 100,
-      "height": 100
+      "width": 150,
+      "height": 225
     }
   },
   "screens": {
     "default": {
+      "background": "img/backgrounds/curtain.png"
+    },
+    "narrat": {
       "background": "narrat"
     },
     "map": {
-      "background": "map",
-      "buttons": ["shopButton", "parkButton"]
+      "background": "img/backgrounds/map.png",
+      "buttons": [
+        {
+          "id": "shopButton",
+          "enabled": false,
+          "text": "Shop",
+          "position": {
+            "left": 272,
+            "top": 142,
+            "width": 200,
+            "height": 50
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "action": "shopButton"
+        },
+        {
+          "id": "parkButton",
+          "enabled": false,
+          "text": "Park",
+          "position": {
+            "left": 682,
+            "top": 462,
+            "width": 200,
+            "height": 50
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "action": "parkButton"
+        }
+      ]
     }
   },
-  "buttons": {
-    "shopButton": {
-      "enabled": false,
-      "background": "shopButton",
-      "position": {
-        "left": 38,
-        "top": 6,
-        "width": 255,
-        "height": 226
-      },
-      "action": "shopButton"
-    },
-    "parkButton": {
-      "enabled": false,
-      "background": "parkButton",
-      "position": {
-        "left": 632,
-        "top": 86,
-        "width": 255,
-        "height": 226
-      },
-      "action": "parkButton"
-    }
-  },
+  "buttons": {},
   "skills": {
     "agility": {
       "name": "Agility",
@@ -65,7 +78,14 @@
       "name": "Logic",
       "description": "How good you are at solving problems",
       "icon": "img/skills/logic.jpg",
+      "hidden": true,
       "startingLevel": 0
+    },
+    "haggling": {
+      "name": "Haggling",
+      "description": "Get the best prices!",
+      "icon": "img/skills/logic.jpg",
+      "startingLevel": 1
     }
   },
   "skillOptions": {
@@ -85,11 +105,27 @@
       [90, "Near Impossible"]
     ]
   },
-  "scripts": ["data/demo.rpy"],
+  "scripts": ["data/demo.rpy", "data/quest.rpy"],
   "audio": {
     "calm": {
       "loop": true,
-      "path": "music/calm.mp3"
+      "src": "music/music.wav"
+    },
+    "battle": {
+      "loop": true,
+      "src": "music/battle.wav"
+    },
+    "click": {
+      "src": "audio/click.ogg"
+    },
+    "game_start": {
+      "src": "audio/game_start.ogg"
+    },
+    "failure": {
+      "src": "audio/failure.ogg"
+    },
+    "success": {
+      "src": "audio/success.wav"
     }
   },
   "audioOptions": {
@@ -102,7 +138,55 @@
     "timeOnScreen": 1.5,
     "alsoPrintInDialogue": true
   },
+  "items": {
+    "bread": {
+      "name": "Bread",
+      "description": "A bread in the game.",
+      "icon": "img/items/bread.png",
+      "onUse": {
+        "action": "jump",
+        "label": "eat_bread"
+      }
+    },
+    "book": {
+      "name": "Ominous Book",
+      "description": "An ominous book. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed ullamcorper turpis. Aliquam tincidunt dolor sed mollis aliquet. Duis in odio eros. Maecenas sapien arcu, fermentum id tincidunt non, accumsan vel metus. Nullam pretium molestie accumsan. In ut rutrum tellus. Integer vitae nisl eleifend lorem tristique auctor quis sed nulla. Cras gravida viverra tristique. Mauris imperdiet tortor purus, fringilla vehicula metus ullamcorper eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porta imperdiet justo, sed blandit orci. Aenean accumsan hendrerit arcu, laoreet vestibulum turpis vulputate eu. Etiam dignissim nibh dictum pharetra congue. Nulla ultrices, augue a blandit laoreet, metus enim sodales arcu, eget pellentesque lorem justo et ipsum. ",
+      "icon": "img/items/book.png",
+      "onUse": {
+        "action": "run",
+        "label": "read_book"
+      },
+      "tag": "always_interactable"
+    }
+  },
+  "audioTriggers": {
+    "onPlayerAnswered": "click",
+    "onPressStart": "game_start",
+    "onSkillCheckFailure": "failure",
+    "onSkillCheckSuccess": "success"
+  },
+  "quests": {
+    "breadShopping": {
+      "title": "Bread Shopping",
+      "description": "The helper cat asked you to buy bread for him.",
+      "objectives": {
+        "bread": {
+          "description": "Buy bread for the helper cat."
+        },
+        "delivery": {
+          "hidden": true,
+          "description": "Deliver the bread to the helper cat."
+        }
+      }
+    }
+  },
   "hudStats": {
+    "money": {
+      "icon": "img/ui/money.png",
+      "name": "Money",
+      "startingValue": 10,
+      "minValue": 0
+    },
     "energy": {
       "icon": "img/ui/energy.png",
       "name": "Energy",

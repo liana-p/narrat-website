@@ -11,6 +11,9 @@
       "style": {
         "color": "orange"
       },
+      "sprites": {
+        "idle": "player.png"
+      },
       "name": "You"
     },
     "cat": {
@@ -21,6 +24,15 @@
         "color": "white"
       },
       "name": "Generic Cat"
+    },
+    "shopkeeper": {
+      "sprites": {
+        "idle": "shop_cat.png"
+      },
+      "style": {
+        "color": "white"
+      },
+      "name": "Shopkeeper"
     },
     "helper": {
       "sprites": {
@@ -33,10 +45,17 @@
     },
     "music_cat": {
       "sprites": {
-        "idle": "music_cat.jpeg"
+        "idle": "music_cat.png"
       },
       "style": {
-        "color": "green"
+        "color": "#7f06e2",
+        "boxCss": {
+          "background-color": "red"
+        },
+        "textCss": {
+          "color": "white",
+          "font-family": "Comic Sans MS"
+        }
       },
       "name": "Music Cat"
     },
