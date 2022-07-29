@@ -106,6 +106,8 @@ Those `npm` commands come from node.js. If the commands aren't recognised, you p
 
 ## Editing the game
 
+It is now easy to make a game by editing the narrat scripts and config files!
+
 {% content-ref url="customising-your-narrat-game.md" %}
 [customising-your-narrat-game.md](customising-your-narrat-game.md)
 {% endcontent-ref %}
