@@ -1,14 +1,10 @@
 # Example narrat script
 
-This is a copy of the script used in the [demo](https://get-narrat.com/demo/).
+This is a copy of one of the example game scripts from the demo game in the narrat [examples folder](https://github.com/liana-p/narrat/tree/main/packages/narrat/examples/games)
 
-For a more up to date version, look at the latest demo script directly on GitHub.
+For more up to date versions and more different examples, look at the various sample demo scripts directly on GitHub.
 
-{% embed url="https://github.com/liana-p/narrat-demo/blob/main/public/data/demo.rpy" %}
-
-There is also a (messier) test script used in the narrat repo when developping features. This script might not make a coherent game, but it is likely to be the most up to date syntax example as it's used when developping the engine to test various features:
-
-{% embed url="https://github.com/liana-p/narrat/blob/main/public/data/example.rpy" %}
+{% embed url="https://github.com/liana-p/narrat/tree/main/packages/narrat/examples/games" %}
 
 ```renpy
 main:
@@ -26,11 +22,11 @@ dontAskForHelp:
   jump main
 
 askForHelp:
+  set_screen narrat 0 slide-top 2000
   talk helper idle "Hello! I'm Bob the helper cat. I heard you're trying to play the narrat demo!"
-  talk helper idle "Narrat is a game engine for narrative games that is based on web technologies. You can make games with it that will run on browsers (desktop and mobile) and can be built for PC too!"
-  talk helper idle "You can view the source script for this demo in the <a href=\"https:\/\/github.com\/liana-pigeot\/narrat-demo\/public\/data\/demo.rpy\" target=\"_blank\">demo repo</a>"
-  talk helper idle "There is also a <a href=\"https:\/\/github.com\/nialna\/narrat-template\" target=\"_blank\">game template</a> ready to use to start making your own game."
-  talk helper idle "If you want more info, you can look at the <a href=\"https:\/\/docs.get-narrat.com\" target=\"_blank\">documentation</a>"
+  talk helper idle "<a href=\"https:\/\/get-narrat.com\" target=\"_blank\">Narrat</a> is a game engine for narrative games that is based on web technologies. You can make games with it that will run on browsers (desktop and mobile) and can be built for PC too!"
+  talk helper idle "You can view the source script for this demo in the <a href=\"https:\/\/github.com\/liana-p\/narrat/tree/main/packages/narrat/examples\" target=\"_blank\">narrat examples folder</a>"
+  talk helper idle "If you want more info, you can look at the <a href=\"https:\/\/docs.get-narrat.com/guides/getting-started\" target=\"_blank\">Getting Started guide</a>"
   talk helper idle "But for now, this is the demo! I will show you the most common features of narrat and how they work in practice."
   talk helper idle "As you've probably noticed, you can make choices in narrat games. Player choices are the basic building blocks of a narrative game, as it's what makes it interactive!"
   talk helper idle "There are lots of things you can do to make an interactive story in Narrat really. Choices are only one of the many features."
@@ -73,10 +69,22 @@ makeChoices:
 
 
 doNothing:
+  talk music_cat idle "How about we get some music in here?"
+  wait 2000
+  talk inner idle "Where did this one come from?"
+  wait 1000
+  talk player idle "Hello... music cat?"
+  talk helper idle "(You may have noticed pauses between lines, this is the work of the 'wait' command)"
+  talk music_cat idle "Yes, I'm music cat! I'm very cool and famous, you should have recognised me you know."
+  wait 3000
+  talk player idle "Yes... Sure. Music cat. Of course I definitely recognise you."
+  talk helper idle "Also, music cat has custom CSS in his config."
   choice:
-    talk music_cat idle "How about we get some music in here?"
+    talk music_cat idle "Anyway, can we get some music in there?"
     "Play some relaxing music":
       play music calm
+    "Play battle music":
+      play music battle
     "I hate music":
       talk music_cat idle "Well too bad, it's up to you."
   jump otherFeatures
@@ -87,8 +95,10 @@ otherFeatures:
   talk helper idle "For example you just levelled up in agility. You can view your skill level in the skills menu"
   add_xp agility 3
   talk helper idle "It's also possible to gain xp"
+  talk helper idle "There are passive skill checks that happen by themselves without the player explicitly choosing to pass a test:"
   if (roll someSkillCheck agility 40): // You can use skillchecks in conditions
     "This line only appears if you passed a hidden passive skill check"
+  add_xp agility 5
   "Skill checks can also happen as a choice option:"
   jump skillCheckChoice
 
@@ -104,6 +114,7 @@ skillCheckChoice:
         talk inner idle "Ouch!"
     "No I'm a coward, I'd rather not":
       "Well okay then"
+  add_xp agility 5
   jump stats
 
 stats:
@@ -113,10 +124,10 @@ stats:
 stats_2:
   choice:
     "Can we spend some energy?"
-    "Spend 5 energy" if (>= $stats.energy 5):
+    "Spend 5 energy" if (>= $stats.energy.value 5):
       add_stat energy -5
       talk player idle "Spent 5 energy!"
-    "I'm too tired!" if (<= $stats.energy 0):
+    "I'm too tired!" if (<= $stats.energy.value 0):
       jump saveLoad
   jump stats_2
 
@@ -129,20 +140,14 @@ saveLoad:
 
 showMap:
   talk helper idle "There is also a screen feature on the left where you can display background images with interactive buttons."
+  talk helper idle "Let's do a quest using the map feature."
   set_screen map
-  set_button parkButton true
-  talk helper idle "This is an example map. There are buttons you can click on. It is possible to dynanically enable and disable buttons in your script"
-  talk helper idle "You can view the source script for this demo in the <a href=\"https:\/\/github.com\/nialna\/narrat-demo\">demo repo</a>"
+  talk helper idle "This is an example map. There can be buttons you can click on. It is possible to dynamically enable and disable buttons in your script"
+  talk helper idle "let's look at a quest"
+  jump quest_demo
 
-shopButton:
-  "You visit the shop and buy some water and a snack"
-  talk inner idle "That water was very hydrating!"
-  talk helper idle "Now that you're well hydrated and on your way to eat your 5 a day, you could learn more about how to make games"
-  talk helper idle "The best way is to read the readme page on the narrat github page"
-  talk helper idle "You can look at how the demo is made, especially by opening the example.rpy file which is the script for this demo"
-
-parkButton:
-  "You go on a walk to the little park"
-  talk inner idle "That was a nice walk! Now I feel like going to the shop to buy water"
-  set_button shopButton true
+demo_end:
+  talk helper idle "That's it for now. If you want to learn more, read the docs, make games, look at how example games are made, or just play around."
+  talk helper idle "Bye bye"
+  set_screen default 0 slide-bottom 2000
 ```

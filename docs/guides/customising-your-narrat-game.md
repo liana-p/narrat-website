@@ -15,15 +15,21 @@ The content to edit will usually be inside the `public` folder from the root of 
 
 For advanced uses, it is also possible to change code itself or integrate plugins, in which case the place to edit those would be the `src` folder.
 
-### Dialogue scripts
+### Narrat scripts
 
 {% content-ref url="../examples/example-narrat-script.md" %}
 [example-narrat-script.md](../examples/example-narrat-script.md)
 {% endcontent-ref %}
 
-In the `public/data` folder of the template or demo, there is an `example.rpy` file. This is where the actual game dialogue is written. The example dialogue there shows how to use a few basic features, so you can easily start writing your own dialogue. Just above is a link to the example narrat script page to find more examples as needed.
+Narrat scripts are the main way a game is created. They contain the flow of the game and lines of dialogue.
 
-Narrat script files are `.rpy` files using a syntax similar to Renpy. We advise using [Visual Studio Code](https://code.visualstudio.com) with the r[en'py syntax highlighter extension](https://marketplace.visualstudio.com/items?itemName=LuqueDaniel.languague-renpy).
+In the `public/data` folder of the game, there is an `example.rpy` file (or named differently depending on which template you used). This is where the actual game dialogue is written. The example dialogue there shows how to use a few basic features, so you can easily start writing your own dialogue. Just above is a link to the example narrat script page to find more examples as needed.
+
+{% hint style="warning" %}
+Narrat scripts are in a custom language nade for narrat, see the [Language Syntax](language-syntax-and-expressions.md) page for more info. We only use the `.rpy` extension by default to so that IDEs can easily give us syntax highlighting, as the language is similar to syntax in ren'py. But narrat script is **Not ren'py or python**
+{% endhint %}
+
+We advise using [Visual Studio Code](https://code.visualstudio.com) for editing narrat scripts
 
 See the page linked below for more details on how to write narrat scripts.
 
