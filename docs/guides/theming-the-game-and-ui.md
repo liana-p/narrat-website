@@ -100,7 +100,7 @@ Here is a list of the CSS variables that exist in narrat:
 </details>
 
 {% hint style="info" %}
-To see the most up to date list of CSS variables, look at  [main.css](https://github.com/liana-pigeot/narrat/blob/main/src/sass/main.css#L6) in the engine
+To see the most up to date list of CSS variables, look at  [main.css](https://github.com/liana-p/narrat/blob/main/packages/narrat/src/css/main.css#L1) in the engine
 {% endhint %}
 
 ## Creating custom CSS classes
@@ -230,7 +230,7 @@ Be careful not to confuse CSS classes and ids, as the syntax for their selector 
 
 .dialog-container: Contains all the dialog
 
-![](<../.gitbook/assets/image (15) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (15) (1) (1) (1).png>)
 
 .dialog: The entire right-side box of the screen that is scrollable with all the dialog in it
 
