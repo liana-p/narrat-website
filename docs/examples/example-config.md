@@ -8,15 +8,11 @@ Those example config files are the ones used in the narrat demo. For the most up
 
 ## Game Config
 
-The following page on github should contain the `config.json` currently used in the demo game
-
-{% embed url="https://github.com/liana-p/narrat/blob/main/packages/narrat/examples/games/default/data/config.json" %}
-Latest config.json file from the demo
-{% endembed %}
+{% embed url="https://github.com/liana-pigeot/narrat-demo/blob/main/public/data/config.json" %}
 
 <details>
 
-<summary>Copy of the example game config.json (might be outdated, look at github for most recent)</summary>
+<summary>Example game config.json</summary>
 
 ```json
 {
@@ -142,15 +138,7 @@ Latest config.json file from the demo
 
 ## Characters Config
 
-The following page on github should contain the `characters.json` currently used in the demo game
-
-{% embed url="https://github.com/liana-p/narrat/blob/main/packages/narrat/examples/games/default/data/characters.json" %}
-Latest characters.json file from the demo
-{% endembed %}
-
-<details>
-
-<summary>Copy of the example game characters.json (might be outdated, look at github for most recent)</summary>
+{% embed url="https://github.com/liana-pigeot/narrat-demo/blob/main/public/data/characters.json" %}
 
 ```json
 {
@@ -208,7 +196,3 @@ Latest characters.json file from the demo
 }
 
 ```
-
-
-
-</details>
